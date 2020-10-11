@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["BarLabel",""],["BazLabel",""],["FooLabel",""]],"enum":[["FooBarBazChoice",""]],"fn":[["external_choice_session",""],["main",""]],"type":[["FooBarBaz",""]]});

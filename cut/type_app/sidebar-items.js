@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["cloak_applied",""],["get_applied",""],["with_applied",""]],"struct":[["Applied",""],["Const",""]],"trait":[["HasTypeApp",""],["TyCon",""],["TypeApp",""],["TypeAppCont",""],["TypeAppGeneric",""],["TypeAppWitness",""],["TypeAppWitnessCont",""]]});

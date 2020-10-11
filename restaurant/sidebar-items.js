@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["BeefMenuLabel",""],["MushroomMenuLabel",""],["PorkMenuLabel",""],["TomatoMenuLabel",""]],"enum":[["MainMenuChoice",""],["SoupMenuChoice",""]],"fn":[["main",""],["restaurant_session",""]],"struct":[["BeefSteak",""],["MushroomSoup",""],["PorkChop",""],["TomatoSoup",""]],"type":[["MainMenu",""],["SoupMenu",""]]});
