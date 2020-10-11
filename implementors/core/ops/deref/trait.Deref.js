@@ -1,8 +1,7 @@
 (function() {var implementors = {};
-implementors["async_mutex"] = [{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; Deref for MutexGuard&lt;'_, T&gt;","synthetic":false,"types":[]}];
+implementors["async_mutex"] = [{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; Deref for MutexGuard&lt;'_, T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;?Sized&gt; Deref for MutexGuardArc&lt;T&gt;","synthetic":false,"types":[]}];
 implementors["async_std"] = [{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; Deref for RwLockReadGuard&lt;'_, T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; Deref for RwLockWriteGuard&lt;'_, T&gt;","synthetic":false,"types":[]},{"text":"impl Deref for PathBuf","synthetic":false,"types":[]}];
 implementors["cache_padded"] = [{"text":"impl&lt;T&gt; Deref for CachePadded&lt;T&gt;","synthetic":false,"types":[]}];
-implementors["colored"] = [{"text":"impl Deref for SHOULD_COLORIZE","synthetic":false,"types":[]},{"text":"impl Deref for ColoredString","synthetic":false,"types":[]}];
 implementors["crossbeam_utils"] = [{"text":"impl&lt;T&gt; Deref for CachePadded&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;'a, T:&nbsp;?Sized&gt; Deref for ShardedLockReadGuard&lt;'a, T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;'a, T:&nbsp;?Sized&gt; Deref for ShardedLockWriteGuard&lt;'a, T&gt;","synthetic":false,"types":[]}];
 implementors["futures_executor"] = [{"text":"impl&lt;S:&nbsp;Stream + Unpin&gt; Deref for BlockingStream&lt;S&gt;","synthetic":false,"types":[]}];
 implementors["futures_task"] = [{"text":"impl&lt;'_&gt; Deref for WakerRef&lt;'_&gt;","synthetic":false,"types":[]}];
