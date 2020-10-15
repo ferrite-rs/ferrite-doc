@@ -478,6 +478,8 @@
 <span id="477">477</span>
 <span id="478">478</span>
 <span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
 </pre><div class="example-wrap"><pre class="rust ">
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
@@ -525,7 +527,7 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">match_choice</span> {
   ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">path</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> )<span class="op">+</span> ) <span class="op">=&gt;</span> {
-    <span class="kw">move</span> <span class="op">|</span> <span class="ident">ferrite_choice_internal__</span> <span class="op">|</span> {
+    <span class="kw">move</span> <span class="op">|</span> <span class="ident">ferrite_choice_internal__</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
       <span class="macro">match_choice_value</span><span class="macro">!</span> { <span class="ident">ferrite_choice_internal__</span>;
         $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> ),<span class="op">*</span>
       }
@@ -849,7 +851,7 @@
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">receive_channel</span> {
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span> ) <span class="op">=&gt;</span> {
     <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">receive_channel</span> (
-      <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">|</span> {
+      <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>
       }
     )
@@ -892,7 +894,7 @@
   ) <span class="op">=&gt;</span> {
     <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">include_session</span> (
       <span class="macro-nonterminal">$</span><span class="macro-nonterminal">session</span>,
-      <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">|</span> {
+      <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>
       }
     )
@@ -954,7 +956,9 @@
       <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Cut</span> <span class="op">&lt;</span> <span class="kw">_</span> <span class="op">&gt;</span>
     <span class="op">&gt;</span> :: <span class="ident">cut</span> (
       <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont1</span>,
-      <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">|</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont2</span> }
+      <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont2</span>
+      }
     )
   }
 }</pre></div>

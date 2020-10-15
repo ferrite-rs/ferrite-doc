@@ -148,7 +148,13 @@
 <span id="147">147</span>
 <span id="148">148</span>
 <span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">future</span>::<span class="ident">Future</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::{ <span class="ident">LinkedList</span> };
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">protocol</span>::{ <span class="ident">End</span> };
@@ -179,15 +185,11 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">include_session</span>
-  <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+  <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
   ( <span class="ident">session</span> : <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>,
     <span class="ident">cont</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
       ( <span class="ident">C</span> :: <span class="ident">Length</span> )
-      <span class="op">-&gt;</span>
-        <span class="ident">PartialSession</span> <span class="op">&lt;</span>
-          <span class="ident">C</span> :: <span class="ident">Appended</span>,
-          <span class="ident">B</span>
-        <span class="op">&gt;</span>
+      <span class="op">-&gt;</span> <span class="ident">Fut</span>
   ) <span class="op">-&gt;</span>
     <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -195,6 +197,14 @@
   <span class="ident">B</span> : <span class="ident">Protocol</span>,
   <span class="ident">C</span> : <span class="ident">Context</span>,
   <span class="ident">C</span> : <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>,
+  <span class="ident">Fut</span> :
+    <span class="ident">Future</span> <span class="op">&lt;</span> <span class="ident">Output</span> <span class="op">=</span>
+      <span class="ident">PartialSession</span> <span class="op">&lt;</span>
+        <span class="ident">C</span> :: <span class="ident">Appended</span>,
+        <span class="ident">B</span>
+      <span class="op">&gt;</span>
+    <span class="op">&gt;</span>
+    <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
   <span class="ident">AllRight</span> :: <span class="ident">cut</span> ( <span class="ident">session</span>, <span class="ident">cont</span>  )
 }
@@ -223,7 +233,7 @@
         <span class="op">&gt;</span>::<span class="ident">Appended</span>
     <span class="op">&gt;</span>
 {
-  <span class="ident">include_session</span> ( <span class="ident">session1</span>, <span class="kw">move</span> <span class="op">|</span> <span class="ident">chan</span> <span class="op">|</span> {
+  <span class="ident">include_session</span> ( <span class="ident">session1</span>, <span class="kw">move</span> <span class="op">|</span> <span class="ident">chan</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="ident">wait_async</span> ( <span class="ident">chan</span>, <span class="kw">move</span> <span class="op">||</span> <span class="kw">async</span> <span class="kw">move</span> {
       <span class="ident">append_emtpy_slot</span> ( <span class="ident">cont</span> )
     })
@@ -283,10 +293,10 @@
 {
   <span class="kw">match</span> <span class="ident">sessions</span>.<span class="ident">pop_front</span>() {
     <span class="prelude-val">Some</span> (<span class="ident">session</span>) <span class="op">=&gt;</span> {
-      <span class="ident">include_session</span> ( <span class="ident">session</span>, <span class="kw">move</span> <span class="op">|</span> <span class="ident">c1</span> <span class="op">|</span> {
+      <span class="ident">include_session</span> ( <span class="ident">session</span>, <span class="kw">move</span> <span class="op">|</span> <span class="ident">c1</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
         <span class="ident">include_session</span> (
           <span class="ident">do_join_sessions</span> ( <span class="ident">sessions</span> ),
-          <span class="kw">move</span> <span class="op">|</span> <span class="ident">c2</span> <span class="op">|</span> {
+          <span class="kw">move</span> <span class="op">|</span> <span class="ident">c2</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
             <span class="ident">wait</span> ( <span class="ident">c1</span>,
               <span class="ident">wait</span> ( <span class="ident">c2</span>,
                 <span class="ident">terminate</span> ()))

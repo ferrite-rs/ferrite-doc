@@ -100,14 +100,14 @@
     <span class="op">&gt;</span>
   <span class="op">&gt;</span>
 {
-  <span class="ident">receive_channel</span> ( <span class="op">|</span> <span class="ident">stream</span> <span class="op">|</span> {
+  <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">stream</span> <span class="op">=&gt;</span> {
     <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">stream</span>,
       <span class="ident">count</span> <span class="op">=&gt;</span> {
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Received value: {}&quot;</span>, <span class="ident">count</span>);
         <span class="ident">unwrap_session</span> ( <span class="ident">stream</span>,
-          <span class="ident">include_session</span> (
+          <span class="macro">include_session</span><span class="macro">!</span> (
             <span class="ident">consumer</span> (),
-            <span class="op">|</span> <span class="ident">next</span> <span class="op">|</span> {
+            <span class="ident">next</span> <span class="op">=&gt;</span> {
               <span class="ident">send_channel_to</span> (
                 <span class="ident">next</span>,
                 <span class="ident">stream</span>,

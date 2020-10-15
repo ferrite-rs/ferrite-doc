@@ -570,6 +570,20 @@
 <span id="569">569</span>
 <span id="570">570</span>
 <span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
 </pre><div class="example-wrap"><pre class="rust ">
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">utils</span>::<span class="kw-2">*</span>;
@@ -593,9 +607,23 @@
   <span class="kw">where</span>
     <span class="ident">F</span>: <span class="ident">TyCon</span>,
     <span class="ident">Row</span>: <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>,
-  {
-    <span class="self">self</span>
-  }
+  { <span class="self">self</span> }
+
+  <span class="kw">fn</span> <span class="ident">get_row_borrow</span> <span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>
+    ( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span> )
+    <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Row</span>::<span class="ident">Applied</span>
+  <span class="kw">where</span>
+    <span class="ident">F</span>: <span class="ident">TyCon</span>,
+    <span class="ident">Row</span>: <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>,
+  { <span class="self">self</span> }
+
+  <span class="kw">fn</span> <span class="ident">get_row_borrow_mut</span> <span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>
+    ( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span> )
+    <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Row</span>::<span class="ident">Applied</span>
+  <span class="kw">where</span>
+    <span class="ident">F</span>: <span class="ident">TyCon</span>,
+    <span class="ident">Row</span>: <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>,
+  { <span class="self">self</span> }
 }
 
 <span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">S</span>, <span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">K</span> <span class="op">&gt;</span>

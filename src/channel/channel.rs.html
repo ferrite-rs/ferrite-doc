@@ -392,9 +392,9 @@
       <span class="ident">create_channel</span> ();
 
   <span class="kw">let</span> <span class="ident">consumer1</span> : <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">End</span> <span class="op">&gt;</span> <span class="op">=</span>
-    <span class="ident">include_session</span> (
+    <span class="macro">include_session</span><span class="macro">!</span> (
       <span class="ident">make_receiver</span> ( <span class="ident">channel</span>.<span class="ident">clone</span>() ),
-      <span class="op">|</span> <span class="ident">receiver</span> <span class="op">|</span> {
+      <span class="ident">receiver</span> <span class="op">=&gt;</span> {
         <span class="ident">unfix_session_for</span> ( <span class="ident">receiver</span>,
           <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">receiver</span>, <span class="ident">Next</span>,
             <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">receiver</span>, <span class="ident">val</span> <span class="op">=&gt;</span> {

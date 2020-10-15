@@ -54,6 +54,12 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">ferrite</span>::<span class="kw-2">*</span>;
 
@@ -61,6 +67,7 @@
   <span class="ident">Foo</span> : <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">String</span>, <span class="ident">End</span> <span class="op">&gt;</span>,
   <span class="ident">Bar</span> : <span class="ident">ReceiveValue</span> <span class="op">&lt;</span> <span class="ident">u64</span>, <span class="ident">End</span> <span class="op">&gt;</span>,
   <span class="ident">Baz</span> : <span class="ident">End</span>,
+  <span class="ident">Quux</span> : <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">i32</span>, <span class="ident">End</span> <span class="op">&gt;</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">external_choice_session</span> ()
@@ -85,6 +92,11 @@
       }
       <span class="ident">Baz</span> <span class="op">=&gt;</span> {
         <span class="ident">terminate</span>()
+      }
+      <span class="ident">Quux</span> <span class="op">=&gt;</span> {
+        <span class="macro">send_value</span><span class="macro">!</span> (
+          <span class="number">8</span>,
+          <span class="ident">terminate</span>() )
       }
     };
 

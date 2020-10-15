@@ -71,7 +71,15 @@
 <span id="70">70</span>
 <span id="71">71</span>
 <span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">future</span>::<span class="ident">Future</span>;
+
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">protocol</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="kw-2">*</span>;
@@ -82,15 +90,11 @@
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">utils</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">case</span>
-  <span class="op">&lt;</span> <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span> <span class="op">&gt;</span>
+  <span class="op">&lt;</span> <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
   ( <span class="kw">_</span> : <span class="ident">N</span>,
     <span class="ident">cont1</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
       ( <span class="ident">Row</span>::<span class="ident">Uncloaked</span> )
-      <span class="op">-&gt;</span>
-        <span class="ident">AppliedSum</span> <span class="op">&lt;</span>
-          <span class="ident">Row</span>,
-          <span class="ident">InternalSessionF</span> <span class="op">&lt;</span> <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span> <span class="op">&gt;</span>
-        <span class="op">&gt;</span>
+      <span class="op">-&gt;</span> <span class="ident">Fut</span>
       <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   ) <span class="op">-&gt;</span>
     <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
@@ -112,6 +116,14 @@
       <span class="ident">Empty</span>,
       <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span>,
     <span class="op">&gt;</span>,
+  <span class="ident">Fut</span> :
+    <span class="ident">Future</span> <span class="op">&lt;</span> <span class="ident">Output</span> <span class="op">=</span>
+      <span class="ident">AppliedSum</span> <span class="op">&lt;</span>
+        <span class="ident">Row</span>,
+        <span class="ident">InternalSessionF</span> <span class="op">&lt;</span> <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span> <span class="op">&gt;</span>
+      <span class="op">&gt;</span>
+    <span class="op">&gt;</span>
+    <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
   <span class="ident">unsafe_create_session</span> (
     <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx1</span>, <span class="ident">sender</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
@@ -128,7 +140,7 @@
 
       <span class="kw">let</span> <span class="ident">cont3a</span> <span class="op">=</span> <span class="ident">Row</span>::<span class="ident">full_uncloak_row</span>( <span class="ident">cont3</span> );
 
-      <span class="kw">let</span> <span class="ident">cont4</span> <span class="op">=</span> <span class="ident">cont1</span> ( <span class="ident">cont3a</span> );
+      <span class="kw">let</span> <span class="ident">cont4</span> <span class="op">=</span> <span class="ident">cont1</span> ( <span class="ident">cont3a</span> ).<span class="kw">await</span>;
 
       <span class="kw">let</span> <span class="ident">cont5</span> <span class="op">=</span>
         <span class="ident">Row</span>::<span class="ident">intersect_sum</span> ( <span class="ident">receiver_sum2</span>, <span class="ident">cont4</span> );

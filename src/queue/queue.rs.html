@@ -193,9 +193,9 @@
             <span class="ident">val</span> <span class="op">=&gt;</span> {
               <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Receive value: {}&quot;</span>, <span class="ident">val</span>);
 
-              <span class="ident">include_session</span> (
+              <span class="macro">include_session</span><span class="macro">!</span> (
                 <span class="ident">read_queue</span> (),
-                <span class="op">|</span> <span class="ident">next</span> <span class="op">|</span> {
+                <span class="ident">next</span> <span class="op">=&gt;</span> {
                   <span class="ident">send_channel_to</span> (
                     <span class="ident">next</span>,
                     <span class="ident">queue</span>,

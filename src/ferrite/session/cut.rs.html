@@ -305,7 +305,20 @@
 <span id="304">304</span>
 <span id="305">305</span>
 <span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">future</span>::<span class="ident">Future</span>;
 <span class="kw">use</span> <span class="ident">async_macros</span>::<span class="ident">join</span>;
 <span class="kw">use</span> <span class="ident">async_std</span>::<span class="ident">task</span>;
 <span class="kw">use</span> <span class="ident">async_std</span>::<span class="ident">sync</span>::{ <span class="ident">channel</span> };
@@ -462,22 +475,26 @@
   <span class="ident">C</span> : <span class="ident">Context</span>,
 {
   <span class="kw">fn</span> <span class="ident">cut</span>
-    <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+    <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
     ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Left</span>, <span class="ident">A</span> <span class="op">&gt;</span>,
       <span class="ident">cont2</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
         ( <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span> ::<span class="ident">Length</span> )
-        <span class="op">-&gt;</span>
-          <span class="ident">PartialSession</span> <span class="op">&lt;</span>
-            <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span>
-              <span class="kw">as</span> <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>
-            <span class="op">&gt;</span> ::<span class="ident">Appended</span>, <span class="ident">B</span>
-          <span class="op">&gt;</span>
+        <span class="op">-&gt;</span> <span class="ident">Fut</span>
     ) <span class="op">-&gt;</span>
       <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Protocol</span>,
     <span class="ident">B</span> : <span class="ident">Protocol</span>,
     <span class="self">Self</span>::<span class="ident">Right</span> : <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>,
+    <span class="ident">Fut</span> :
+      <span class="ident">Future</span> <span class="op">&lt;</span> <span class="ident">Output</span> <span class="op">=</span>
+        <span class="ident">PartialSession</span> <span class="op">&lt;</span>
+          <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span>
+            <span class="kw">as</span> <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>
+          <span class="op">&gt;</span> ::<span class="ident">Appended</span>, <span class="ident">B</span>
+        <span class="op">&gt;</span>
+      <span class="op">&gt;</span>
+      <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
   ;
 }
 
@@ -489,32 +506,35 @@
   <span class="ident">X</span> : <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
 {
   <span class="kw">fn</span> <span class="ident">cut</span>
-    <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+    <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
     ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Left</span>, <span class="ident">A</span> <span class="op">&gt;</span>
     , <span class="ident">cont2</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
         ( <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span> ::<span class="ident">Length</span> )
-        <span class="op">-&gt;</span>
-          <span class="ident">PartialSession</span> <span class="op">&lt;</span>
-            <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span>
-              <span class="kw">as</span> <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>
-            <span class="op">&gt;</span> ::<span class="ident">Appended</span>, <span class="ident">B</span>
-          <span class="op">&gt;</span>,
-
+        <span class="op">-&gt;</span> <span class="ident">Fut</span>
     ) <span class="op">-&gt;</span>
       <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Protocol</span>,
     <span class="ident">B</span> : <span class="ident">Protocol</span>,
     <span class="self">Self</span>::<span class="ident">Right</span> : <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>,
+    <span class="ident">Fut</span> :
+      <span class="ident">Future</span> <span class="op">&lt;</span> <span class="ident">Output</span> <span class="op">=</span>
+        <span class="ident">PartialSession</span> <span class="op">&lt;</span>
+          <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span>
+            <span class="kw">as</span> <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>
+          <span class="op">&gt;</span> ::<span class="ident">Appended</span>, <span class="ident">B</span>
+        <span class="op">&gt;</span>
+      <span class="op">&gt;</span>
+      <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
   {
-    <span class="ident">cut</span> :: <span class="op">&lt;</span> <span class="ident">X</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span> ( <span class="ident">cont1</span>, <span class="ident">cont2</span> )
+    <span class="ident">cut</span> :: <span class="op">&lt;</span> <span class="ident">X</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span> ( <span class="ident">cont1</span>, <span class="ident">cont2</span> )
   }
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cut</span>
-  <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">F</span> <span class="op">&gt;</span>
+  <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Func</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
   ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C1</span>, <span class="ident">A</span> <span class="op">&gt;</span>,
-    <span class="ident">cont2</span> : <span class="ident">F</span>
+    <span class="ident">cont2</span> : <span class="ident">Func</span>
   ) <span class="op">-&gt;</span>
     <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -525,8 +545,12 @@
   <span class="ident">C2</span> : <span class="ident">Context</span>,
   <span class="ident">X</span> : <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span> <span class="op">&gt;</span>,
   <span class="ident">C2</span> : <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>,
-  <span class="ident">F</span> : <span class="ident">FnOnce</span> ( <span class="ident">C2</span>::<span class="ident">Length</span> )
-      <span class="op">-&gt;</span> <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C2</span>::<span class="ident">Appended</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+  <span class="ident">Func</span> : <span class="ident">FnOnce</span> ( <span class="ident">C2</span>::<span class="ident">Length</span> ) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
+  <span class="ident">Fut</span> :
+    <span class="ident">Future</span> <span class="op">&lt;</span> <span class="ident">Output</span> <span class="op">=</span>
+      <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C2</span>::<span class="ident">Appended</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+    <span class="op">&gt;</span>
+    <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
   <span class="kw">let</span> <span class="ident">cont3</span> <span class="op">=</span> <span class="ident">cont2</span> ( <span class="ident">C2</span>::<span class="ident">Length</span>::<span class="ident">nat</span> () );
 
@@ -538,7 +562,7 @@
 
       <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="kw">async</span> <span class="kw">move</span> {
         <span class="ident">unsafe_run_session</span> (
-          <span class="ident">cont3</span>,
+          <span class="ident">cont3</span>.<span class="kw">await</span>,
           <span class="ident">ctx3</span>, <span class="ident">sender1</span>
         ).<span class="kw">await</span>;
       });

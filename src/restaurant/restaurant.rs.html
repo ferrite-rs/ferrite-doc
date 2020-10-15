@@ -270,7 +270,7 @@
         <span class="ident">ExternalChoice</span> <span class="op">&lt;</span> <span class="ident">MainMenu</span> <span class="op">&gt;</span>
       <span class="op">&gt;</span>
     <span class="op">&gt;</span> <span class="op">=</span>
-    <span class="ident">include_session</span> ( <span class="ident">soup_of_the_day</span>, <span class="op">|</span> <span class="ident">chan</span> <span class="op">|</span> {
+    <span class="macro">include_session</span><span class="macro">!</span> ( <span class="ident">soup_of_the_day</span>, <span class="ident">chan</span> <span class="op">=&gt;</span> {
       <span class="ident">send_channel_from</span> ( <span class="ident">chan</span>,
         <span class="ident">partial_session</span>( <span class="ident">main_dish</span> ) )
     });
