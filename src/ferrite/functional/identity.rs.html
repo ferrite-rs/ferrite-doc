@@ -46,6 +46,8 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">type_app</span>::<span class="kw-2">*</span>;
@@ -68,13 +70,15 @@
   <span class="ident">TypeAppGeneric</span>
   <span class="kw">for</span> <span class="ident">IdentityF</span>
 {
-  <span class="kw">fn</span> <span class="ident">with_type_app</span> <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
-    ( <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">TypeAppCont</span> <span class="op">&lt;</span> <span class="ident">IdentityF</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> )
-    <span class="op">-&gt;</span> <span class="ident">K</span>
+  <span class="kw">fn</span> <span class="ident">get_witness</span> <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> () <span class="op">-&gt;</span>
+    <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span>
+      <span class="ident">TypeAppWitness</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
+    <span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">K</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   {
-    <span class="ident">cont</span>.<span class="ident">on_type_app</span>()
+    <span class="ident">Box</span>::<span class="ident">new</span>( () )
   }
 }
 

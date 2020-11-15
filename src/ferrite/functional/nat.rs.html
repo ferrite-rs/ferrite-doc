@@ -57,16 +57,16 @@
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Z</span> ();
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Z</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">S</span> <span class="op">&lt;</span> <span class="ident">N</span> <span class="op">&gt;</span> ( <span class="kw">pub</span> <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> );
 
 <span class="kw">impl</span> <span class="ident">Nat</span> <span class="kw">for</span> <span class="ident">Z</span> {
   <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
-  <span class="kw">const</span> <span class="ident">Value</span> : <span class="ident">Z</span> <span class="op">=</span> <span class="ident">Z</span>();
+  <span class="kw">const</span> <span class="ident">Value</span> : <span class="ident">Z</span> <span class="op">=</span> <span class="ident">Z</span>;
 
-  <span class="kw">fn</span> <span class="ident">nat</span>() <span class="op">-&gt;</span> <span class="ident">Z</span> { <span class="ident">Z</span>() }
+  <span class="kw">fn</span> <span class="ident">nat</span>() <span class="op">-&gt;</span> <span class="ident">Z</span> { <span class="ident">Z</span> }
 }
 
 <span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">N</span> <span class="op">&gt;</span> <span class="ident">Nat</span>

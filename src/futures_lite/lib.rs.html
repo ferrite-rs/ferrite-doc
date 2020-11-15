@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-lite-1.11.1/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../futures_lite/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-lite-1.11.2/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../futures_lite/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
                 <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
@@ -109,6 +109,28 @@
 <span id="108">108</span>
 <span id="109">109</span>
 <span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Futures, streams, and async I/O combinators.</span>
 <span class="doccomment">//!</span>
@@ -161,22 +183,44 @@
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
-<span class="doccomment">/// use futures_lite::future::FutureExt;</span>
-<span class="doccomment">/// use futures_lite::ready;</span>
-<span class="doccomment">/// use std::future::Future;</span>
+<span class="doccomment">/// use futures_lite::{future, prelude::*, ready};</span>
 <span class="doccomment">/// use std::pin::Pin;</span>
 <span class="doccomment">/// use std::task::{Context, Poll};</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// // Polls two futures and sums their results.</span>
-<span class="doccomment">/// fn poll_sum(</span>
-<span class="doccomment">///     cx: &amp;mut Context&lt;&#39;_&gt;,</span>
-<span class="doccomment">///     a: Pin&lt;&amp;mut impl Future&lt;Output = i32&gt;&gt;,</span>
-<span class="doccomment">///     b: Pin&lt;&amp;mut impl Future&lt;Output = i32&gt;&gt;,</span>
-<span class="doccomment">/// ) -&gt; Poll&lt;i32&gt; {</span>
-<span class="doccomment">///     let x = ready!(a.poll(cx));</span>
-<span class="doccomment">///     let y = ready!(b.poll(cx));</span>
-<span class="doccomment">///     Poll::Ready(x + y)</span>
+<span class="doccomment">/// fn do_poll(cx: &amp;mut Context&lt;&#39;_&gt;) -&gt; Poll&lt;()&gt; {</span>
+<span class="doccomment">///     let mut fut = future::ready(42);</span>
+<span class="doccomment">///     let fut = Pin::new(&amp;mut fut);</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     let num = ready!(fut.poll(cx));</span>
+<span class="doccomment">///     # drop(num);</span>
+<span class="doccomment">///     // ... use num</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     Poll::Ready(())</span>
 <span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The `ready!` call expands to:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// # #![feature(ready_macro)]</span>
+<span class="doccomment">/// #</span>
+<span class="doccomment">/// # use futures_lite::{future, prelude::*, ready};</span>
+<span class="doccomment">/// # use std::pin::Pin;</span>
+<span class="doccomment">/// # use std::task::{Context, Poll};</span>
+<span class="doccomment">/// #</span>
+<span class="doccomment">/// # fn do_poll(cx: &amp;mut Context&lt;&#39;_&gt;) -&gt; Poll&lt;()&gt; {</span>
+<span class="doccomment">///     # let mut fut = future::ready(42);</span>
+<span class="doccomment">///     # let fut = Pin::new(&amp;mut fut);</span>
+<span class="doccomment">///     #</span>
+<span class="doccomment">/// let num = match fut.poll(cx) {</span>
+<span class="doccomment">///     Poll::Ready(t) =&gt; t,</span>
+<span class="doccomment">///     Poll::Pending =&gt; return Poll::Pending,</span>
+<span class="doccomment">/// };</span>
+<span class="doccomment">///     # drop(num);</span>
+<span class="doccomment">///     # // ... use num</span>
+<span class="doccomment">///     #</span>
+<span class="doccomment">///     # Poll::Ready(())</span>
+<span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">ready</span> {

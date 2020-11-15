@@ -87,6 +87,14 @@
 <span id="86">86</span>
 <span id="87">87</span>
 <span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
 </pre><div class="example-wrap"><pre class="rust ">
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TyCon</span> : <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
@@ -135,7 +143,7 @@
 {
   <span class="kw">fn</span> <span class="ident">on_witness</span>
     ( <span class="self">self</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>,
-      <span class="ident">applied</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="ident">F</span>::<span class="ident">Applied</span> <span class="op">&gt;</span>
+      <span class="ident">applied</span>: <span class="ident">F</span>::<span class="ident">Applied</span>
     )
     <span class="op">-&gt;</span> <span class="ident">K</span>
   <span class="kw">where</span>
@@ -143,23 +151,10 @@
   ;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TypeAppWitness</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
-  : <span class="ident">HasTypeApp</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-<span class="kw">where</span>
-  <span class="ident">F</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">K</span>: <span class="lifetime">&#39;static</span>,
-{
-  <span class="kw">fn</span> <span class="ident">with_applied</span>
-    ( <span class="self">self</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>,
-      <span class="ident">cont</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span> <span class="ident">TypeAppWitnessCont</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
-    ) <span class="op">-&gt;</span> <span class="ident">K</span>
-  ;
-}
-
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TypeAppCont</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
 {
-  <span class="kw">fn</span> <span class="ident">on_type_app</span> (<span class="self">self</span>)
+  <span class="kw">fn</span> <span class="ident">on_type_app</span>
+    ( <span class="self">self</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span> )
     <span class="op">-&gt;</span> <span class="ident">K</span>
   <span class="kw">where</span>
     <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
@@ -167,13 +162,34 @@
   ;
 }
 
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TypeAppWitness</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
+  : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">where</span>
+  <span class="ident">F</span>: <span class="lifetime">&#39;static</span>,
+  <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
+  <span class="ident">K</span>: <span class="lifetime">&#39;static</span>,
+{
+  <span class="kw">fn</span> <span class="ident">with_applied</span>
+    ( <span class="kw-2">&amp;</span><span class="self">self</span>,
+      <span class="ident">cont</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span> <span class="ident">TypeAppCont</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
+    ) <span class="op">-&gt;</span> <span class="ident">K</span>
+  ;
+
+  <span class="kw">fn</span> <span class="ident">clone_witness</span>
+    ( <span class="kw-2">&amp;</span><span class="self">self</span> )
+    <span class="op">-&gt;</span> <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span> <span class="ident">TypeAppWitness</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
+  ;
+}
+
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TypeAppGeneric</span> : <span class="ident">TyCon</span>
 {
-  <span class="kw">fn</span> <span class="ident">with_type_app</span> <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
-    ( <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">TypeAppCont</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> )
-    <span class="op">-&gt;</span> <span class="ident">K</span>
+  <span class="kw">fn</span> <span class="ident">get_witness</span> <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> () <span class="op">-&gt;</span>
+    <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span>
+      <span class="ident">TypeAppWitness</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
+    <span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">K</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   ;
 }
 </pre></div>

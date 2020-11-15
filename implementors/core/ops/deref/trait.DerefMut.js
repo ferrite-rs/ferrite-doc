@@ -2,7 +2,7 @@
 implementors["async_mutex"] = [{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; DerefMut for MutexGuard&lt;'_, T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;?Sized&gt; DerefMut for MutexGuardArc&lt;T&gt;","synthetic":false,"types":[]}];
 implementors["async_std"] = [{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; DerefMut for RwLockWriteGuard&lt;'_, T&gt;","synthetic":false,"types":[]}];
 implementors["cache_padded"] = [{"text":"impl&lt;T&gt; DerefMut for CachePadded&lt;T&gt;","synthetic":false,"types":[]}];
-implementors["crossbeam_utils"] = [{"text":"impl&lt;T&gt; DerefMut for CachePadded&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;'a, T:&nbsp;?Sized&gt; DerefMut for ShardedLockWriteGuard&lt;'a, T&gt;","synthetic":false,"types":[]}];
+implementors["crossbeam_utils"] = [{"text":"impl&lt;T&gt; DerefMut for CachePadded&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; DerefMut for ShardedLockWriteGuard&lt;'_, T&gt;","synthetic":false,"types":[]}];
 implementors["futures_executor"] = [{"text":"impl&lt;S:&nbsp;Stream + Unpin&gt; DerefMut for BlockingStream&lt;S&gt;","synthetic":false,"types":[]}];
 implementors["futures_util"] = [{"text":"impl&lt;T:&nbsp;?Sized, '_&gt; DerefMut for MutexGuard&lt;'_, T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;?Sized, U:&nbsp;?Sized, '_&gt; DerefMut for MappedMutexGuard&lt;'_, T, U&gt;","synthetic":false,"types":[]}];
 implementors["once_cell"] = [{"text":"impl&lt;T, F:&nbsp;FnOnce() -&gt; T&gt; DerefMut for Lazy&lt;T, F&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T, F:&nbsp;FnOnce() -&gt; T&gt; DerefMut for Lazy&lt;T, F&gt;","synthetic":false,"types":[]}];
