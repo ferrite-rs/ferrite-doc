@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/session/cut.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>cut.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../ferrite_session/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/session/cut.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>cut.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../ferrite_session/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
                 <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
@@ -350,7 +352,7 @@
   <span class="kw">type</span> <span class="ident">Right</span> : <span class="ident">Context</span>;
 
   <span class="kw">fn</span> <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span> )
-    <span class="op">-&gt;</span>  ( <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Left</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span>::<span class="ident">Endpoints</span>,
+    <span class="op">-</span><span class="op">&gt;</span>  ( <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Left</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span>::<span class="ident">Endpoints</span>,
           <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span>::<span class="ident">Endpoints</span> )
   ;
 }
@@ -361,7 +363,7 @@
   <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> ();
 
   <span class="kw">fn</span> <span class="ident">split_endpoints</span> ( <span class="kw">_</span>: () )
-    <span class="op">-&gt;</span> ( (), () )
+    <span class="op">-</span><span class="op">&gt;</span> ( (), () )
   { ( (), () ) }
 }
 
@@ -374,7 +376,7 @@
   <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> ();
 
   <span class="kw">fn</span> <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span> )
-    <span class="op">-&gt;</span> ( <span class="ident">C</span>::<span class="ident">Endpoints</span>, () )
+    <span class="op">-</span><span class="op">&gt;</span> ( <span class="ident">C</span>::<span class="ident">Endpoints</span>, () )
   {
     ( <span class="ident">ctx</span>, () )
   }
@@ -389,7 +391,7 @@
   <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C</span>;
 
   <span class="kw">fn</span> <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span> )
-    <span class="op">-&gt;</span> ( (), <span class="ident">C</span>::<span class="ident">Endpoints</span> )
+    <span class="op">-</span><span class="op">&gt;</span> ( (), <span class="ident">C</span>::<span class="ident">Endpoints</span> )
   {
     ( (), <span class="ident">ctx</span> )
   }
@@ -410,7 +412,7 @@
 
   <span class="kw">fn</span> <span class="ident">split_endpoints</span>
     ( ( <span class="ident">a</span>, <span class="ident">ctx</span> ): ( (), <span class="ident">C</span>::<span class="ident">Endpoints</span> ) )
-    <span class="op">-&gt;</span>  ( ( (), <span class="ident">C1</span>::<span class="ident">Endpoints</span> ),
+    <span class="op">-</span><span class="op">&gt;</span>  ( ( (), <span class="ident">C1</span>::<span class="ident">Endpoints</span> ),
           ( (), <span class="ident">C2</span>::<span class="ident">Endpoints</span> )
         )
   {
@@ -435,7 +437,7 @@
 
   <span class="kw">fn</span> <span class="ident">split_endpoints</span>
     ( ( <span class="ident">a</span>, <span class="ident">ctx</span> ): ( <span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C</span>::<span class="ident">Endpoints</span> ) )
-    <span class="op">-&gt;</span>  ( ( <span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C1</span>::<span class="ident">Endpoints</span> ),
+    <span class="op">-</span><span class="op">&gt;</span>  ( ( <span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C1</span>::<span class="ident">Endpoints</span> ),
           ( (), <span class="ident">C2</span>::<span class="ident">Endpoints</span> )
         )
   {
@@ -460,7 +462,7 @@
 
   <span class="kw">fn</span> <span class="ident">split_endpoints</span>
     ( ( <span class="ident">a</span>, <span class="ident">ctx</span> ): ( <span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C</span>::<span class="ident">Endpoints</span> ) )
-    <span class="op">-&gt;</span>  ( ( (), <span class="ident">C1</span>::<span class="ident">Endpoints</span> ),
+    <span class="op">-</span><span class="op">&gt;</span>  ( ( (), <span class="ident">C1</span>::<span class="ident">Endpoints</span> ),
           ( <span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C2</span>::<span class="ident">Endpoints</span> )
         )
   {
@@ -479,8 +481,8 @@
     ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Left</span>, <span class="ident">A</span> <span class="op">&gt;</span>,
       <span class="ident">cont2</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
         ( <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span> ::<span class="ident">Length</span> )
-        <span class="op">-&gt;</span> <span class="ident">Fut</span>
-    ) <span class="op">-&gt;</span>
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
+    ) <span class="op">-</span><span class="op">&gt;</span>
       <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Protocol</span>,
@@ -510,8 +512,8 @@
     ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Left</span>, <span class="ident">A</span> <span class="op">&gt;</span>
     , <span class="ident">cont2</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
         ( <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span> ::<span class="ident">Length</span> )
-        <span class="op">-&gt;</span> <span class="ident">Fut</span>
-    ) <span class="op">-&gt;</span>
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
+    ) <span class="op">-</span><span class="op">&gt;</span>
       <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Protocol</span>,
@@ -535,7 +537,7 @@
   <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Func</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
   ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C1</span>, <span class="ident">A</span> <span class="op">&gt;</span>,
     <span class="ident">cont2</span> : <span class="ident">Func</span>
-  ) <span class="op">-&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span>
     <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span> : <span class="ident">Protocol</span>,
@@ -545,7 +547,7 @@
   <span class="ident">C2</span> : <span class="ident">Context</span>,
   <span class="ident">X</span> : <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span> <span class="op">&gt;</span>,
   <span class="ident">C2</span> : <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>,
-  <span class="ident">Func</span> : <span class="ident">FnOnce</span> ( <span class="ident">C2</span>::<span class="ident">Length</span> ) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
+  <span class="ident">Func</span> : <span class="ident">FnOnce</span> ( <span class="ident">C2</span>::<span class="ident">Length</span> ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>,
   <span class="ident">Fut</span> :
     <span class="ident">Future</span> <span class="op">&lt;</span> <span class="ident">Output</span> <span class="op">=</span>
       <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C2</span>::<span class="ident">Appended</span>, <span class="ident">B</span> <span class="op">&gt;</span>
@@ -555,23 +557,23 @@
   <span class="kw">let</span> <span class="ident">cont3</span> <span class="op">=</span> <span class="ident">cont2</span> ( <span class="ident">C2</span>::<span class="ident">Length</span>::<span class="ident">nat</span> () );
 
   <span class="ident">unsafe_create_session</span> (
-    <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx</span>, <span class="ident">sender1</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+    <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx</span>, <span class="ident">sender1</span> <span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> ( <span class="ident">ctx1</span>, <span class="ident">ctx2</span> ) <span class="op">=</span> <span class="ident">X</span> :: <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> );
       <span class="kw">let</span> ( <span class="ident">sender2</span>, <span class="ident">receiver2</span> ) <span class="op">=</span> <span class="ident">channel</span>(<span class="number">1</span>);
       <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">C2</span>::<span class="ident">append_context</span> ( <span class="ident">ctx2</span>, ( <span class="ident">receiver2</span>, () ) );
 
-      <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="kw">async</span> <span class="kw">move</span> {
+      <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="ident">async</span> <span class="kw">move</span> {
         <span class="ident">unsafe_run_session</span> (
-          <span class="ident">cont3</span>.<span class="kw">await</span>,
+          <span class="ident">cont3</span>.<span class="ident">await</span>,
           <span class="ident">ctx3</span>, <span class="ident">sender1</span>
-        ).<span class="kw">await</span>;
+        ).<span class="ident">await</span>;
       });
 
-      <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="kw">async</span> {
-        <span class="ident">unsafe_run_session</span>( <span class="ident">cont1</span>, <span class="ident">ctx1</span>, <span class="ident">sender2</span> ).<span class="kw">await</span>;
+      <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="ident">async</span> {
+        <span class="ident">unsafe_run_session</span>( <span class="ident">cont1</span>, <span class="ident">ctx1</span>, <span class="ident">sender2</span> ).<span class="ident">await</span>;
       });
 
-      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="kw">await</span>;
+      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
     })
 }
 
@@ -587,7 +589,7 @@
   <span class="op">&lt;</span> <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">C3</span>, <span class="ident">C4</span>, <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>
   ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C3</span>, <span class="ident">B</span> <span class="op">&gt;</span>,
     <span class="ident">cont2</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C2</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-  ) <span class="op">-&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span>
     <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C4</span>, <span class="ident">B</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span> : <span class="ident">Protocol</span>,
@@ -608,7 +610,7 @@
     <span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span> (
-    <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx1</span>, <span class="ident">b_sender</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+    <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx1</span>, <span class="ident">b_sender</span> <span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> (<span class="ident">ctx2</span>, <span class="ident">ctx3</span>) <span class="op">=</span>
         <span class="op">&lt;</span> <span class="ident">C1</span> <span class="kw">as</span>
           <span class="ident">AppendContext</span> <span class="op">&lt;</span> <span class="ident">C2</span> <span class="op">&gt;</span>
@@ -621,19 +623,19 @@
           <span class="ident">AppendContext</span> <span class="op">&lt;</span> (<span class="ident">A</span>, ()) <span class="op">&gt;</span>
         <span class="op">&gt;</span> :: <span class="ident">append_context</span> ( <span class="ident">ctx2</span>, (<span class="ident">a_receiver</span>, ()) );
 
-      <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> {
+      <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="ident">async</span> {
         <span class="ident">unsafe_run_session</span>
           ( <span class="ident">cont1</span>, <span class="ident">ctx4</span>, <span class="ident">b_sender</span>
-          ).<span class="kw">await</span>;
+          ).<span class="ident">await</span>;
       });
 
-      <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> {
+      <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="ident">async</span> {
         <span class="ident">unsafe_run_session</span>
           ( <span class="ident">cont2</span>, <span class="ident">ctx3</span>, <span class="ident">a_sender</span>
-          ).<span class="kw">await</span>;
+          ).<span class="ident">await</span>;
       });
 
-      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="kw">await</span>;
+      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
     })
 }
 </pre></div>

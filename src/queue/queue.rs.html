@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/bin/queue.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>queue.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../queue/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/bin/queue.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>queue.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../queue/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
                 <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
@@ -140,7 +142,7 @@
 <span class="kw">type</span> <span class="ident">StringQueue</span> <span class="op">=</span> <span class="ident">Queue</span> <span class="op">&lt;</span> <span class="ident">String</span> <span class="op">&gt;</span>;
 
 <span class="kw">fn</span> <span class="ident">nil_queue</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span> ()
-  <span class="op">-&gt;</span> <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">Queue</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
+  <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">Queue</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
@@ -154,12 +156,12 @@
   <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">Func</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
   ( <span class="ident">builder</span> : <span class="ident">Func</span>,
     <span class="ident">rest</span> : <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">Queue</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
-  ) <span class="op">-&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span>
     <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">Queue</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Func</span> :
-    <span class="ident">FnOnce</span>() <span class="op">-&gt;</span> <span class="ident">Fut</span>
+    <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
     <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Fut</span>:
     <span class="ident">Future</span> <span class="op">&lt;</span>
@@ -170,32 +172,32 @@
   <span class="ident">fix_session</span> (
     <span class="ident">offer_case</span> ( <span class="ident">RightLabel</span>,
       <span class="macro">send_value</span><span class="macro">!</span> (
-        <span class="ident">builder</span>().<span class="kw">await</span>,
+        <span class="ident">builder</span>().<span class="ident">await</span>,
         <span class="ident">rest</span>
       ) ) )
 }
 
-<span class="kw">fn</span> <span class="ident">read_queue</span> () <span class="op">-&gt;</span>
+<span class="kw">fn</span> <span class="ident">read_queue</span> () <span class="op">-</span><span class="op">&gt;</span>
   <span class="ident">Session</span> <span class="op">&lt;</span>
     <span class="ident">ReceiveChannel</span> <span class="op">&lt;</span>
       <span class="ident">StringQueue</span>,
       <span class="ident">End</span>
     <span class="op">&gt;</span> <span class="op">&gt;</span>
 {
-  <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">queue</span> <span class="op">=&gt;</span> {
+  <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">queue</span> <span class="op">=</span><span class="op">&gt;</span> {
     <span class="ident">unfix_session_for</span> ( <span class="ident">queue</span>,
       <span class="macro">case</span><span class="macro">!</span> { <span class="ident">queue</span> ;
-        <span class="ident">Left</span> <span class="op">=&gt;</span> {
+        <span class="ident">Left</span> <span class="op">=</span><span class="op">&gt;</span> {
           <span class="ident">wait</span> ( <span class="ident">queue</span>, <span class="ident">terminate</span> () )
         }
-        <span class="ident">Right</span> <span class="op">=&gt;</span> {
+        <span class="ident">Right</span> <span class="op">=</span><span class="op">&gt;</span> {
           <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">queue</span>,
-            <span class="ident">val</span> <span class="op">=&gt;</span> {
+            <span class="ident">val</span> <span class="op">=</span><span class="op">&gt;</span> {
               <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Receive value: {}&quot;</span>, <span class="ident">val</span>);
 
               <span class="macro">include_session</span><span class="macro">!</span> (
                 <span class="ident">read_queue</span> (),
-                <span class="ident">next</span> <span class="op">=&gt;</span> {
+                <span class="ident">next</span> <span class="op">=</span><span class="op">&gt;</span> {
                   <span class="ident">send_channel_to</span> (
                     <span class="ident">next</span>,
                     <span class="ident">queue</span>,
@@ -208,7 +210,7 @@
   })
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">queue_session</span> () <span class="op">-&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">queue_session</span> () <span class="op">-</span><span class="op">&gt;</span>
   <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">End</span> <span class="op">&gt;</span>
 {
   <span class="kw">let</span> <span class="ident">p11</span>
@@ -217,9 +219,9 @@
 
   <span class="kw">let</span> <span class="ident">p12</span>
     : <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">StringQueue</span> <span class="op">&gt;</span>
-  <span class="op">=</span> <span class="ident">append_queue</span> ( <span class="op">||</span> <span class="kw">async</span> {
+  <span class="op">=</span> <span class="ident">append_queue</span> ( <span class="op">|</span><span class="op">|</span> <span class="ident">async</span> {
       <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;producing world..&quot;</span>);
-      <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">3</span>)).<span class="kw">await</span>;
+      <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">3</span>)).<span class="ident">await</span>;
       <span class="string">&quot;World&quot;</span>.<span class="ident">to_string</span>()
     },
     <span class="ident">p11</span>
@@ -227,9 +229,9 @@
 
   <span class="kw">let</span> <span class="ident">p13</span>
     : <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">StringQueue</span> <span class="op">&gt;</span>
-  <span class="op">=</span> <span class="ident">append_queue</span> ( <span class="op">||</span> <span class="kw">async</span> {
+  <span class="op">=</span> <span class="ident">append_queue</span> ( <span class="op">|</span><span class="op">|</span> <span class="ident">async</span> {
       <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;producing hello..&quot;</span>);
-      <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">2</span>)).<span class="kw">await</span>;
+      <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">2</span>)).<span class="ident">await</span>;
       <span class="string">&quot;Hello&quot;</span>.<span class="ident">to_string</span>()
     },
     <span class="ident">p12</span>
@@ -239,8 +241,8 @@
 }
 
 <span class="attribute">#[<span class="ident">async_std</span>::<span class="ident">main</span>]</span>
-<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>() {
-  <span class="ident">run_session</span> ( <span class="ident">queue_session</span>() ).<span class="kw">await</span>;
+<span class="kw">pub</span> <span class="ident">async</span> <span class="kw">fn</span> <span class="ident">main</span>() {
+  <span class="ident">run_session</span> ( <span class="ident">queue_session</span>() ).<span class="ident">await</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "queue";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

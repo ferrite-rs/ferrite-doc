@@ -169,16 +169,16 @@
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Primitive</span>, <span class="ident">ToValue</span>, <span class="ident">Value</span>};
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_into_owned</span> {
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">into_ty</span>:<span class="ident">ty</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">convert</span>:<span class="ident">ident</span>,)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">into_ty</span>:<span class="ident">ty</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">convert</span>:<span class="ident">ident</span>,)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
         $(
             <span class="kw">impl</span> <span class="ident">ToValue</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">into_ty</span> {
-                <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+                <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
                     <span class="ident">Value</span>::<span class="ident">from</span>(<span class="kw-2">*</span><span class="self">self</span>)
                 }
             }
 
             <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">into_ty</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Value</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> {
-                <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">into_ty</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+                <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">into_ty</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
                     <span class="ident">Value</span>::<span class="ident">from_primitive</span>(<span class="ident">value</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">convert</span>)
                 }
             }
@@ -187,31 +187,31 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="ident">ToValue</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">str</span> {
-    <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
         <span class="ident">Value</span>::<span class="ident">from</span>(<span class="kw-2">*</span><span class="self">self</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Value</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">Value</span>::<span class="ident">from_primitive</span>(<span class="ident">value</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="ident">ToValue</span> <span class="kw">for</span> <span class="ident">fmt</span>::<span class="ident">Arguments</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
         <span class="ident">Value</span>::<span class="ident">from</span>(<span class="kw-2">*</span><span class="self">self</span>)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">fmt</span>::<span class="ident">Arguments</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Value</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="ident">fmt</span>::<span class="ident">Arguments</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">fmt</span>::<span class="ident">Arguments</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Value</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="ident">fmt</span>::<span class="ident">Arguments</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">Value</span>::<span class="ident">from_primitive</span>(<span class="ident">value</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">ToValue</span> <span class="kw">for</span> () {
-    <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
         <span class="ident">Value</span>::<span class="ident">from_primitive</span>(<span class="ident">Primitive</span>::<span class="prelude-val">None</span>)
     }
 }
@@ -220,32 +220,32 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">ToValue</span>,
 {
-    <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">to_value</span>(),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Value</span>::<span class="ident">from_primitive</span>(<span class="ident">Primitive</span>::<span class="prelude-val">None</span>),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">value</span>.<span class="ident">to_value</span>(),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Value</span>::<span class="ident">from_primitive</span>(<span class="ident">Primitive</span>::<span class="prelude-val">None</span>),
         }
     }
 }
 
 <span class="macro">impl_into_owned</span><span class="macro">!</span> [
-    <span class="ident">usize</span> <span class="op">=&gt;</span> <span class="ident">u64</span>,
-    <span class="ident">u8</span> <span class="op">=&gt;</span> <span class="ident">u64</span>,
-    <span class="ident">u16</span> <span class="op">=&gt;</span> <span class="ident">u64</span>,
-    <span class="ident">u32</span> <span class="op">=&gt;</span> <span class="ident">u64</span>,
-    <span class="ident">u64</span> <span class="op">=&gt;</span> <span class="ident">u64</span>,
+    <span class="ident">usize</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">u64</span>,
+    <span class="ident">u8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">u64</span>,
+    <span class="ident">u16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">u64</span>,
+    <span class="ident">u32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">u64</span>,
+    <span class="ident">u64</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">u64</span>,
 
-    <span class="ident">isize</span> <span class="op">=&gt;</span> <span class="ident">i64</span>,
-    <span class="ident">i8</span> <span class="op">=&gt;</span> <span class="ident">i64</span>,
-    <span class="ident">i16</span> <span class="op">=&gt;</span> <span class="ident">i64</span>,
-    <span class="ident">i32</span> <span class="op">=&gt;</span> <span class="ident">i64</span>,
-    <span class="ident">i64</span> <span class="op">=&gt;</span> <span class="ident">i64</span>,
+    <span class="ident">isize</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">i64</span>,
+    <span class="ident">i8</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">i64</span>,
+    <span class="ident">i16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">i64</span>,
+    <span class="ident">i32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">i64</span>,
+    <span class="ident">i64</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">i64</span>,
 
-    <span class="ident">f32</span> <span class="op">=&gt;</span> <span class="ident">f64</span>,
-    <span class="ident">f64</span> <span class="op">=&gt;</span> <span class="ident">f64</span>,
+    <span class="ident">f32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f64</span>,
+    <span class="ident">f64</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f64</span>,
 
-    <span class="ident">char</span> <span class="op">=&gt;</span> <span class="ident">char</span>,
-    <span class="ident">bool</span> <span class="op">=&gt;</span> <span class="ident">bool</span>,
+    <span class="ident">char</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">char</span>,
+    <span class="ident">bool</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">bool</span>,
 ];
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
@@ -258,19 +258,19 @@
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">ToValue</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span>,
     {
-        <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+        <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
             (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">to_value</span>()
         }
     }
 
     <span class="kw">impl</span> <span class="ident">ToValue</span> <span class="kw">for</span> <span class="ident">String</span> {
-        <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+        <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
             <span class="ident">Value</span>::<span class="ident">from_primitive</span>(<span class="ident">Primitive</span>::<span class="ident">Str</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>))
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span> <span class="ident">ToValue</span> <span class="kw">for</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span>, <span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+        <span class="kw">fn</span> <span class="ident">to_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
             <span class="ident">Value</span>::<span class="ident">from_primitive</span>(<span class="ident">Primitive</span>::<span class="ident">Str</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>))
         }
     }
