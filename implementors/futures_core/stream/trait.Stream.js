@@ -1,5 +1,6 @@
 (function() {var implementors = {};
 implementors["async_channel"] = [{"text":"impl&lt;T&gt; Stream for Receiver&lt;T&gt;","synthetic":false,"types":[]}];
+implementors["async_io"] = [{"text":"impl Stream for Timer","synthetic":false,"types":[]}];
 implementors["async_macros"] = [{"text":"impl&lt;L, R, T&gt; Stream for JoinStream&lt;L, R&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;L: Stream&lt;Item = T&gt; + Unpin,<br>&nbsp;&nbsp;&nbsp;&nbsp;R: Stream&lt;Item = T&gt; + Unpin,&nbsp;</span>","synthetic":false,"types":[]}];
 implementors["blocking"] = [{"text":"impl&lt;T:&nbsp;Iterator + Send + 'static&gt; Stream for Unblock&lt;T&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T::Item: Send + 'static,&nbsp;</span>","synthetic":false,"types":[]}];
 implementors["futures_channel"] = [{"text":"impl&lt;T&gt; Stream for Receiver&lt;T&gt;","synthetic":false,"types":[]},{"text":"impl&lt;T&gt; Stream for UnboundedReceiver&lt;T&gt;","synthetic":false,"types":[]}];

@@ -18,7 +18,6 @@ sourcesIndex["cfg_if"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["channel"] = {"name":"","files":["channel.rs"]};
 sourcesIndex["concat"] = {"name":"","files":["concat.rs"]};
 sourcesIndex["concurrent_queue"] = {"name":"","files":["bounded.rs","lib.rs","single.rs","unbounded.rs"]};
-sourcesIndex["const_fn"] = {"name":"","files":["ast.rs","error.rs","iter.rs","lib.rs","to_tokens.rs","utils.rs"]};
 sourcesIndex["counter"] = {"name":"","files":["counter.rs"]};
 sourcesIndex["crossbeam_utils"] = {"name":"","dirs":[{"name":"atomic","files":["atomic_cell.rs","consume.rs","mod.rs","seq_lock.rs"]},{"name":"sync","files":["mod.rs","parker.rs","sharded_lock.rs","wait_group.rs"]}],"files":["backoff.rs","cache_padded.rs","lib.rs","thread.rs"]};
 sourcesIndex["custom_choice"] = {"name":"","files":["custom_choice.rs"]};

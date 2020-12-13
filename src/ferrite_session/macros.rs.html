@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/macros.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macros.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `ferrite-session/src/macros.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macros.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
 <link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../ferrite_session/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
                 <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
@@ -482,7 +482,11 @@
 <span id="479">479</span>
 <span id="480">480</span>
 <span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
 </pre><div class="example-wrap"><pre class="rust ">
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">paste</span>::<span class="ident">paste</span>;
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">Sum</span> {
@@ -582,7 +586,7 @@
     <span class="macro">define_choice_labels</span><span class="macro">!</span>[ <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Z</span>; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span> ];
   };
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span>:<span class="ident">ty</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">paste</span>::<span class="macro">paste</span><span class="macro">!</span> {
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">macros</span>::<span class="macro">paste</span><span class="macro">!</span> {
       <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
       <span class="kw">pub</span> <span class="kw">const</span> [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="ident">Label</span> <span class="op">&gt;</span>]
         : <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">=</span>
@@ -590,7 +594,7 @@
     }
   };
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span>:<span class="ident">ty</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">+</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">paste</span>::<span class="macro">paste</span><span class="macro">!</span> {
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">macros</span>::<span class="macro">paste</span><span class="macro">!</span> {
       <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
       <span class="kw">pub</span> <span class="kw">const</span> [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="ident">Label</span> <span class="op">&gt;</span>]
         : <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">=</span>
@@ -607,7 +611,7 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">define_choice_enum</span> {
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">paste</span>::<span class="macro">paste</span><span class="macro">!</span> {
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">macros</span>::<span class="macro">paste</span><span class="macro">!</span> {
       <span class="kw">pub</span> <span class="kw">enum</span> [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="ident">Choice</span> <span class="op">&gt;</span>]
         <span class="op">&lt;</span> $( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> <span class="ident">T</span> <span class="op">&gt;</span>] ),<span class="op">*</span> <span class="op">&gt;</span>
       {
@@ -631,7 +635,7 @@
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">ident</span> ;
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>
   ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">paste</span>::<span class="macro">paste</span><span class="macro">!</span> {
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">macros</span>::<span class="macro">paste</span><span class="macro">!</span> {
       <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span> {
         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Sum</span>::<span class="ident">Inl</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] ) <span class="op">=</span><span class="op">&gt;</span> {
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] )
@@ -645,7 +649,7 @@
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">ident</span> ;
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">*</span> $(,)<span class="question-mark">?</span>
   ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">paste</span>::<span class="macro">paste</span><span class="macro">!</span> {
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">macros</span>::<span class="macro">paste</span><span class="macro">!</span> {
       <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span> {
         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Sum</span>::<span class="ident">Inl</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] ) <span class="op">=</span><span class="op">&gt;</span> {
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] )
@@ -667,7 +671,7 @@
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> ;
     $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">*</span> $(,)<span class="question-mark">?</span>
   ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">paste</span>::<span class="macro">paste</span><span class="macro">!</span> {
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">macros</span>::<span class="macro">paste</span><span class="macro">!</span> {
       <span class="kw">impl</span> <span class="op">&lt;</span> $( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> <span class="ident">T</span> <span class="op">&gt;</span>] ),<span class="op">*</span> <span class="op">&gt;</span>
         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ExtractRow</span> <span class="op">&lt;</span>
           [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="ident">Choice</span> <span class="op">&gt;</span>]
@@ -811,7 +815,7 @@
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>,
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>
   ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">paste</span>::<span class="macro">paste</span><span class="macro">!</span> {
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">macros</span>::<span class="macro">paste</span><span class="macro">!</span> {
       <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">choose</span> (
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>,
         [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="ident">Label</span> <span class="op">&gt;</span>],
@@ -826,7 +830,7 @@
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>,
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>
   ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">paste</span>::<span class="macro">paste</span><span class="macro">!</span> {
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">macros</span>::<span class="macro">paste</span><span class="macro">!</span> {
       <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">offer_case</span> (
         [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="ident">Label</span> <span class="op">&gt;</span>],
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>
