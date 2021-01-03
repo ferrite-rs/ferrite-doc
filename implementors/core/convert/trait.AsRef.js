@@ -4,4 +4,5 @@ implementors["futures_util"] = [{"text":"impl&lt;T:&nbsp;AsRef&lt;[u8]&gt;&gt; A
 implementors["humantime"] = [{"text":"impl AsRef&lt;Duration&gt; for Duration","synthetic":false,"types":[]},{"text":"impl AsRef&lt;SystemTime&gt; for Timestamp","synthetic":false,"types":[]}];
 implementors["log"] = [{"text":"impl&lt;'k&gt; AsRef&lt;str&gt; for Key&lt;'k&gt;","synthetic":false,"types":[]}];
 implementors["regex_syntax"] = [{"text":"impl AsRef&lt;[u8]&gt; for Literal","synthetic":false,"types":[]}];
+implementors["tempfile"] = [{"text":"impl AsRef&lt;Path&gt; for TempDir","synthetic":false,"types":[]},{"text":"impl AsRef&lt;Path&gt; for TempPath","synthetic":false,"types":[]},{"text":"impl AsRef&lt;OsStr&gt; for TempPath","synthetic":false,"types":[]},{"text":"impl AsRef&lt;Path&gt; for NamedTempFile","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
