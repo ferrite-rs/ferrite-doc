@@ -175,6 +175,9 @@
 <span id="172">172</span>
 <span id="173">173</span>
 <span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
 </pre><div class="example-wrap"><pre class="rust ">
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">pin</span>::<span class="ident">Pin</span>;
@@ -325,6 +328,7 @@
   <span class="kw">where</span>
     <span class="ident">S</span>: <span class="ident">serde</span>::<span class="ident">Serializer</span>,
   {
+    <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;serializing shared channel&quot;</span>);
     <span class="self">self</span>.<span class="ident">endpoint</span>.<span class="ident">serialize</span>(<span class="ident">serializer</span>)
   }
 }
@@ -339,6 +343,8 @@
   <span class="kw">where</span>
     <span class="ident">D</span>: <span class="ident">serde</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>
   {
+    <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;deserializing shared channel&quot;</span>);
+
     <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="op">&lt;</span>
       <span class="ident">Sender</span> <span class="op">&lt;</span>
         <span class="ident">Sender</span> <span class="op">&lt;</span>
