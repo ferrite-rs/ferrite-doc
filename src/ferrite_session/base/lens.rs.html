@@ -284,7 +284,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="ident">nat</span>::{ <span class="ident">S</span>, <span class="ident">Z</span> };
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="ident">protocol</span>::{ <span class="ident">Protocol</span> };
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="ident">context</span>::{ <span class="ident">Context</span> };
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="ident">channel</span>::<span class="ident">Receiver</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="ident">channel</span>::<span class="ident">ReceiverOnce</span>;
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Slot</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
   <span class="kw">type</span> <span class="ident">Endpoint</span> : <span class="ident">Send</span>;
@@ -294,7 +294,7 @@
 <span class="kw">where</span>
   <span class="ident">P</span> : <span class="ident">Protocol</span>
 {
-  <span class="kw">type</span> <span class="ident">Endpoint</span> <span class="op">=</span> <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">Endpoint</span> <span class="op">=</span> <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Empty</span>;

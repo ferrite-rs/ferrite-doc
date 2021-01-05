@@ -226,7 +226,7 @@
 <span class="kw">pub</span> <span class="ident">async</span> <span class="kw">fn</span> <span class="ident">run_case_cont</span>
   <span class="op">&lt;</span> <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span> <span class="op">&gt;</span>
   ( <span class="ident">ctx</span>: <span class="ident">D</span>::<span class="ident">Endpoints</span>,
-    <span class="ident">sender</span>: <span class="ident">Sender</span> <span class="op">&lt;</span> <span class="ident">B</span> <span class="op">&gt;</span>,
+    <span class="ident">sender</span>: <span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">B</span> <span class="op">&gt;</span>,
     <span class="ident">cont1</span>:
       <span class="ident">AppliedSum</span> <span class="op">&lt;</span>
         <span class="ident">Row</span>,
@@ -278,7 +278,7 @@
     <span class="op">&gt;</span>,
 {
   <span class="ident">ctx</span> : <span class="ident">D</span>::<span class="ident">Endpoints</span>,
-  <span class="ident">sender</span> : <span class="ident">Sender</span> <span class="op">&lt;</span> <span class="ident">B</span> <span class="op">&gt;</span>,
+  <span class="ident">sender</span> : <span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">B</span> <span class="op">&gt;</span>,
   <span class="ident">phantom</span>: <span class="ident">PhantomData</span> <span class="op">&lt;</span>( <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">Row</span> )<span class="op">&gt;</span>
 }
 
@@ -299,9 +299,9 @@
 {
   <span class="ident">ctx</span> : <span class="ident">D</span>::<span class="ident">Endpoints</span>,
 
-  <span class="ident">sender</span> : <span class="ident">Sender</span> <span class="op">&lt;</span> <span class="ident">B</span> <span class="op">&gt;</span>,
+  <span class="ident">sender</span> : <span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">B</span> <span class="op">&gt;</span>,
 
-  <span class="ident">receiver</span> : <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>,
+  <span class="ident">receiver</span> : <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>,
 
   <span class="ident">phantom</span>: <span class="ident">PhantomData</span> <span class="op">&lt;</span>( <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">Row</span> )<span class="op">&gt;</span>,
 }

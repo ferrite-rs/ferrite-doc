@@ -93,14 +93,14 @@
 <span class="kw">where</span>
   <span class="ident">P</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
-  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span> <span class="ident">TypeApp</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SenderF</span>
 <span class="kw">where</span>
   <span class="ident">P</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
-  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Sender</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../../";window.currentCrate = "ferrite_session";</script><script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script><script defer src="../../../../search-index.js"></script></body></html>

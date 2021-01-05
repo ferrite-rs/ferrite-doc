@@ -123,11 +123,11 @@
   <span class="ident">unsafe_create_session</span> (
     <span class="kw">move</span> <span class="op">|</span>
       <span class="ident">ctx</span>,
-      <span class="ident">sender1</span> : <span class="ident">Sender</span> <span class="op">&lt;</span>
+      <span class="ident">sender1</span> : <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
         <span class="ident">ReceiveValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">A</span> <span class="op">&gt;</span>,
       <span class="op">&gt;</span>
     <span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+      <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
       <span class="ident">sender1</span>.<span class="ident">send</span> ( <span class="ident">ReceiveValue</span> ( <span class="ident">sender2</span> ) ).<span class="ident">await</span>.<span class="ident">unwrap</span>();
 
@@ -172,7 +172,7 @@
       <span class="kw">let</span> <span class="ident">ReceiveValue</span> ( <span class="ident">sender2</span> )
         <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">await</span>.<span class="ident">unwrap</span>();
 
-      <span class="kw">let</span> (<span class="ident">sender3</span>, <span class="ident">receiver3</span>) <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+      <span class="kw">let</span> (<span class="ident">sender3</span>, <span class="ident">receiver3</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
       <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N</span> :: <span class="ident">insert_target</span>( <span class="ident">receiver3</span>, <span class="ident">ctx2</span> );
 

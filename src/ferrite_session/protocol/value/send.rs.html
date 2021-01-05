@@ -88,7 +88,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">A</span> <span class="op">&gt;</span>
 (
   <span class="kw">pub</span> (<span class="kw">crate</span>) <span class="ident">T</span>,
-  <span class="kw">pub</span> (<span class="kw">crate</span>) <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
+  <span class="kw">pub</span> (<span class="kw">crate</span>) <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
 );
 
 <span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">P</span> <span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">P</span> <span class="op">&gt;</span>
@@ -138,12 +138,12 @@
     <span class="ident">D</span>: <span class="ident">serde</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>
   {
     <span class="kw">let</span> (<span class="ident">val</span>, <span class="ident">receiver</span>) <span class="op">=</span>
-      <span class="op">&lt;</span> (<span class="ident">T</span>, <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>) <span class="op">&gt;</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
+      <span class="op">&lt;</span> (<span class="ident">T</span>, <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>) <span class="op">&gt;</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
 
     <span class="prelude-val">Ok</span>(<span class="ident">SendValue</span>(<span class="ident">val</span>, <span class="ident">receiver</span>))
 
     <span class="comment">// let (val, ipc_receiver) =</span>
-    <span class="comment">//   &lt; (T, IpcReceiver&lt;A&gt;) &gt;::deserialize(deserializer)?;</span>
+    <span class="comment">//   &lt; (T, IpcReceiverOnce&lt;A&gt;) &gt;::deserialize(deserializer)?;</span>
 
     <span class="comment">// let (sender, receiver) = async_std::sync::channel::&lt;A&gt;(1);</span>
 

@@ -96,9 +96,9 @@
 <span class="kw">where</span>
   <span class="ident">Row</span> : <span class="ident">RowCon</span>,
 { <span class="kw">pub</span> <span class="ident">sender</span> :
-    <span class="ident">Sender</span> <span class="op">&lt;</span>
+    <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
       ( <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="ident">Row</span>, () <span class="op">&gt;</span>,
-        <span class="ident">Sender</span> <span class="op">&lt;</span>
+        <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
           <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">ReceiverF</span> <span class="op">&gt;</span>
         <span class="op">&gt;</span>
       )
@@ -163,9 +163,9 @@
     <span class="ident">D</span>: <span class="ident">serde</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>
   {
     <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span>
-      <span class="op">&lt;</span> <span class="ident">Sender</span> <span class="op">&lt;</span>
+      <span class="op">&lt;</span> <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
           ( <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="ident">Row</span>, () <span class="op">&gt;</span>,
-            <span class="ident">Sender</span> <span class="op">&lt;</span>
+            <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
               <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">ReceiverF</span> <span class="op">&gt;</span>
             <span class="op">&gt;</span>
           ) <span class="op">&gt;</span>

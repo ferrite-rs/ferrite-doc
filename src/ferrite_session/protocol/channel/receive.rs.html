@@ -40,9 +40,9 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReceiveChannel</span>
   <span class="op">&lt;</span> <span class="ident">P</span>, <span class="ident">Q</span> <span class="op">&gt;</span>
 ( <span class="kw">pub</span> (<span class="kw">crate</span>)
-  <span class="ident">Sender</span> <span class="op">&lt;</span> (
-    <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span>,
-    <span class="ident">Sender</span> <span class="op">&lt;</span> <span class="ident">Q</span> <span class="op">&gt;</span>
+  <span class="ident">SenderOnce</span> <span class="op">&lt;</span> (
+    <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">P</span> <span class="op">&gt;</span>,
+    <span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">Q</span> <span class="op">&gt;</span>
   ) <span class="op">&gt;</span>
 );
 

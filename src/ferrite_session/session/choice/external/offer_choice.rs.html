@@ -92,7 +92,7 @@
 {
   <span class="ident">unsafe_create_session</span> (
     <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx</span>, <span class="ident">sender1</span> <span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+      <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
       <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">ExternalChoice</span>::<span class="op">&lt;</span> <span class="ident">Row</span> <span class="op">&gt;</span>
         { <span class="ident">sender</span>: <span class="ident">sender2</span> };

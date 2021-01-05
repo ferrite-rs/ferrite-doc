@@ -194,8 +194,8 @@
     <span class="ident">Box</span> <span class="op">&lt;</span> <span class="ident">dyn</span>
       <span class="ident">FnOnce</span>
         ( <span class="ident">Receiver</span> <span class="op">&lt;</span>
-            <span class="ident">Sender</span> <span class="op">&lt;</span>
-              <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
+            <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
+              <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
             <span class="op">&gt;</span>
           <span class="op">&gt;</span>
         ) <span class="op">-</span><span class="op">&gt;</span>
@@ -214,8 +214,8 @@
 {
   <span class="ident">endpoint</span> :
     <span class="ident">Sender</span> <span class="op">&lt;</span>
-      <span class="ident">Sender</span> <span class="op">&lt;</span>
-        <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
+      <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
+        <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
       <span class="op">&gt;</span>
     <span class="op">&gt;</span>
 }
@@ -234,7 +234,7 @@
 
 <span class="kw">pub</span> <span class="ident">async</span> <span class="kw">fn</span> <span class="ident">unsafe_run_shared_session</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
   ( <span class="ident">session</span>: <span class="ident">SharedSession</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>,
-    <span class="ident">sender</span>: <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">Sender</span> <span class="op">&lt;</span> <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
+    <span class="ident">sender</span>: <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
   )
 <span class="kw">where</span>
   <span class="ident">S</span> : <span class="ident">SharedProtocol</span>
@@ -247,8 +247,8 @@
   ( <span class="ident">executor1</span> : <span class="kw">impl</span>
       <span class="ident">FnOnce</span>
         ( <span class="ident">Receiver</span> <span class="op">&lt;</span>
-            <span class="ident">Sender</span> <span class="op">&lt;</span>
-              <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
+            <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
+              <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
             <span class="op">&gt;</span>
           <span class="op">&gt;</span>
         )
@@ -264,8 +264,8 @@
     : <span class="ident">Box</span> <span class="op">&lt;</span>
         <span class="ident">dyn</span> <span class="ident">FnOnce</span>
           ( <span class="ident">Receiver</span> <span class="op">&lt;</span>
-              <span class="ident">Sender</span> <span class="op">&lt;</span>
-                <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
+              <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
+                <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
               <span class="op">&gt;</span>
             <span class="op">&gt;</span>
           )
@@ -286,8 +286,8 @@
   () <span class="op">-</span><span class="op">&gt;</span>
     ( <span class="ident">SharedChannel</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>,
       <span class="ident">Receiver</span> <span class="op">&lt;</span>
-        <span class="ident">Sender</span> <span class="op">&lt;</span>
-          <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
+        <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
+          <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
         <span class="op">&gt;</span>
       <span class="op">&gt;</span>
     )
@@ -301,11 +301,11 @@
 
 <span class="kw">pub</span> <span class="ident">async</span> <span class="kw">fn</span> <span class="ident">unsafe_receive_shared_channel</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
   ( <span class="ident">session</span> : <span class="ident">SharedChannel</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span> )
-  <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
+  <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">S</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">S</span> : <span class="ident">SharedProtocol</span>
 {
-  <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+  <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
   <span class="kw">let</span> <span class="ident">fut1</span> <span class="op">=</span> <span class="ident">session</span>.<span class="ident">endpoint</span>.<span class="ident">send</span>( <span class="ident">sender</span> );
   <span class="kw">let</span> <span class="ident">fut2</span> <span class="op">=</span> <span class="ident">async</span> <span class="kw">move</span> {
@@ -347,8 +347,8 @@
 
     <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="op">&lt;</span>
       <span class="ident">Sender</span> <span class="op">&lt;</span>
-        <span class="ident">Sender</span> <span class="op">&lt;</span>
-          <span class="ident">Receiver</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
+        <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
+          <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
         <span class="op">&gt;</span>
       <span class="op">&gt;</span>
     <span class="op">&gt;</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;

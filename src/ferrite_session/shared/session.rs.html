@@ -356,7 +356,7 @@
 <span class="kw">where</span>
   <span class="ident">A</span> : <span class="ident">SharedProtocol</span>
 {
-  <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+  <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">unbounded</span>();
 
   <span class="kw">let</span> ( <span class="ident">session2</span>, <span class="ident">receiver2</span> ) <span class="op">=</span> <span class="ident">unsafe_create_shared_channel</span> ();
 
@@ -373,7 +373,7 @@
       <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[run_shared_session] received sender3&quot;</span>);
       <span class="kw">match</span> <span class="ident">sender3</span> {
         <span class="prelude-val">Ok</span> ( <span class="ident">sender4</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-          <span class="kw">let</span> ( <span class="ident">sender5</span>, <span class="ident">receiver5</span> ) <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+          <span class="kw">let</span> ( <span class="ident">sender5</span>, <span class="ident">receiver5</span> ) <span class="op">=</span> <span class="ident">once_channel</span>();
 
           <span class="ident">sender1</span>.<span class="ident">send</span> ( <span class="ident">sender5</span> ).<span class="ident">await</span>.<span class="ident">unwrap</span>();
           <span class="kw">let</span> <span class="ident">receiver3</span> <span class="op">=</span> <span class="ident">receiver5</span>.<span class="ident">recv</span>().<span class="ident">await</span>.<span class="ident">unwrap</span>();
@@ -412,24 +412,24 @@
     <span class="kw">move</span> <span class="op">|</span>
       <span class="ident">receiver1</span> :
         <span class="ident">Receiver</span> <span class="op">&lt;</span>
-          <span class="ident">Sender</span> <span class="op">&lt;</span>
-            <span class="ident">Receiver</span> <span class="op">&lt;</span>
+          <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
+            <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span>
               <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
             <span class="op">&gt;</span>
           <span class="op">&gt;</span>
         <span class="op">&gt;</span>
     <span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>)
-        : (<span class="ident">Sender</span> <span class="op">&lt;</span> <span class="ident">Lock</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>, <span class="kw">_</span>)
-        <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+        : (<span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">Lock</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>, <span class="kw">_</span>)
+        <span class="op">=</span> <span class="ident">once_channel</span>();
 
       <span class="kw">let</span> (<span class="ident">sender3</span>, <span class="ident">receiver3</span>)
-        : (<span class="ident">Sender</span> <span class="op">&lt;</span> <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>, <span class="kw">_</span>)
-        <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+        : (<span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>, <span class="kw">_</span>)
+        <span class="op">=</span> <span class="ident">once_channel</span>();
 
       <span class="kw">let</span> (<span class="ident">sender4</span>, <span class="ident">receiver4</span>)
-        : (<span class="ident">Sender</span> <span class="op">&lt;</span> <span class="ident">F</span> :: <span class="ident">Applied</span> <span class="op">&gt;</span>, <span class="kw">_</span>)
-        <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+        : (<span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">F</span> :: <span class="ident">Applied</span> <span class="op">&gt;</span>, <span class="kw">_</span>)
+        <span class="op">=</span> <span class="ident">once_channel</span>();
 
       <span class="kw">let</span> <span class="ident">m_sender1</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">await</span>;
 
@@ -490,7 +490,7 @@
   <span class="ident">unsafe_create_session</span> (
     <span class="kw">move</span> <span class="op">|</span>
       (<span class="ident">receiver1</span>, <span class="kw">_</span>) :
-        ( <span class="ident">Receiver</span> <span class="op">&lt;</span>
+        ( <span class="ident">ReceiverOnce</span> <span class="op">&lt;</span>
             <span class="ident">Lock</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
           <span class="op">&gt;</span>,
           <span class="ident">C</span> :: <span class="ident">Endpoints</span>
@@ -556,7 +556,7 @@
         <span class="op">&lt;</span> <span class="ident">C</span>::<span class="ident">Length</span> <span class="kw">as</span> <span class="ident">Nat</span> <span class="op">&gt;</span> :: <span class="ident">nat</span> ()
       ).<span class="ident">await</span>;
 
-      <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">bounded</span>(<span class="number">1</span>);
+      <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
       <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[acquire_shared_session] receiving receiver4&quot;</span>);
       <span class="kw">let</span> <span class="ident">receiver3</span> <span class="op">=</span> <span class="ident">unsafe_receive_shared_channel</span>(<span class="ident">shared</span>).<span class="ident">await</span>;
