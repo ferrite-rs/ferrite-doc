@@ -104,7 +104,7 @@
 
       <span class="kw">let</span> (<span class="ident">sender3</span>, <span class="ident">receiver3</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
-      <span class="ident">sender2</span>.<span class="ident">send</span>((<span class="ident">choice</span>, <span class="ident">sender3</span>)).<span class="ident">await</span>.<span class="ident">unwrap</span>();
+      <span class="ident">sender2</span>.<span class="ident">send</span>((<span class="ident">Value</span>(<span class="ident">choice</span>), <span class="ident">sender3</span>)).<span class="ident">await</span>.<span class="ident">unwrap</span>();
 
       <span class="kw">let</span> <span class="ident">receiver_sum</span> <span class="op">=</span> <span class="ident">receiver3</span>.<span class="ident">recv</span>().<span class="ident">await</span>.<span class="ident">unwrap</span>();
 
