@@ -1,3 +1,4 @@
 (function() {var implementors = {};
 implementors["mio"] = [{"text":"impl BitOr&lt;PollOpt&gt; for PollOpt","synthetic":false,"types":[]},{"text":"impl&lt;T:&nbsp;Into&lt;Ready&gt;&gt; BitOr&lt;T&gt; for Ready","synthetic":false,"types":[]},{"text":"impl BitOr&lt;UnixReady&gt; for UnixReady","synthetic":false,"types":[]}];
+implementors["tokio"] = [{"text":"impl BitOr&lt;Interest&gt; for Interest","synthetic":false,"types":[]},{"text":"impl BitOr&lt;Ready&gt; for Ready","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

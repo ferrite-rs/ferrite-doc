@@ -254,7 +254,7 @@
 <span id="251">251</span>
 <span id="252">252</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">async_std</span>::<span class="ident">task</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">task</span>;
 <span class="kw">use</span> <span class="ident">async_macros</span>::<span class="ident">join</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="ident">nat</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">protocol</span>::{ <span class="ident">SendChannel</span> };
@@ -320,7 +320,7 @@
           ).<span class="ident">await</span>;
       });
 
-      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>, <span class="ident">child3</span>).<span class="ident">await</span>;
+      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>, <span class="ident">child3</span>).<span class="ident">await</span>;
   })
 }
 
@@ -451,7 +451,7 @@
           ).<span class="ident">await</span>;
       });
 
-      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>, <span class="ident">child3</span>).<span class="ident">await</span>;
+      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>, <span class="ident">child3</span>).<span class="ident">await</span>;
     })
 }
 

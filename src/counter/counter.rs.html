@@ -103,7 +103,7 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Mutex</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
-<span class="kw">use</span> <span class="ident">async_std</span>::<span class="ident">task</span>::<span class="ident">sleep</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">time</span>::<span class="ident">sleep</span>;
 
 <span class="kw">type</span> <span class="ident">CounterSession</span> <span class="op">=</span> <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">u64</span>, <span class="ident">End</span> <span class="op">&gt;</span>;
 
@@ -179,7 +179,7 @@
     <span class="ident">terminate</span> () )
 }
 
-<span class="attribute">#[<span class="ident">async_std</span>::<span class="ident">main</span>]</span>
+<span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
 <span class="kw">pub</span> <span class="ident">async</span> <span class="kw">fn</span> <span class="ident">main</span>() {
   <span class="ident">run_session</span>( <span class="ident">counter_session</span> () ).<span class="ident">await</span>
 }

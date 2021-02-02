@@ -144,7 +144,7 @@
   <span class="ident">apply_channel</span> ( <span class="ident">client_right</span>, <span class="ident">provider</span> )
 }
 
-<span class="attribute">#[<span class="ident">async_std</span>::<span class="ident">main</span>]</span>
+<span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
 <span class="kw">pub</span> <span class="ident">async</span> <span class="kw">fn</span> <span class="ident">main</span>() {
   <span class="ident">run_session</span>( <span class="ident">external_choice_session</span>() ).<span class="ident">await</span>
 }

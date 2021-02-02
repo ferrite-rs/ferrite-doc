@@ -329,10 +329,66 @@
 <span id="326">326</span>
 <span id="327">327</span>
 <span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// extern crate log;</span>
 
-<span class="kw">use</span> <span class="ident">async_std</span>::<span class="ident">task</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">task</span>;
 <span class="kw">use</span> <span class="ident">async_macros</span>::<span class="ident">join</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">future</span>::<span class="ident">Future</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
@@ -345,6 +401,7 @@
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">shared_session</span>::<span class="kw-2">*</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">protocol</span>::{<span class="ident">End</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="ident">nat</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run_shared_session</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
@@ -372,7 +429,7 @@
 
       <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[run_shared_session] received sender3&quot;</span>);
       <span class="kw">match</span> <span class="ident">sender3</span> {
-        <span class="prelude-val">Ok</span> ( <span class="ident">sender4</span> ) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span> ( <span class="ident">sender4</span> ) <span class="op">=</span><span class="op">&gt;</span> {
           <span class="kw">let</span> ( <span class="ident">sender5</span>, <span class="ident">receiver5</span> ) <span class="op">=</span> <span class="ident">once_channel</span>();
 
           <span class="ident">sender1</span>.<span class="ident">send</span> ( <span class="ident">sender5</span> ).<span class="ident">await</span>.<span class="ident">unwrap</span>();
@@ -382,7 +439,7 @@
           <span class="ident">sender4</span>.<span class="ident">send</span>(<span class="ident">receiver3</span>).<span class="ident">await</span>.<span class="ident">unwrap</span>();
           <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[run_shared_session] sent receiver3&quot;</span>);
         },
-        <span class="prelude-val">Err</span> (<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
           <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[run_shared_session] terminating shared session&quot;</span>);
           <span class="kw">return</span>;
         }
@@ -390,7 +447,7 @@
     }
   });
 
-  (<span class="ident">session2</span>, <span class="ident">fut</span>)
+  (<span class="ident">session2</span>, <span class="ident">async</span> { <span class="ident">fut</span>.<span class="ident">await</span>.<span class="ident">unwrap</span>() })
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_shared_session</span>
@@ -434,7 +491,7 @@
       <span class="kw">let</span> <span class="ident">m_sender1</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">await</span>;
 
       <span class="kw">match</span> <span class="ident">m_sender1</span> {
-        <span class="prelude-val">Ok</span> ( <span class="ident">sender1</span> ) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span> ( <span class="ident">sender1</span> ) <span class="op">=</span><span class="op">&gt;</span> {
           <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="ident">async</span> <span class="kw">move</span> {
             <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[accept_shared_session] calling cont&quot;</span>);
             <span class="ident">unsafe_run_session</span>
@@ -460,9 +517,9 @@
             <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[accept_shared_session] sent sender12&quot;</span>);
           });
 
-          <span class="macro">join</span><span class="macro">!</span> ( <span class="ident">child1</span>, <span class="ident">child2</span>, <span class="ident">child3</span>, <span class="ident">child4</span> ).<span class="ident">await</span>;
+          <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span> ( <span class="ident">child1</span>, <span class="ident">child2</span>, <span class="ident">child3</span>, <span class="ident">child4</span> ).<span class="ident">await</span>;
         },
-        <span class="prelude-val">Err</span> (<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
           <span class="comment">// shared session is terminated with all references to it</span>
           <span class="comment">// being dropped</span>
         }
@@ -515,8 +572,63 @@
         <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[detach_shared_session] sent sender1&quot;</span>);
       });
 
-      <span class="macro">join</span><span class="macro">!</span> ( <span class="ident">child1</span>, <span class="ident">child2</span> ).<span class="ident">await</span>;
+      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span> ( <span class="ident">child1</span>, <span class="ident">child2</span> ).<span class="ident">await</span>;
     })
+}
+
+<span class="kw">pub</span> <span class="ident">async</span> <span class="kw">fn</span> <span class="ident">async_acquire_shared_session</span>
+  <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
+  ( <span class="ident">shared</span> : <span class="ident">SharedChannel</span> <span class="op">&lt;</span>
+      <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
+    <span class="op">&gt;</span>,
+    <span class="ident">cont_builder</span> : <span class="kw">impl</span>
+      <span class="ident">FnOnce</span> ( <span class="ident">Z</span> ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
+      <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+  ) <span class="op">-</span><span class="op">&gt;</span>
+    <span class="ident">task</span>::<span class="ident">JoinHandle</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
+<span class="kw">where</span>
+  <span class="ident">F</span> : <span class="ident">Protocol</span>,
+  <span class="ident">F</span> : <span class="ident">SharedRecApp</span> <span class="op">&lt;</span> <span class="ident">SharedToLinear</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>,
+  <span class="ident">Fut</span> :
+    <span class="ident">Future</span> <span class="op">&lt;</span>
+      <span class="ident">Output</span> <span class="op">=</span>
+        <span class="ident">PartialSession</span> <span class="op">&lt;</span> (
+          <span class="ident">F</span>::<span class="ident">Applied</span> , () ),
+          <span class="ident">End</span>
+        <span class="op">&gt;</span>
+    <span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+  <span class="ident">F</span>::<span class="ident">Applied</span> : <span class="ident">Protocol</span>,
+{
+
+  <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[acquire_shared_session] receiving receiver3&quot;</span>);
+  <span class="kw">let</span> <span class="ident">receiver3</span> <span class="op">=</span> <span class="ident">unsafe_receive_shared_channel</span>(<span class="ident">shared</span>).<span class="ident">await</span>;
+  <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[acquire_shared_session] received receiver3&quot;</span>);
+
+  <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
+    <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
+    <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
+
+    <span class="kw">let</span> <span class="ident">cont</span> <span class="op">=</span> <span class="ident">cont_builder</span> ( <span class="ident">Z</span> ).<span class="ident">await</span>;
+
+    <span class="kw">let</span> <span class="ident">ctx</span> <span class="op">=</span> (<span class="ident">receiver2</span>, ());
+
+    <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="ident">async</span> <span class="kw">move</span> {
+      <span class="kw">let</span> <span class="ident">LinearToShared</span> { <span class="ident">linear</span> } <span class="op">=</span> <span class="ident">receiver3</span>.<span class="ident">recv</span>().<span class="ident">await</span>.<span class="ident">unwrap</span>();
+      <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="ident">linear</span>).<span class="ident">await</span>.<span class="ident">unwrap</span>();
+    });
+
+    <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="ident">async</span> <span class="kw">move</span> {
+      <span class="ident">unsafe_run_session</span>
+        ( <span class="ident">cont</span>, <span class="ident">ctx</span>, <span class="ident">sender1</span>
+        ).<span class="ident">await</span>;
+    });
+
+    <span class="kw">let</span> <span class="ident">child3</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>( <span class="ident">async</span> <span class="kw">move</span> {
+      <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">await</span>.<span class="ident">unwrap</span>();
+    });
+
+    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span> (<span class="ident">child1</span>, <span class="ident">child2</span>, <span class="ident">child3</span>) .<span class="ident">await</span>;
+  })
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">acquire_shared_session</span>
@@ -558,9 +670,9 @@
 
       <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
-      <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[acquire_shared_session] receiving receiver4&quot;</span>);
+      <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[acquire_shared_session] receiving receiver3&quot;</span>);
       <span class="kw">let</span> <span class="ident">receiver3</span> <span class="op">=</span> <span class="ident">unsafe_receive_shared_channel</span>(<span class="ident">shared</span>).<span class="ident">await</span>;
-      <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[acquire_shared_session] received receiver4&quot;</span>);
+      <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[acquire_shared_session] received receiver3&quot;</span>);
 
       <span class="kw">let</span> <span class="ident">ctx2</span> <span class="op">=</span> <span class="ident">C</span> :: <span class="ident">append_context</span>
         ( <span class="ident">ctx1</span>, (<span class="ident">receiver2</span>, ()) );
@@ -576,7 +688,7 @@
           ).<span class="ident">await</span>;
       });
 
-      <span class="macro">join</span><span class="macro">!</span> (<span class="ident">child1</span>, <span class="ident">child2</span>) .<span class="ident">await</span>;
+      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span> (<span class="ident">child1</span>, <span class="ident">child2</span>) .<span class="ident">await</span>;
 
       <span class="comment">// debug!(&quot;[acquire_shared_session] ran cont&quot;);</span>
     })

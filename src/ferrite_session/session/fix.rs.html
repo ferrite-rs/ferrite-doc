@@ -165,7 +165,7 @@
 <span id="162">162</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">async_macros</span>::<span class="ident">join</span>;
-<span class="kw">use</span> <span class="ident">async_std</span>::<span class="ident">task</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">task</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="ident">nat</span>::<span class="kw-2">*</span>;
@@ -205,7 +205,7 @@
         <span class="ident">unsafe_run_session</span>
           ( <span class="ident">cont</span>, <span class="ident">ctx</span>, <span class="ident">sender2</span> ) );
 
-      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
+      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
     })
 }
 
@@ -244,7 +244,7 @@
           ( <span class="ident">cont</span>, <span class="ident">ctx</span>, <span class="ident">sender2</span>
           ) );
 
-      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
+      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
     })
 }
 
@@ -270,7 +270,7 @@
           ( <span class="ident">cont</span>, <span class="ident">ctx</span>, <span class="ident">sender2</span>
           ) );
 
-      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
+      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
     })
 }
 
@@ -323,7 +323,7 @@
           ( <span class="ident">cont</span>, <span class="ident">ctx3</span>, <span class="ident">sender1</span>
           ));
 
-      <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
+      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">await</span>;
     })
 }
 </pre></div>

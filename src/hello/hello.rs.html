@@ -94,7 +94,7 @@
   <span class="kw">return</span> <span class="ident">main</span>;
 }
 
-<span class="attribute">#[<span class="ident">async_std</span>::<span class="ident">main</span>]</span>
+<span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
 <span class="kw">pub</span> <span class="ident">async</span> <span class="kw">fn</span> <span class="ident">main</span>() {
   <span class="ident">run_session</span>( <span class="ident">hello_session</span>() ).<span class="ident">await</span>
 }
