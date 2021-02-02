@@ -50,16 +50,12 @@
 <span id="47">47</span>
 <span id="48">48</span>
 <span id="49">49</span>
-<span id="50">50</span>
-<span id="51">51</span>
 </pre><div class="example-wrap"><pre class="rust ">
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">fix</span>::{ <span class="ident">SharedRecApp</span> };
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">protocol</span>::{ <span class="ident">SharedProtocol</span> };
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">shared_to_linear</span>::{ <span class="ident">SharedToLinear</span> };
-
-<span class="kw">use</span> <span class="ident">ipc_channel</span>::<span class="ident">ipc</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -87,16 +83,16 @@
     <span class="op">+</span> <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="self">self</span>.<span class="ident">linear</span>.<span class="ident">forward_to</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="ident">LinearToShared</span> {

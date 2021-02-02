@@ -35,13 +35,9 @@
 <span id="32">32</span>
 <span id="33">33</span>
 <span id="34">34</span>
-<span id="35">35</span>
-<span id="36">36</span>
 </pre><div class="example-wrap"><pre class="rust ">
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
-
-<span class="kw">use</span> <span class="ident">ipc_channel</span>::<span class="ident">ipc</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">End</span> ();
 
@@ -58,19 +54,19 @@
   <span class="kw">for</span> <span class="ident">End</span>
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="kw">_</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
-    <span class="ident">sender</span>.<span class="ident">to</span>().<span class="ident">send</span>(()).<span class="ident">unwrap</span>()
+    <span class="ident">sender</span>.<span class="ident">send</span>(())
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="kw">_</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
-    <span class="kw">let</span> () <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">to</span>().<span class="ident">recv</span>().<span class="ident">unwrap</span>();
+    <span class="kw">let</span> () <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
     <span class="ident">End</span>()
   }
 }

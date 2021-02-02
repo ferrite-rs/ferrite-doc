@@ -524,11 +524,55 @@
 <span id="521">521</span>
 <span id="522">522</span>
 <span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">serde</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">ipc_channel</span>::<span class="ident">ipc</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">DerefMut</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
 <span class="kw">use</span> <span class="ident">lazy_static</span>::<span class="ident">lazy_static</span>;
-<span class="kw">use</span> <span class="ident">tokio</span>::{ <span class="ident">task</span>, <span class="ident">runtime</span>, <span class="ident">sync</span>::{<span class="ident">mpsc</span>, <span class="ident">oneshot</span>, <span class="ident">Mutex</span>} };
+<span class="kw">use</span> <span class="ident">tokio</span>::{ <span class="ident">task</span>, <span class="ident">runtime</span>, <span class="ident">sync</span>::{<span class="ident">mpsc</span>, <span class="ident">oneshot</span>, <span class="ident">Mutex</span> <span class="kw">as</span> <span class="ident">AsyncMutex</span>} };
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">ser</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Serializer</span>, <span class="ident">Deserializer</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="kw-2">*</span>;
@@ -538,24 +582,38 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw">pub</span> <span class="ident">mpsc</span>::<span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
-  <span class="kw">pub</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">mpsc</span>::<span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>);
+  <span class="kw">pub</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">AsyncMutex</span><span class="op">&lt;</span><span class="ident">mpsc</span>::<span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>);
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">oneshot</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">oneshot</span>::<span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">serde</span>::<span class="ident">Serialize</span>, <span class="ident">serde</span>::<span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OpaqueReceiver</span>(
+  <span class="ident">Arc</span> <span class="op">&lt;</span> <span class="ident">Mutex</span> <span class="op">&lt;</span>
+    <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span><span class="op">&gt;</span>
+  <span class="op">&gt;</span> <span class="op">&gt;</span>
+);
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">serde</span>::<span class="ident">Serialize</span>, <span class="ident">serde</span>::<span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OpaqueSender</span>(
+  <span class="ident">Arc</span> <span class="op">&lt;</span> <span class="ident">Mutex</span> <span class="op">&lt;</span>
+    <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span><span class="op">&gt;</span>
+  <span class="op">&gt;</span> <span class="op">&gt;</span>
+);
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SendError</span>(<span class="kw">pub</span> <span class="ident">String</span>);
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ForwardChannel</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   );
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
 }
 
@@ -573,23 +631,57 @@
   <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>)
 {
   <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">unbounded_channel</span>();
-  (<span class="ident">Sender</span>(<span class="ident">sender</span>), <span class="ident">Receiver</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">receiver</span>))))
+  (<span class="ident">Sender</span>(<span class="ident">sender</span>), <span class="ident">Receiver</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">AsyncMutex</span>::<span class="ident">new</span>(<span class="ident">receiver</span>))))
+}
+
+<span class="kw">impl</span> <span class="ident">OpaqueSender</span> {
+  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> (<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">val</span>: <span class="ident">T</span>)
+  <span class="kw">where</span>
+    <span class="ident">T</span>: <span class="kw">for</span> <span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>
+  {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cell</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">sender1</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">take</span>(<span class="ident">cell</span>.<span class="ident">deref_mut</span>()).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">sender2</span> <span class="op">=</span> <span class="ident">sender1</span>.<span class="ident">to</span>();
+    <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="ident">val</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="ident">cell</span>.<span class="ident">deref_mut</span>(), <span class="prelude-val">Some</span>(<span class="ident">sender2</span>.<span class="ident">to_opaque</span>()));
+  }
+}
+
+<span class="kw">impl</span> <span class="ident">OpaqueReceiver</span> {
+  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recv</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+  <span class="kw">where</span>
+    <span class="ident">T</span>: <span class="kw">for</span> <span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>
+  {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cell</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">receiver1</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">take</span>(<span class="ident">cell</span>.<span class="ident">deref_mut</span>()).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">receiver2</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">to</span>();
+    <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="ident">ok</span>();
+    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="ident">cell</span>.<span class="ident">deref_mut</span>(), <span class="prelude-val">Some</span>(<span class="ident">receiver2</span>.<span class="ident">to_opaque</span>()));
+    <span class="ident">val</span>
+  }
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">opaque_channel</span>() <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">OpaqueSender</span>, <span class="ident">OpaqueReceiver</span>)
+{
+  <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">ipc</span>::<span class="ident">channel</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>().<span class="ident">unwrap</span>();
+
+  ( <span class="ident">OpaqueSender</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="prelude-val">Some</span>(<span class="ident">sender</span>.<span class="ident">to_opaque</span>())))),
+    <span class="ident">OpaqueReceiver</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="prelude-val">Some</span>(<span class="ident">receiver</span>.<span class="ident">to_opaque</span>()))))
+  )
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">serialize_channel</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
   (<span class="ident">payload</span>: <span class="ident">T</span>)
-  <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>, <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>)
+  <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">OpaqueSender</span>, <span class="ident">OpaqueReceiver</span>)
 <span class="kw">where</span>
   <span class="ident">T</span>: <span class="ident">ForwardChannel</span>
 {
-  <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">ipc</span>::<span class="ident">channel</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>().<span class="ident">unwrap</span>();
-  <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">ipc</span>::<span class="ident">channel</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>().<span class="ident">unwrap</span>();
+  <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">opaque_channel</span>();
+  <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">opaque_channel</span>();
 
-  <span class="ident">payload</span>.<span class="ident">forward_to</span>(
-    <span class="ident">sender1</span>.<span class="ident">to_opaque</span>(), <span class="ident">receiver2</span>.<span class="ident">to_opaque</span>()
-  );
+  <span class="ident">payload</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver2</span>);
 
-  (<span class="ident">sender2</span>.<span class="ident">to_opaque</span>(), <span class="ident">receiver1</span>.<span class="ident">to_opaque</span>())
+  (<span class="ident">sender2</span>, <span class="ident">receiver1</span>)
 }
 
 <span class="kw">impl</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
@@ -662,14 +754,14 @@
   <span class="kw">for</span> ()
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="kw">_</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="kw">_</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueReceiver</span>,
   )
   { }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="kw">_</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="kw">_</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   { }
 }
@@ -680,34 +772,32 @@
   <span class="ident">T</span>: <span class="ident">ForwardChannel</span>
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
-  ) {
-    <span class="kw">let</span> <span class="ident">receiver2</span>: <span class="ident">ipc</span>::<span class="ident">IpcReceiver</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">to</span>();
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
+  )
+  {
+    <span class="ident">RUNTIME</span>.<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+      <span class="ident">receiver</span>.<span class="ident">recv</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>().<span class="ident">unwrap</span>();
+      <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>);
 
-    <span class="ident">task</span>::<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-      <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
-      <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver2</span>.<span class="ident">to_opaque</span>());
-
-      <span class="ident">RUNTIME</span>.<span class="ident">block_on</span>(<span class="ident">async</span> <span class="kw">move</span> {
+      <span class="ident">RUNTIME</span>.<span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
         <span class="self">self</span>.<span class="ident">send</span>(<span class="ident">payload</span>).<span class="ident">await</span>.<span class="ident">unwrap</span>();
       });
     });
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
-    <span class="kw">let</span> <span class="ident">sender3</span>: <span class="ident">ipc</span>::<span class="ident">IpcSender</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender1</span>.<span class="ident">to</span>();
 
-    <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
+    <span class="ident">RUNTIME</span>.<span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> <span class="ident">payload</span>: <span class="ident">T</span> <span class="op">=</span> <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="ident">await</span>.<span class="ident">unwrap</span>();
-      <span class="ident">task</span>::<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-        <span class="ident">sender3</span>.<span class="ident">send</span>(()).<span class="ident">unwrap</span>();
-        <span class="ident">payload</span>.<span class="ident">forward_to</span>(<span class="ident">sender3</span>.<span class="ident">to_opaque</span>(), <span class="ident">receiver1</span>);
+      <span class="ident">RUNTIME</span>.<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="ident">sender1</span>.<span class="ident">send</span>(());
+        <span class="ident">payload</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
       });
     });
 
@@ -721,32 +811,29 @@
   <span class="ident">T</span>: <span class="ident">ForwardChannel</span>
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) {
-    <span class="kw">let</span> <span class="ident">sender2</span>: <span class="ident">ipc</span>::<span class="ident">IpcSender</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender1</span>.<span class="ident">to</span>();
-
-    <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
+    <span class="ident">RUNTIME</span>.<span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">recv</span>().<span class="ident">await</span>.<span class="ident">unwrap</span>();
 
       <span class="ident">task</span>::<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-        <span class="ident">sender2</span>.<span class="ident">send</span>(()).<span class="ident">unwrap</span>();
-        <span class="ident">channel</span>.<span class="ident">forward_to</span>(<span class="ident">sender2</span>.<span class="ident">to_opaque</span>(), <span class="ident">receiver1</span>);
+        <span class="ident">sender1</span>.<span class="ident">send</span>(());
+        <span class="ident">channel</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
       });
     });
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
-    <span class="kw">let</span> <span class="ident">receiver3</span>: <span class="ident">ipc</span>::<span class="ident">IpcReceiver</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">to</span>();
 
-    <span class="ident">task</span>::<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-      <span class="ident">receiver3</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
-      <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver3</span>.<span class="ident">to_opaque</span>());
+    <span class="ident">RUNTIME</span>.<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+      <span class="ident">receiver1</span>.<span class="ident">recv</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>().<span class="ident">unwrap</span>();
+      <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
       <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
         <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="ident">channel</span>).<span class="ident">await</span>.<span class="ident">unwrap</span>();
       });
@@ -765,27 +852,25 @@
   <span class="ident">C</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="kw">let</span> (<span class="ident">Value</span>(<span class="ident">payload</span>), <span class="ident">channel</span>) <span class="op">=</span> <span class="self">self</span>;
-    <span class="kw">let</span> <span class="ident">sender2</span>: <span class="ident">ipc</span>::<span class="ident">IpcSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender1</span>.<span class="ident">to</span>();
 
-    <span class="ident">task</span>::<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-      <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="ident">payload</span>).<span class="ident">unwrap</span>();
-      <span class="ident">channel</span>.<span class="ident">forward_to</span>(<span class="ident">sender2</span>.<span class="ident">to_opaque</span>(), <span class="ident">receiver1</span>)
+    <span class="ident">RUNTIME</span>.<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+      <span class="ident">sender1</span>.<span class="ident">send</span>(<span class="ident">payload</span>);
+      <span class="ident">channel</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>)
     });
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
-    <span class="kw">let</span> <span class="ident">receiver2</span>: <span class="ident">ipc</span>::<span class="ident">IpcReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">to</span>();
-    <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
-    <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="ident">C</span>::<span class="ident">forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver2</span>.<span class="ident">to_opaque</span>());
+    <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="ident">C</span>::<span class="ident">forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
 
     (<span class="ident">Value</span>(<span class="ident">payload</span>), <span class="ident">channel</span>)
   }
@@ -804,12 +889,12 @@
 
     <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span>
       <span class="ident">ipc</span>::<span class="ident">channel</span>::<span class="op">&lt;</span>
-        (<span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>, <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>)
+        (<span class="ident">OpaqueSender</span>, <span class="ident">OpaqueReceiver</span>)
       <span class="op">&gt;</span> ()
       .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">ser</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(
         <span class="string">&quot;Failed to create IPC channel: {}&quot;</span>, <span class="ident">err</span>)))<span class="question-mark">?</span>;
 
-    <span class="ident">task</span>::<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+    <span class="ident">RUNTIME</span>.<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
       <span class="kw">loop</span> {
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>();
         <span class="kw">match</span> <span class="ident">res</span> {
@@ -840,7 +925,7 @@
   {
     <span class="kw">let</span> <span class="ident">ipc_sender</span> <span class="op">=</span>
       <span class="op">&lt;</span> <span class="ident">ipc</span>::<span class="ident">IpcSender</span> <span class="op">&lt;</span>
-          (<span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>, <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>)
+          (<span class="ident">OpaqueSender</span>, <span class="ident">OpaqueReceiver</span>)
         <span class="op">&gt;</span>
       <span class="op">&gt;</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
 
@@ -871,16 +956,16 @@
   <span class="ident">T</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="self">self</span>.<span class="ident">get_applied</span>().<span class="ident">forward_to</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="ident">cloak_applied</span>(
@@ -899,16 +984,16 @@
   <span class="ident">T</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="self">self</span>.<span class="ident">get_row</span>().<span class="ident">forward_to</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="ident">cloak_row</span>(
@@ -925,36 +1010,33 @@
   <span class="ident">B</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
-    <span class="kw">let</span> <span class="ident">sender2</span>: <span class="ident">ipc</span>::<span class="ident">IpcSender</span> <span class="op">&lt;</span> <span class="ident">bool</span> <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender1</span>.<span class="ident">to</span>();
     <span class="kw">match</span> <span class="self">self</span> {
       <span class="ident">Sum</span>::<span class="ident">Inl</span>(<span class="ident">a</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="bool-val">true</span>).<span class="ident">unwrap</span>();
-        <span class="ident">a</span>.<span class="ident">forward_to</span>(<span class="ident">sender2</span>.<span class="ident">to_opaque</span>(), <span class="ident">receiver1</span>)
+        <span class="ident">sender1</span>.<span class="ident">send</span>(<span class="bool-val">true</span>);
+        <span class="ident">a</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>)
       }
       <span class="ident">Sum</span>::<span class="ident">Inr</span>(<span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="bool-val">false</span>).<span class="ident">unwrap</span>();
-        <span class="ident">b</span>.<span class="ident">forward_to</span>(<span class="ident">sender2</span>.<span class="ident">to_opaque</span>(), <span class="ident">receiver1</span>)
+        <span class="ident">sender1</span>.<span class="ident">send</span>(<span class="bool-val">false</span>);
+        <span class="ident">b</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>)
       }
     }
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
-    <span class="kw">let</span> <span class="ident">receiver2</span>: <span class="ident">ipc</span>::<span class="ident">IpcReceiver</span> <span class="op">&lt;</span> <span class="ident">bool</span> <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">to</span>();
-
-    <span class="kw">if</span> <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>() {
+    <span class="kw">if</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>() {
       <span class="ident">Sum</span>::<span class="ident">Inl</span>(
-        <span class="ident">A</span>::<span class="ident">forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver2</span>.<span class="ident">to_opaque</span>()))
+        <span class="ident">A</span>::<span class="ident">forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>))
     } <span class="kw">else</span> {
       <span class="ident">Sum</span>::<span class="ident">Inr</span>(
-        <span class="ident">B</span>::<span class="ident">forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver2</span>.<span class="ident">to_opaque</span>()))
+        <span class="ident">B</span>::<span class="ident">forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>))
     }
   }
 }
@@ -962,19 +1044,19 @@
 <span class="kw">impl</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">Bottom</span>
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="kw">_</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="kw">_</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="kw">match</span> <span class="self">self</span> {}
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="kw">_</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>,
-    <span class="ident">receiver1</span>: <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
-    <span class="ident">receiver1</span>.<span class="ident">to</span>().<span class="ident">recv</span>().<span class="ident">unwrap</span>()
+    <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>()
   }
 }
 
@@ -991,7 +1073,7 @@
 
     <span class="kw">let</span> (<span class="ident">ipc_sender</span>, <span class="ident">ipc_receiver</span>) <span class="op">=</span>
       <span class="ident">ipc</span>::<span class="ident">channel</span>::<span class="op">&lt;</span>
-        (<span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>, <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>)
+        (<span class="ident">OpaqueSender</span>, <span class="ident">OpaqueReceiver</span>)
       <span class="op">&gt;</span> ()
       .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">ser</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(
         <span class="string">&quot;Failed to create IPC channel: {}&quot;</span>, <span class="ident">err</span>)))<span class="question-mark">?</span>;
@@ -1023,7 +1105,7 @@
   {
     <span class="kw">let</span> <span class="ident">ipc_receiver</span> <span class="op">=</span>
       <span class="op">&lt;</span> <span class="ident">ipc</span>::<span class="ident">IpcReceiver</span> <span class="op">&lt;</span>
-          (<span class="ident">ipc</span>::<span class="ident">OpaqueIpcSender</span>, <span class="ident">ipc</span>::<span class="ident">OpaqueIpcReceiver</span>)
+          (<span class="ident">OpaqueSender</span>, <span class="ident">OpaqueReceiver</span>)
         <span class="op">&gt;</span>
       <span class="op">&gt;</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
 
