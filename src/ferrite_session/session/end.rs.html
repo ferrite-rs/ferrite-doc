@@ -165,7 +165,7 @@
   <span class="ident">unsafe_create_session</span> (
     <span class="kw">move</span> <span class="op">|</span> <span class="kw">_</span>, <span class="ident">sender</span> <span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
       <span class="ident">cleaner</span>().<span class="ident">await</span>;
-      <span class="ident">sender</span>.<span class="ident">send</span>( <span class="ident">End</span> () ).<span class="ident">await</span>.<span class="ident">unwrap</span>();
+      <span class="ident">sender</span>.<span class="ident">send</span>( <span class="ident">End</span> () ).<span class="ident">unwrap</span>();
     })
 }
 

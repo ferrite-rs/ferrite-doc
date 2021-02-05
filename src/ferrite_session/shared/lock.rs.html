@@ -35,6 +35,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">fix</span>::{ <span class="ident">SharedRecApp</span> };
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">shared_session</span>::{ <span class="ident">SharedPayload</span> };
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">linear_to_shared</span>::{ <span class="ident">LinearToShared</span> };
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">shared_to_linear</span>::{ <span class="ident">SharedToLinear</span> };
 
@@ -46,12 +47,11 @@
 {
   <span class="kw">pub</span> (<span class="kw">crate</span>) <span class="ident">unlock</span>:
     <span class="ident">Receiver</span> <span class="op">&lt;</span>
-      <span class="ident">SenderOnce</span> <span class="op">&lt;</span>
-        <span class="ident">ReceiverOnce</span><span class="op">&lt;</span>
-          <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
-        <span class="op">&gt;</span>
-      <span class="op">&gt;</span>
-    <span class="op">&gt;</span>
+      <span class="ident">SharedPayload</span> <span class="op">&lt;</span> <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
+    <span class="op">&gt;</span>,
+
+  <span class="kw">pub</span> (<span class="kw">crate</span>) <span class="ident">release</span>:
+    <span class="ident">SenderOnce</span> <span class="op">&lt;</span> () <span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>

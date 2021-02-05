@@ -75,7 +75,7 @@
       <span class="kw">let</span> (<span class="ident">receiver</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">N</span> :: <span class="ident">extract_source</span> ( <span class="ident">ctx</span> );
 
       <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="ident">await</span>.<span class="ident">unwrap</span>();
-      <span class="ident">sender</span>.<span class="ident">send</span>( <span class="ident">val</span> ).<span class="ident">await</span>.<span class="ident">unwrap</span>();
+      <span class="ident">sender</span>.<span class="ident">send</span>( <span class="ident">val</span> ).<span class="ident">unwrap</span>();
     })
 }
 </pre></div>

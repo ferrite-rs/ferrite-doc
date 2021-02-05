@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["main",""],["make_counter_session",""],["random_sleep",""],["read_counter_session",""],["read_counter_session_2",""],["shared_counter_session",""]],"type":[["SharedCounter",""]]});
+initSidebarItems({"fn":[["main",""],["make_counter_session",""],["read_counter_session",""],["read_counter_session_2",""],["shared_counter_session",""]],"type":[["SharedCounter",""]]});
