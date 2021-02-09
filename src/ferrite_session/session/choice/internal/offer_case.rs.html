@@ -41,7 +41,9 @@
 <span id="38">38</span>
 <span id="39">39</span>
 <span id="40">40</span>
+<span id="41">41</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">task</span>;
 <span class="kw">use</span> <span class="ident">async_macros</span>::<span class="ident">join</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
@@ -68,11 +70,11 @@
     <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx</span>, <span class="ident">sender1</span> <span class="op">|</span> <span class="ident">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
-      <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
+      <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
         <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, <span class="ident">ctx</span>, <span class="ident">sender2</span>).<span class="ident">await</span>;
       });
 
-      <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
+      <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="ident">async</span> <span class="kw">move</span> {
         <span class="ident">sender1</span>.<span class="ident">send</span>( <span class="ident">InternalChoice</span> {
           <span class="ident">field</span> : <span class="ident">N</span>::<span class="ident">inject_elem</span> (
             <span class="ident">cloak_applied</span> ( <span class="ident">receiver2</span> ) )
