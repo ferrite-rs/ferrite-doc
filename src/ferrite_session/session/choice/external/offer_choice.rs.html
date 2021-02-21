@@ -50,13 +50,7 @@
 <span id="47">47</span>
 <span id="48">48</span>
 <span id="49">49</span>
-<span id="50">50</span>
-<span id="51">51</span>
-<span id="52">52</span>
-<span id="53">53</span>
-<span id="54">54</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">future</span>::<span class="ident">Future</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">protocol</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="kw-2">*</span>;
@@ -66,11 +60,15 @@
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">inject_session</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">offer_choice</span>
-  <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">Row</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
-  ( <span class="ident">cont1</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
-      ( <span class="ident">Row</span>::<span class="ident">Uncloaked</span> )
-      <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
-    <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+  <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">Row</span> <span class="op">&gt;</span>
+  ( <span class="ident">cont1</span> :
+      <span class="kw">impl</span> <span class="ident">FnOnce</span>
+        ( <span class="ident">Row</span>::<span class="ident">Uncloaked</span> ) <span class="op">-</span><span class="op">&gt;</span>
+          <span class="ident">AppliedSum</span> <span class="op">&lt;</span>
+            <span class="ident">Row</span>,
+            <span class="ident">SessionF</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
+          <span class="op">&gt;</span>
+      <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
   ) <span class="op">-</span><span class="op">&gt;</span>
     <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">ExternalChoice</span> <span class="op">&lt;</span> <span class="ident">Row</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -81,14 +79,6 @@
   <span class="ident">Row</span> : <span class="ident">SumFunctor</span>,
   <span class="ident">Row</span> : <span class="ident">SumFunctorInject</span>,
   <span class="ident">Row</span> : <span class="ident">UncloakRow</span> <span class="op">&lt;</span> <span class="ident">InjectSessionF</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">C</span> <span class="op">&gt;</span> <span class="op">&gt;</span>,
-  <span class="ident">Fut</span> :
-    <span class="ident">Future</span> <span class="op">&lt;</span> <span class="ident">Output</span> <span class="op">=</span>
-      <span class="ident">AppliedSum</span> <span class="op">&lt;</span>
-        <span class="ident">Row</span>,
-        <span class="ident">SessionF</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
-      <span class="op">&gt;</span>
-    <span class="op">&gt;</span>
-    <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
   <span class="ident">unsafe_create_session</span> (
     <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx</span>, <span class="ident">sender1</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
@@ -105,7 +95,7 @@
 
       <span class="kw">let</span> <span class="ident">cont4</span> <span class="op">=</span> <span class="ident">Row</span>::<span class="ident">full_uncloak_row</span>( <span class="ident">cont3</span> );
 
-      <span class="kw">let</span> <span class="ident">cont5</span> <span class="op">=</span> <span class="ident">cont1</span> ( <span class="ident">cont4</span> ).<span class="kw">await</span>;
+      <span class="kw">let</span> <span class="ident">cont5</span> <span class="op">=</span> <span class="ident">cont1</span> ( <span class="ident">cont4</span> );
 
       <span class="ident">run_choice_cont</span>( <span class="ident">ctx</span>, <span class="ident">sender3</span>, <span class="ident">cont5</span> ).<span class="kw">await</span>;
     })

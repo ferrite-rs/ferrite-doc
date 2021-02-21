@@ -432,36 +432,6 @@
 <span id="429">429</span>
 <span id="430">430</span>
 <span id="431">431</span>
-<span id="432">432</span>
-<span id="433">433</span>
-<span id="434">434</span>
-<span id="435">435</span>
-<span id="436">436</span>
-<span id="437">437</span>
-<span id="438">438</span>
-<span id="439">439</span>
-<span id="440">440</span>
-<span id="441">441</span>
-<span id="442">442</span>
-<span id="443">443</span>
-<span id="444">444</span>
-<span id="445">445</span>
-<span id="446">446</span>
-<span id="447">447</span>
-<span id="448">448</span>
-<span id="449">449</span>
-<span id="450">450</span>
-<span id="451">451</span>
-<span id="452">452</span>
-<span id="453">453</span>
-<span id="454">454</span>
-<span id="455">455</span>
-<span id="456">456</span>
-<span id="457">457</span>
-<span id="458">458</span>
-<span id="459">459</span>
-<span id="460">460</span>
-<span id="461">461</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">task</span>;
 <span class="kw">use</span> <span class="ident">async_macros</span>::<span class="ident">join</span>;
@@ -493,9 +463,9 @@
   <span class="kw">let</span> ( <span class="ident">session2</span>, <span class="ident">receiver2</span> ) <span class="op">=</span> <span class="ident">unsafe_create_shared_channel</span> ();
 
   <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
-    <span class="comment">// debug!(&quot;[run_shared_session] exec_shared_session&quot;);</span>
+    <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;[run_shared_session] exec_shared_session&quot;</span>);
     <span class="ident">unsafe_run_shared_session</span> ( <span class="ident">session</span>, <span class="ident">receiver1</span> ).<span class="kw">await</span>;
-    <span class="comment">// debug!(&quot;[run_shared_session] exec_shared_session returned&quot;);</span>
+    <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;[run_shared_session] exec_shared_session returned&quot;</span>);
   });
 
   <span class="kw">let</span> <span class="ident">fut</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
@@ -506,17 +476,9 @@
       <span class="kw">match</span> <span class="ident">m_senders</span> {
         <span class="prelude-val">Some</span> ( <span class="ident">senders</span> ) <span class="op">=</span><span class="op">&gt;</span> {
           <span class="ident">sender1</span>.<span class="ident">send</span>(<span class="ident">senders</span>).<span class="ident">unwrap</span>();
-          <span class="comment">// let ( sender5, receiver5 ) = once_channel();</span>
-
-          <span class="comment">// sender1.send ( sender5 ).await.unwrap();</span>
-          <span class="comment">// let receiver3 = receiver5.recv().await.unwrap();</span>
-
-          <span class="comment">// debug!(&quot;[run_shared_session] received receiver3&quot;);</span>
-          <span class="comment">// sender4.send(receiver3).await.unwrap();</span>
-          <span class="comment">// debug!(&quot;[run_shared_session] sent receiver3&quot;);</span>
         },
         <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
-          <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[run_shared_session] terminating shared session&quot;</span>);
+          <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;[run_shared_session] terminating shared session&quot;</span>);
           <span class="kw">return</span>;
         }
       }
@@ -553,10 +515,6 @@
       <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>)
         : (<span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">Lock</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>, <span class="kw">_</span>)
         <span class="op">=</span> <span class="ident">once_channel</span>();
-
-      <span class="comment">// let (sender3, receiver3)</span>
-      <span class="comment">//   : (SenderOnce &lt; LinearToShared &lt; F &gt; &gt;, _)</span>
-      <span class="comment">//   = once_channel();</span>
 
       <span class="kw">let</span> (<span class="ident">sender4</span>, <span class="ident">receiver4</span>)
         : (<span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">F</span> :: <span class="ident">Applied</span> <span class="op">&gt;</span>, <span class="kw">_</span>)
@@ -655,26 +613,22 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">async_acquire_shared_session</span>
-  <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
+  <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
   ( <span class="ident">shared</span> : <span class="ident">SharedChannel</span> <span class="op">&lt;</span>
       <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
     <span class="op">&gt;</span>,
     <span class="ident">cont_builder</span> : <span class="kw">impl</span>
-      <span class="ident">FnOnce</span> ( <span class="ident">Z</span> ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
+      <span class="ident">FnOnce</span> ( <span class="ident">Z</span> ) <span class="op">-</span><span class="op">&gt;</span>
+        <span class="ident">PartialSession</span> <span class="op">&lt;</span> (
+          <span class="ident">F</span>::<span class="ident">Applied</span> , () ),
+          <span class="ident">End</span>
+        <span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
   ) <span class="op">-</span><span class="op">&gt;</span>
     <span class="ident">task</span>::<span class="ident">JoinHandle</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span> : <span class="ident">Protocol</span>,
   <span class="ident">F</span> : <span class="ident">SharedRecApp</span> <span class="op">&lt;</span> <span class="ident">SharedToLinear</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>,
-  <span class="ident">Fut</span> :
-    <span class="ident">Future</span> <span class="op">&lt;</span>
-      <span class="ident">Output</span> <span class="op">=</span>
-        <span class="ident">PartialSession</span> <span class="op">&lt;</span> (
-          <span class="ident">F</span>::<span class="ident">Applied</span> , () ),
-          <span class="ident">End</span>
-        <span class="op">&gt;</span>
-    <span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
   <span class="ident">F</span>::<span class="ident">Applied</span> : <span class="ident">Protocol</span>,
 {
   <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[async_acquire_shared_session] acquiring shared session&quot;</span>);
@@ -684,7 +638,7 @@
     <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
     <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
-    <span class="kw">let</span> <span class="ident">cont</span> <span class="op">=</span> <span class="ident">cont_builder</span> ( <span class="ident">Z</span> ).<span class="kw">await</span>;
+    <span class="kw">let</span> <span class="ident">cont</span> <span class="op">=</span> <span class="ident">cont_builder</span> ( <span class="ident">Z</span> );
 
     <span class="kw">let</span> <span class="ident">ctx</span> <span class="op">=</span> (<span class="ident">receiver2</span>, ());
 
@@ -713,12 +667,16 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">async_acquire_shared_session_with_result</span>
-  <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
+  <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">F</span> <span class="op">&gt;</span>
   ( <span class="ident">shared</span> : <span class="ident">SharedChannel</span> <span class="op">&lt;</span>
       <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
     <span class="op">&gt;</span>,
     <span class="ident">cont_builder</span> : <span class="kw">impl</span>
-      <span class="ident">FnOnce</span> ( <span class="ident">Z</span> ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
+      <span class="ident">FnOnce</span> ( <span class="ident">Z</span> ) <span class="op">-</span><span class="op">&gt;</span>
+        <span class="ident">PartialSession</span> <span class="op">&lt;</span> (
+          <span class="ident">F</span>::<span class="ident">Applied</span> , () ),
+          <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">End</span> <span class="op">&gt;</span>
+        <span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
   ) <span class="op">-</span><span class="op">&gt;</span>
     <span class="ident">task</span>::<span class="ident">JoinHandle</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
@@ -726,14 +684,6 @@
   <span class="ident">F</span> : <span class="ident">Protocol</span>,
   <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">F</span> : <span class="ident">SharedRecApp</span> <span class="op">&lt;</span> <span class="ident">SharedToLinear</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>,
-  <span class="ident">Fut</span> :
-    <span class="ident">Future</span> <span class="op">&lt;</span>
-      <span class="ident">Output</span> <span class="op">=</span>
-        <span class="ident">PartialSession</span> <span class="op">&lt;</span> (
-          <span class="ident">F</span>::<span class="ident">Applied</span> , () ),
-          <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">End</span> <span class="op">&gt;</span>
-        <span class="op">&gt;</span>
-    <span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
   <span class="ident">F</span>::<span class="ident">Applied</span> : <span class="ident">Protocol</span>,
 {
   <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;[async_acquire_shared_session_with_result] acquiring shared session&quot;</span>);
@@ -743,7 +693,7 @@
     <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
     <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
-    <span class="kw">let</span> <span class="ident">cont</span> <span class="op">=</span> <span class="ident">cont_builder</span> ( <span class="ident">Z</span> ).<span class="kw">await</span>;
+    <span class="kw">let</span> <span class="ident">cont</span> <span class="op">=</span> <span class="ident">cont_builder</span> ( <span class="ident">Z</span> );
 
     <span class="kw">let</span> <span class="ident">ctx</span> <span class="op">=</span> (<span class="ident">receiver2</span>, ());
 
@@ -779,14 +729,17 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">acquire_shared_session</span>
-  <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
+  <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
   ( <span class="ident">shared</span> : <span class="ident">SharedChannel</span> <span class="op">&lt;</span>
       <span class="ident">LinearToShared</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
     <span class="op">&gt;</span>,
     <span class="ident">cont_builder</span> : <span class="kw">impl</span>
       <span class="ident">FnOnce</span>
-        ( <span class="ident">C</span> :: <span class="ident">Length</span> )
-        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
+        ( <span class="ident">C</span> :: <span class="ident">Length</span> ) <span class="op">-</span><span class="op">&gt;</span>
+          <span class="ident">PartialSession</span> <span class="op">&lt;</span>
+            <span class="ident">C</span> :: <span class="ident">Appended</span>,
+            <span class="ident">A</span>
+          <span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
   ) <span class="op">-</span><span class="op">&gt;</span>
     <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
@@ -799,21 +752,13 @@
     <span class="ident">AppendContext</span> <span class="op">&lt;</span>
       ( <span class="ident">F</span>::<span class="ident">Applied</span> , () )
     <span class="op">&gt;</span>,
-  <span class="ident">Fut</span> :
-    <span class="ident">Future</span> <span class="op">&lt;</span>
-      <span class="ident">Output</span> <span class="op">=</span>
-        <span class="ident">PartialSession</span> <span class="op">&lt;</span>
-          <span class="ident">C</span> :: <span class="ident">Appended</span>,
-          <span class="ident">A</span>
-        <span class="op">&gt;</span>
-    <span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
   <span class="ident">F</span>::<span class="ident">Applied</span> : <span class="ident">Protocol</span>,
 {
   <span class="ident">unsafe_create_session</span> (
     <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx1</span>, <span class="ident">sender1</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> <span class="ident">cont</span> <span class="op">=</span> <span class="ident">cont_builder</span> (
         <span class="op">&lt;</span> <span class="ident">C</span>::<span class="ident">Length</span> <span class="kw">as</span> <span class="ident">Nat</span> <span class="op">&gt;</span> :: <span class="ident">nat</span> ()
-      ).<span class="kw">await</span>;
+      );
 
       <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
       <span class="kw">let</span> (<span class="ident">receiver3</span>, <span class="ident">receiver4</span>) <span class="op">=</span> <span class="ident">unsafe_receive_shared_channel</span>(<span class="ident">shared</span>);
@@ -895,12 +840,15 @@
   <span class="ident">F</span> : <span class="ident">SharedRecApp</span> <span class="op">&lt;</span> <span class="ident">SharedToLinear</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span> <span class="op">&gt;</span>,
   <span class="ident">F</span>::<span class="ident">Applied</span> : <span class="ident">Protocol</span>,
 {
-  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">acquire</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
+  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">acquire</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
     ( <span class="kw-2">&amp;</span><span class="self">self</span>,
       <span class="ident">cont</span> : <span class="kw">impl</span>
         <span class="ident">FnOnce</span>
-          ( <span class="ident">C</span> :: <span class="ident">Length</span> )
-          <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
+          ( <span class="ident">C</span> :: <span class="ident">Length</span> ) <span class="op">-</span><span class="op">&gt;</span>
+            <span class="ident">PartialSession</span> <span class="op">&lt;</span>
+              <span class="ident">C</span> :: <span class="ident">Appended</span>,
+              <span class="ident">A</span>
+            <span class="op">&gt;</span>
         <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
     ) <span class="op">-</span><span class="op">&gt;</span>
       <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
@@ -911,14 +859,6 @@
       <span class="ident">AppendContext</span> <span class="op">&lt;</span>
         ( <span class="ident">F</span>::<span class="ident">Applied</span> , () )
       <span class="op">&gt;</span>,
-    <span class="ident">Fut</span> :
-      <span class="ident">Future</span> <span class="op">&lt;</span>
-        <span class="ident">Output</span> <span class="op">=</span>
-          <span class="ident">PartialSession</span> <span class="op">&lt;</span>
-            <span class="ident">C</span> :: <span class="ident">Appended</span>,
-            <span class="ident">A</span>
-          <span class="op">&gt;</span>
-      <span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
   { <span class="ident">acquire_shared_session</span> (
       <span class="self">self</span>.<span class="ident">clone</span>(),
       <span class="ident">cont</span> )

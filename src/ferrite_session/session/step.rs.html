@@ -24,34 +24,29 @@
 <span id="21">21</span>
 <span id="22">22</span>
 <span id="23">23</span>
-<span id="24">24</span>
-<span id="25">25</span>
-<span id="26">26</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">future</span>::<span class="ident">Future</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">step</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">Fut</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">step</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
   ( <span class="ident">cont1</span> : <span class="kw">impl</span>
-      <span class="ident">FnOnce</span> () <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
+      <span class="ident">Future</span> <span class="op">&lt;</span>
+        <span class="ident">Output</span> <span class="op">=</span> <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
+      <span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
   ) <span class="op">-</span><span class="op">&gt;</span>
     <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">C</span> : <span class="ident">Context</span>,
   <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">Fut</span> :
-    <span class="ident">Future</span> <span class="op">&lt;</span>
-      <span class="ident">Output</span> <span class="op">=</span> <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-    <span class="op">&gt;</span>
-    <span class="op">+</span> <span class="ident">Send</span>
 {
   <span class="ident">unsafe_create_session</span>(
     <span class="kw">move</span> <span class="op">|</span> <span class="ident">ins</span>, <span class="ident">sender</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">cont1</span>().<span class="kw">await</span>;
+      <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">cont1</span>.<span class="kw">await</span>;
 
       <span class="ident">unsafe_run_session</span>( <span class="ident">cont2</span>, <span class="ident">ins</span>, <span class="ident">sender</span> ).<span class="kw">await</span>;
     })
-}</pre></div>
+}
+</pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "ferrite_session";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
