@@ -104,7 +104,7 @@
   ( <span class="ident">count</span>: <span class="ident">u64</span> )
   <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedSession</span> <span class="op">&lt;</span> <span class="ident">CounterSession</span> <span class="op">&gt;</span>
 {
-  <span class="ident">accept_shared_session</span> (
+  <span class="ident">accept_shared_session</span> ( <span class="kw">move</span> <span class="op">|</span><span class="op">|</span>
     <span class="macro">offer_choice</span><span class="macro">!</span> {
       <span class="ident">Increment</span> <span class="op">=</span><span class="op">&gt;</span>
         <span class="ident">detach_shared_session</span> (
