@@ -167,302 +167,172 @@
 <span id="164">164</span>
 <span id="165">165</span>
 <span id="166">166</span>
-<span id="167">167</span>
-<span id="168">168</span>
-<span id="169">169</span>
-<span id="170">170</span>
-<span id="171">171</span>
-<span id="172">172</span>
-<span id="173">173</span>
-<span id="174">174</span>
-<span id="175">175</span>
-<span id="176">176</span>
-<span id="177">177</span>
-<span id="178">178</span>
-<span id="179">179</span>
-<span id="180">180</span>
-<span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
-<span id="228">228</span>
-<span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
 </pre><div class="example-wrap"><pre class="rust ">
-
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="ident">type_app</span>::<span class="kw-2">*</span>;
-
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">structs</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::{
+  <span class="ident">base</span>::<span class="kw-2">*</span>,
+  <span class="ident">type_app</span>::<span class="kw-2">*</span>,
+};
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RowCon</span>
-  : <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
-{}
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RowCon</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+{
+}
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
-  : <span class="ident">RowCon</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RowApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>: <span class="ident">RowCon</span>
 <span class="kw">where</span>
-  <span class="ident">F</span>: <span class="ident">TyCon</span>,
+  <span class="ident">F</span> : <span class="ident">TyCon</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">UncloakRow</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
-  : <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">UncloakRow</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>: <span class="ident">RowApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">F</span>: <span class="ident">TyCon</span>,
+  <span class="ident">F</span> : <span class="ident">TyCon</span>,
 {
   <span class="kw">type</span> <span class="ident">Uncloaked</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
 
-  <span class="kw">fn</span> <span class="ident">full_cloak_row</span>
-    ( <span class="ident">row</span>: <span class="self">Self</span>::<span class="ident">Uncloaked</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Applied</span>
-  ;
+  <span class="kw">fn</span> <span class="ident">full_cloak_row</span>(<span class="ident">row</span> : <span class="self">Self</span>::<span class="ident">Uncloaked</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Applied</span>;
 
-  <span class="kw">fn</span> <span class="ident">full_uncloak_row</span>
-    ( <span class="ident">row</span>: <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">F</span> <span class="op">&gt;</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Uncloaked</span>
-  ;
+  <span class="kw">fn</span> <span class="ident">full_uncloak_row</span>(<span class="ident">row</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Uncloaked</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HasRow</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span> <span class="op">&gt;</span>
-  : <span class="ident">Send</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HasRow</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>: <span class="ident">Send</span>
 {
-  <span class="kw">fn</span> <span class="ident">get_row</span>
-    ( <span class="self">self</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span> <span class="op">&lt;</span> <span class="ident">Row</span>::<span class="ident">Applied</span> <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">get_row</span>(<span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Row</span>::<span class="ident">Applied</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">TyCon</span>,
-    <span class="ident">Row</span>: <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>,
-  ;
+    <span class="ident">F</span> : <span class="ident">TyCon</span>,
+    <span class="ident">Row</span> : <span class="ident">RowApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>;
 
-  <span class="kw">fn</span> <span class="ident">get_row_borrow</span> <span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>
-    ( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Row</span>::<span class="ident">Applied</span>
+  <span class="kw">fn</span> <span class="ident">get_row_borrow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Row</span>::<span class="ident">Applied</span>
   <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">TyCon</span>,
-    <span class="ident">Row</span>: <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>,
-  ;
+    <span class="ident">F</span> : <span class="ident">TyCon</span>,
+    <span class="ident">Row</span> : <span class="ident">RowApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>;
 
-  <span class="kw">fn</span> <span class="ident">get_row_borrow_mut</span> <span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>
-    ( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Row</span>::<span class="ident">Applied</span>
+  <span class="kw">fn</span> <span class="ident">get_row_borrow_mut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Row</span>::<span class="ident">Applied</span>
   <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">TyCon</span>,
-    <span class="ident">Row</span>: <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>,
-  ;
+    <span class="ident">F</span> : <span class="ident">TyCon</span>,
+    <span class="ident">Row</span> : <span class="ident">RowApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RowWitnessCont</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">K</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RowWitnessCont</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">K</span><span class="op">&gt;</span>
 {
-  <span class="kw">fn</span> <span class="ident">on_row_witness</span>
-    ( <span class="self">self</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>,
-      <span class="ident">row</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="ident">Row</span>::<span class="ident">Applied</span> <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>
+  <span class="kw">fn</span> <span class="ident">on_row_witness</span>(
+    <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+    <span class="ident">row</span> : <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Row</span>::<span class="ident">Applied</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>
   <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">TyCon</span>,
-    <span class="ident">Row</span>: <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>,
-  ;
+    <span class="ident">F</span> : <span class="ident">TyCon</span>,
+    <span class="ident">Row</span> : <span class="ident">RowApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HasRowWitness</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">K</span> <span class="op">&gt;</span>
-  : <span class="ident">HasRow</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HasRowWitness</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">K</span><span class="op">&gt;</span>: <span class="ident">HasRow</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
 {
-  <span class="kw">fn</span> <span class="ident">with_witness</span>
-    ( <span class="self">self</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>,
-      <span class="ident">cont</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span> <span class="ident">RowWitnessCont</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">K</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>
-  ;
+  <span class="kw">fn</span> <span class="ident">with_witness</span>(
+    <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+    <span class="ident">cont</span> : <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RowWitnessCont</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SplitRow</span> : <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">RowCon</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SplitRow</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">RowCon</span>
 {
-  <span class="kw">fn</span> <span class="ident">split_row</span>
-    <span class="op">&lt;</span> <span class="ident">F1</span>, <span class="ident">F2</span> <span class="op">&gt;</span>
-    ( <span class="ident">row</span>:
-        <span class="ident">AppliedSum</span> <span class="op">&lt;</span>
-          <span class="self">Self</span>,
-          <span class="ident">Merge</span> <span class="op">&lt;</span> <span class="ident">F1</span>, <span class="ident">F2</span> <span class="op">&gt;</span>
-        <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span>
-      ( <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">F1</span> <span class="op">&gt;</span>,
-        <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">F2</span> <span class="op">&gt;</span>
-      )
+  <span class="kw">fn</span> <span class="ident">split_row</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(
+    <span class="ident">row</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span><span class="op">&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F1</span><span class="op">&gt;</span>, <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F2</span><span class="op">&gt;</span>)
   <span class="kw">where</span>
-    <span class="ident">F1</span>: <span class="ident">TyCon</span>,
-    <span class="ident">F2</span>: <span class="ident">TyCon</span>,
-  ;
+    <span class="ident">F1</span> : <span class="ident">TyCon</span>,
+    <span class="ident">F2</span> : <span class="ident">TyCon</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SumFunctor</span>
-  : <span class="ident">RowCon</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SumFunctor</span>: <span class="ident">RowCon</span>
 {
-  <span class="kw">fn</span> <span class="ident">lift_sum</span>
-     <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">F1</span>, <span class="ident">F2</span> <span class="op">&gt;</span>
-    ( <span class="ident">lift</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>,
-      <span class="ident">sum</span>: <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">F1</span> <span class="op">&gt;</span>
-    )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">F2</span> <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">lift_sum</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(
+    <span class="ident">lift</span> : <span class="kw-2">&amp;</span><span class="ident">T</span>,
+    <span class="ident">sum</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F1</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F2</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">F1</span>: <span class="ident">TyCon</span>,
-    <span class="ident">F2</span>: <span class="ident">TyCon</span>,
-    <span class="ident">T</span>: <span class="ident">NaturalTransformation</span> <span class="op">&lt;</span> <span class="ident">F1</span>, <span class="ident">F2</span> <span class="op">&gt;</span>
-  ;
+    <span class="ident">F1</span> : <span class="ident">TyCon</span>,
+    <span class="ident">F2</span> : <span class="ident">TyCon</span>,
+    <span class="ident">T</span> : <span class="ident">NaturalTransformation</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">InjectLift</span> <span class="op">&lt;</span> <span class="ident">Root</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">InjectLift</span><span class="op">&lt;</span><span class="ident">Root</span><span class="op">&gt;</span>
 {
   <span class="kw">type</span> <span class="ident">SourceF</span>: <span class="ident">TyCon</span>;
+
   <span class="kw">type</span> <span class="ident">TargetF</span>: <span class="ident">TyCon</span>;
+
   <span class="kw">type</span> <span class="ident">InjectF</span>: <span class="ident">TyCon</span>;
 
-  <span class="kw">fn</span> <span class="ident">lift_field</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-    ( <span class="self">self</span>,
-      <span class="ident">inject</span>:
-        <span class="kw">impl</span> <span class="ident">Fn</span>
-          ( <span class="ident">Applied</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">TargetF</span>, <span class="ident">A</span> <span class="op">&gt;</span> )
-          <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Root</span>
-        <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-      <span class="ident">row</span>:
-        <span class="ident">Applied</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">SourceF</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span>
-      <span class="ident">Applied</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">InjectF</span>, <span class="ident">A</span> <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">lift_field</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
+    <span class="self">self</span>,
+    <span class="ident">inject</span> : <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="ident">Applied</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">TargetF</span>, <span class="ident">A</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Root</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">row</span> : <span class="ident">Applied</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">SourceF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Applied</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">InjectF</span>, <span class="ident">A</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  ;
+    <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SumFunctorInject</span>
-  : <span class="ident">RowCon</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SumFunctorInject</span>: <span class="ident">RowCon</span>
 {
-  <span class="kw">fn</span> <span class="ident">lift_sum_inject</span> <span class="op">&lt;</span> <span class="ident">L</span>, <span class="ident">Root</span>, <span class="ident">Inject</span> <span class="op">&gt;</span>
-    ( <span class="ident">ctx</span>: <span class="ident">L</span>,
-      <span class="ident">inject</span>: <span class="ident">Inject</span>,
-      <span class="ident">sum</span>: <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">L</span>::<span class="ident">SourceF</span> <span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span>
-      <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">L</span>::<span class="ident">InjectF</span> <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">lift_sum_inject</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">Root</span>, <span class="ident">Inject</span><span class="op">&gt;</span>(
+    <span class="ident">ctx</span> : <span class="ident">L</span>,
+    <span class="ident">inject</span> : <span class="ident">Inject</span>,
+    <span class="ident">sum</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">L</span>::<span class="ident">SourceF</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">L</span>::<span class="ident">InjectF</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">L</span>: <span class="ident">InjectLift</span> <span class="op">&lt;</span> <span class="ident">Root</span> <span class="op">&gt;</span>,
-    <span class="ident">Inject</span>:
-      <span class="ident">Fn</span> ( <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">L</span>::<span class="ident">TargetF</span> <span class="op">&gt;</span> )
-        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Root</span>
-        <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  ;
+    <span class="ident">L</span> : <span class="ident">InjectLift</span><span class="op">&lt;</span><span class="ident">Root</span><span class="op">&gt;</span>,
+    <span class="ident">Inject</span> : <span class="ident">Fn</span>(<span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">L</span>::<span class="ident">TargetF</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Root</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">IntersectSum</span> : <span class="ident">RowCon</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">IntersectSum</span>: <span class="ident">RowCon</span>
 {
-  <span class="kw">fn</span> <span class="ident">intersect_sum</span>
-    <span class="op">&lt;</span> <span class="ident">F1</span>, <span class="ident">F2</span> <span class="op">&gt;</span>
-    ( <span class="ident">row1</span>: <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">F1</span> <span class="op">&gt;</span>,
-      <span class="ident">row2</span>: <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">F2</span> <span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span>
-      <span class="prelude-ty">Option</span> <span class="op">&lt;</span>
-        <span class="ident">AppliedSum</span> <span class="op">&lt;</span>
-          <span class="self">Self</span>,
-          <span class="ident">Merge</span> <span class="op">&lt;</span> <span class="ident">F1</span>, <span class="ident">F2</span> <span class="op">&gt;</span>
-        <span class="op">&gt;</span>
-      <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">intersect_sum</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(
+    <span class="ident">row1</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F1</span><span class="op">&gt;</span>,
+    <span class="ident">row2</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F2</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">F1</span>: <span class="ident">TyCon</span>,
-    <span class="ident">F2</span>: <span class="ident">TyCon</span>,
-  ;
+    <span class="ident">F1</span> : <span class="ident">TyCon</span>,
+    <span class="ident">F2</span> : <span class="ident">TyCon</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ElimField</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">R</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ElimField</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">F</span> : <span class="ident">TyCon</span>
+  <span class="ident">F</span> : <span class="ident">TyCon</span>,
 {
-  <span class="kw">fn</span> <span class="ident">elim_field</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-    ( <span class="self">self</span>,
-      <span class="ident">a</span> : <span class="ident">Applied</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span>
-      <span class="ident">R</span>
+  <span class="kw">fn</span> <span class="ident">elim_field</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
+    <span class="self">self</span>,
+    <span class="ident">a</span> : <span class="ident">Applied</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">R</span>
   <span class="kw">where</span>
-    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  ;
+    <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ElimSum</span> : <span class="ident">RowCon</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ElimSum</span>: <span class="ident">RowCon</span>
 {
-  <span class="kw">fn</span> <span class="ident">elim_sum</span>
-    <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">E</span>, <span class="ident">R</span> <span class="op">&gt;</span>
-    ( <span class="ident">elim_field</span>: <span class="ident">E</span>,
-      <span class="ident">row</span>: <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="self">Self</span>, <span class="ident">F</span> <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span>
-      <span class="ident">R</span>
+  <span class="kw">fn</span> <span class="ident">elim_sum</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">E</span>, <span class="ident">R</span><span class="op">&gt;</span>(
+    <span class="ident">elim_field</span> : <span class="ident">E</span>,
+    <span class="ident">row</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">R</span>
   <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">TyCon</span>,
-    <span class="ident">E</span>: <span class="ident">ElimField</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">R</span> <span class="op">&gt;</span>,
-  ;
+    <span class="ident">F</span> : <span class="ident">TyCon</span>,
+    <span class="ident">E</span> : <span class="ident">ElimField</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Prism</span> <span class="op">&lt;</span> <span class="ident">Row</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">Row</span> : <span class="ident">RowCon</span>,
 {
   <span class="kw">type</span> <span class="ident">Elem</span>;
 
-  <span class="kw">fn</span> <span class="ident">inject_elem</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
-    ( <span class="ident">elem</span> : <span class="ident">Applied</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="self">Self</span>::<span class="ident">Elem</span> <span class="op">&gt;</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span> <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">inject_elem</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">elem</span> : <span class="ident">Applied</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="self">Self</span>::<span class="ident">Elem</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">TyCon</span>,
-  ;
+    <span class="ident">F</span> : <span class="ident">TyCon</span>;
 
-  <span class="kw">fn</span> <span class="ident">extract_elem</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>
-    ( <span class="ident">row</span> : <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span> <span class="op">&gt;</span> )
-    <span class="op">-</span><span class="op">&gt;</span>
-      <span class="prelude-ty">Option</span> <span class="op">&lt;</span>
-        <span class="ident">Applied</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="self">Self</span>::<span class="ident">Elem</span> <span class="op">&gt;</span>
-      <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">extract_elem</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+    <span class="ident">row</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Applied</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="self">Self</span>::<span class="ident">Elem</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">TyCon</span>,
-  ;
+    <span class="ident">F</span> : <span class="ident">TyCon</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../../";window.currentCrate = "ferrite_session";</script><script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script><script defer src="../../../../search-index.js"></script></body></html>

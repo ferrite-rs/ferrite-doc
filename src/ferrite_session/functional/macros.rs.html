@@ -35,8 +35,10 @@
 <span id="32">32</span>
 <span id="33">33</span>
 <span id="34">34</span>
+<span id="35">35</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
+
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">natural_transformation</span> {
   ( { $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_type</span>:<span class="ident">ty</span> ),<span class="op">*</span> $(,)<span class="question-mark">?</span> } ;
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> : <span class="ident">forall</span> <span class="ident">x</span> . <span class="macro-nonterminal">$</span><span class="macro-nonterminal">f1</span>:<span class="ident">ty</span> [@<span class="ident">x</span>] <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">f2</span>:<span class="ident">ty</span> [@<span class="ident">x</span>] ;

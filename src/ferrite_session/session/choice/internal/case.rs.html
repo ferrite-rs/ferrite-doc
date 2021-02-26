@@ -72,28 +72,42 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">protocol</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">super</span>::{
+  <span class="ident">inject_session</span>::<span class="kw-2">*</span>,
+  <span class="ident">internal_session</span>::<span class="kw-2">*</span>,
+  <span class="ident">utils</span>::<span class="kw-2">*</span>,
+};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+  <span class="ident">base</span>::{
+    <span class="ident">unsafe_create_session</span>,
+    <span class="ident">Context</span>,
+    <span class="ident">ContextLens</span>,
+    <span class="ident">Empty</span>,
+    <span class="ident">PartialSession</span>,
+    <span class="ident">Protocol</span>,
+  },
+  <span class="ident">functional</span>::{
+    <span class="ident">AppliedSum</span>,
+    <span class="ident">ElimSum</span>,
+    <span class="ident">IntersectSum</span>,
+    <span class="ident">RowCon</span>,
+    <span class="ident">SplitRow</span>,
+    <span class="ident">SumFunctor</span>,
+    <span class="ident">SumFunctorInject</span>,
+    <span class="ident">UncloakRow</span>,
+  },
+  <span class="ident">protocol</span>::<span class="ident">InternalChoice</span>,
+};
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">inject_session</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">internal_session</span>::<span class="kw-2">*</span>;
-
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">utils</span>::<span class="kw-2">*</span>;
-
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">case</span>
-  <span class="op">&lt;</span> <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span> <span class="op">&gt;</span>
-  ( <span class="kw">_</span> : <span class="ident">N</span>,
-    <span class="ident">cont1</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
-      ( <span class="ident">Row</span>::<span class="ident">Uncloaked</span> ) <span class="op">-</span><span class="op">&gt;</span>
-        <span class="ident">AppliedSum</span> <span class="op">&lt;</span>
-          <span class="ident">Row</span>,
-          <span class="ident">InternalSessionF</span> <span class="op">&lt;</span> <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span> <span class="op">&gt;</span>
-        <span class="op">&gt;</span>
-      <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  ) <span class="op">-</span><span class="op">&gt;</span>
-    <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">case</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span>(
+  <span class="kw">_</span> : <span class="ident">N</span>,
+  <span class="ident">cont1</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Row</span>::<span class="ident">Uncloaked</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="op">+</span> <span class="ident">Send</span>
+    <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">B</span> : <span class="ident">Protocol</span>,
   <span class="ident">C</span> : <span class="ident">Context</span>,
@@ -104,45 +118,35 @@
   <span class="ident">Row</span> : <span class="ident">SumFunctor</span>,
   <span class="ident">Row</span> : <span class="ident">IntersectSum</span>,
   <span class="ident">Row</span> : <span class="ident">SumFunctorInject</span>,
-  <span class="ident">Row</span> : <span class="ident">UncloakRow</span> <span class="op">&lt;</span> <span class="ident">InjectSessionF</span> <span class="op">&lt;</span> <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span> <span class="op">&gt;</span> <span class="op">&gt;</span>,
-  <span class="ident">N</span> :
-    <span class="ident">ContextLens</span> <span class="op">&lt;</span>
-      <span class="ident">C</span>,
-      <span class="ident">InternalChoice</span> <span class="op">&lt;</span> <span class="ident">Row</span> <span class="op">&gt;</span>,
-      <span class="ident">Empty</span>,
-      <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span>,
-    <span class="op">&gt;</span>,
+  <span class="ident">Row</span> : <span class="ident">UncloakRow</span><span class="op">&lt;</span><span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
-  <span class="ident">unsafe_create_session</span> (
-    <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx1</span>, <span class="ident">sender</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> (<span class="ident">sum_chan</span>, <span class="ident">ctx2</span>) <span class="op">=</span>
-        <span class="ident">N</span>::<span class="ident">extract_source</span> ( <span class="ident">ctx1</span> );
+  <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+    <span class="kw">let</span> (<span class="ident">sum_chan</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N</span>::<span class="ident">extract_source</span>(<span class="ident">ctx1</span>);
 
-      <span class="kw">let</span> <span class="ident">InternalChoice</span> { <span class="ident">field</span> : <span class="ident">receiver_sum1</span> }
-        <span class="op">=</span> <span class="ident">sum_chan</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">InternalChoice</span> {
+      <span class="ident">field</span>: <span class="ident">receiver_sum1</span>,
+    } <span class="op">=</span> <span class="ident">sum_chan</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-      <span class="kw">let</span> (<span class="ident">receiver_sum2</span>, <span class="ident">selector_sum</span>) <span class="op">=</span>
-        <span class="ident">receiver_to_selector</span>( <span class="ident">receiver_sum1</span> );
+    <span class="kw">let</span> (<span class="ident">receiver_sum2</span>, <span class="ident">selector_sum</span>) <span class="op">=</span> <span class="ident">receiver_to_selector</span>(<span class="ident">receiver_sum1</span>);
 
-      <span class="kw">let</span> <span class="ident">cont3</span> <span class="op">=</span> <span class="ident">lift_unit_to_session</span> ( <span class="ident">selector_sum</span> );
+    <span class="kw">let</span> <span class="ident">cont3</span> <span class="op">=</span> <span class="ident">lift_unit_to_session</span>(<span class="ident">selector_sum</span>);
 
-      <span class="kw">let</span> <span class="ident">cont3a</span> <span class="op">=</span> <span class="ident">Row</span>::<span class="ident">full_uncloak_row</span>( <span class="ident">cont3</span> );
+    <span class="kw">let</span> <span class="ident">cont3a</span> <span class="op">=</span> <span class="ident">Row</span>::<span class="ident">full_uncloak_row</span>(<span class="ident">cont3</span>);
 
-      <span class="kw">let</span> <span class="ident">cont4</span> <span class="op">=</span> <span class="ident">cont1</span> ( <span class="ident">cont3a</span> );
+    <span class="kw">let</span> <span class="ident">cont4</span> <span class="op">=</span> <span class="ident">cont1</span>(<span class="ident">cont3a</span>);
 
-      <span class="kw">let</span> <span class="ident">cont5</span> <span class="op">=</span>
-        <span class="ident">Row</span>::<span class="ident">intersect_sum</span> ( <span class="ident">receiver_sum2</span>, <span class="ident">cont4</span> );
+    <span class="kw">let</span> <span class="ident">cont5</span> <span class="op">=</span> <span class="ident">Row</span>::<span class="ident">intersect_sum</span>(<span class="ident">receiver_sum2</span>, <span class="ident">cont4</span>);
 
-      <span class="kw">match</span> <span class="ident">cont5</span> {
-        <span class="prelude-val">Some</span> ( <span class="ident">cont6</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-          <span class="ident">run_case_cont</span> ( <span class="ident">ctx2</span>, <span class="ident">sender</span>, <span class="ident">cont6</span> ).<span class="kw">await</span>;
-        },
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
-          <span class="macro">panic</span><span class="macro">!</span>(
-            <span class="string">&quot;impossible happened: received mismatch choice continuation&quot;</span>);
-        }
+    <span class="kw">match</span> <span class="ident">cont5</span> {
+      <span class="prelude-val">Some</span>(<span class="ident">cont6</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">run_case_cont</span>(<span class="ident">ctx2</span>, <span class="ident">sender</span>, <span class="ident">cont6</span>).<span class="kw">await</span>;
       }
-    })
+      <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;impossible happened: received mismatch choice continuation&quot;</span>);
+      }
+    }
+  })
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../../../";window.currentCrate = "ferrite_session";</script><script src="../../../../../main.js"></script><script src="../../../../../source-script.js"></script><script src="../../../../../source-files.js"></script><script defer src="../../../../../search-index.js"></script></body></html>

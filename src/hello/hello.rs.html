@@ -37,48 +37,23 @@
 <span id="34">34</span>
 <span id="35">35</span>
 <span id="36">36</span>
-<span id="37">37</span>
-<span id="38">38</span>
-<span id="39">39</span>
-<span id="40">40</span>
-<span id="41">41</span>
-<span id="42">42</span>
-<span id="43">43</span>
-<span id="44">44</span>
-<span id="45">45</span>
-<span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">ferrite_session</span>::<span class="kw-2">*</span>;
-
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">format</span>;
 
-<span class="kw">type</span> <span class="ident">HelloSession</span> <span class="op">=</span>
-  <span class="ident">ReceiveValue</span> <span class="op">&lt;</span>
-    <span class="ident">String</span>,
-    <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">String</span>, <span class="ident">End</span> <span class="op">&gt;</span>
-  <span class="op">&gt;</span>;
+<span class="kw">use</span> <span class="ident">ferrite_session</span>::<span class="kw-2">*</span>;
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hello_session</span>()
-  <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">End</span> <span class="op">&gt;</span>
+<span class="kw">type</span> <span class="ident">HelloSession</span> <span class="op">=</span> <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hello_session</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 {
-  <span class="kw">let</span> <span class="ident">server</span> :
-    <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">HelloSession</span> <span class="op">&gt;</span>
-  <span class="op">=</span> <span class="macro">receive_value</span><span class="macro">!</span> ( <span class="ident">name</span> <span class="op">=</span><span class="op">&gt;</span> {
-      <span class="ident">send_value</span> (
-        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Hello, {}!&quot;</span>, <span class="ident">name</span>),
-        <span class="ident">terminate</span>()
-      )
-    });
+  <span class="kw">let</span> <span class="ident">server</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">HelloSession</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">receive_value</span><span class="macro">!</span> ( <span class="ident">name</span> <span class="op">=</span><span class="op">&gt;</span> {
+    <span class="ident">send_value</span> (
+      <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Hello, {}!&quot;</span>, <span class="ident">name</span>),
+      <span class="ident">terminate</span>()
+    )
+  });
 
-  <span class="kw">let</span> <span class="ident">client</span> :
-    <span class="ident">Session</span> <span class="op">&lt;</span>
-      <span class="ident">ReceiveChannel</span> <span class="op">&lt;</span>
-        <span class="ident">HelloSession</span>,
-        <span class="ident">End</span>
-      <span class="op">&gt;</span> <span class="op">&gt;</span>
-  <span class="op">=</span> <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">x</span> <span class="op">=</span><span class="op">&gt;</span> {
+  <span class="kw">let</span> <span class="ident">client</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">HelloSession</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">x</span> <span class="op">=</span><span class="op">&gt;</span> {
       <span class="macro">send_value_to</span><span class="macro">!</span> ( <span class="ident">x</span>,
         <span class="string">&quot;John&quot;</span>.<span class="ident">to_string</span>(),
         <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">x</span>,
@@ -88,15 +63,16 @@
               <span class="ident">terminate</span>()
             ) }) ) });
 
-  <span class="kw">let</span> <span class="ident">main</span> : <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">End</span> <span class="op">&gt;</span>
-    <span class="op">=</span> <span class="ident">apply_channel</span> (<span class="ident">client</span>, <span class="ident">server</span>);
+  <span class="kw">let</span> <span class="ident">main</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">apply_channel</span>(<span class="ident">client</span>, <span class="ident">server</span>);
 
   <span class="kw">return</span> <span class="ident">main</span>;
 }
 
 <span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
-<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>() {
-  <span class="ident">run_session</span>( <span class="ident">hello_session</span>() ).<span class="kw">await</span>
+
+<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>()
+{
+  <span class="ident">run_session</span>(<span class="ident">hello_session</span>()).<span class="kw">await</span>
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "hello";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

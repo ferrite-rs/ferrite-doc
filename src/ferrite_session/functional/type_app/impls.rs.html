@@ -116,115 +116,115 @@
 <span id="113">113</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">serde</span>;
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">traits</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">structs</span>::<span class="kw-2">*</span>;
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">X</span>, <span class="ident">T</span> <span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Serialize</span>
-  <span class="kw">for</span> <span class="ident">Applied</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">X</span> <span class="op">&gt;</span>
+<span class="kw">use</span> <span class="kw">super</span>::{
+  <span class="ident">structs</span>::<span class="kw-2">*</span>,
+  <span class="ident">traits</span>::<span class="kw-2">*</span>,
+};
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">X</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">Applied</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">X</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">X</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">F</span>: <span class="ident">TypeApp</span><span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span> <span class="op">&gt;</span>,
-  <span class="ident">T</span>: <span class="ident">serde</span>::<span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
+  <span class="ident">X</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">F</span> : <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
+  <span class="ident">T</span> : <span class="ident">serde</span>::<span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
 {
-  <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(
+    <span class="kw-2">&amp;</span><span class="self">self</span>,
+    <span class="ident">serializer</span> : <span class="ident">S</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">S</span>: <span class="ident">serde</span>::<span class="ident">Serializer</span>,
+    <span class="ident">S</span> : <span class="ident">serde</span>::<span class="ident">Serializer</span>,
   {
-    <span class="self">self</span>.<span class="ident">applied</span>.<span class="ident">as_ref</span>().<span class="ident">get_applied_borrow</span>().<span class="ident">serialize</span>(<span class="ident">serializer</span>)
+    <span class="self">self</span>
+      .<span class="ident">applied</span>
+      .<span class="ident">as_ref</span>()
+      .<span class="ident">get_applied_borrow</span>()
+      .<span class="ident">serialize</span>(<span class="ident">serializer</span>)
   }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="lifetime">&#39;a</span>, <span class="ident">F</span>, <span class="ident">X</span>, <span class="ident">T</span> <span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span> <span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">Applied</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">X</span> <span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span>, <span class="ident">X</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Applied</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">X</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">X</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">F</span>: <span class="ident">TypeApp</span><span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span> <span class="op">&gt;</span>,
-  <span class="ident">T</span>: <span class="ident">serde</span>::<span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
+  <span class="ident">X</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">F</span> : <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
+  <span class="ident">T</span> : <span class="ident">serde</span>::<span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
 {
-  <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span> : <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">D</span>: <span class="ident">serde</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>
+    <span class="ident">D</span> : <span class="ident">serde</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
   {
     <span class="kw">let</span> <span class="ident">applied</span> <span class="op">=</span> <span class="ident">T</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
+
     <span class="prelude-val">Ok</span>(<span class="ident">cloak_applied</span>(<span class="ident">applied</span>))
   }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="ident">HasTypeApp</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">T</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">HasTypeApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">T</span>
 <span class="kw">where</span>
-  <span class="ident">F</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">F</span>: <span class="ident">TypeApp</span> <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">Applied</span><span class="op">=</span><span class="ident">T</span> <span class="op">&gt;</span>
+  <span class="ident">F</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">A</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">F</span> : <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
 {
-  <span class="kw">fn</span> <span class="ident">get_applied</span> (<span class="self">self</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="ident">T</span> <span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span> <span class="op">&lt;</span> <span class="ident">T</span> <span class="op">&gt;</span>
-  { <span class="self">self</span> }
+  <span class="kw">fn</span> <span class="ident">get_applied</span>(<span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+  {
+    <span class="self">self</span>
+  }
 
-  <span class="kw">fn</span> <span class="ident">get_applied_borrow</span> <span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>
-    ( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">F</span>::<span class="ident">Applied</span>
+  <span class="kw">fn</span> <span class="ident">get_applied_borrow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">F</span>::<span class="ident">Applied</span>
   <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">TypeApp</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-  { <span class="self">self</span> }
+    <span class="ident">F</span> : <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+  {
+    <span class="self">self</span>
+  }
 
-  <span class="kw">fn</span> <span class="ident">get_applied_borrow_mut</span> <span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>
-    ( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">F</span>::<span class="ident">Applied</span>
+  <span class="kw">fn</span> <span class="ident">get_applied_borrow_mut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">F</span>::<span class="ident">Applied</span>
   <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">TypeApp</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-  { <span class="self">self</span> }
+    <span class="ident">F</span> : <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+  {
+    <span class="self">self</span>
+  }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
-  <span class="ident">TypeAppWitness</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> ()
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span> <span class="ident">TypeAppWitness</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span> <span class="kw">for</span> ()
 <span class="kw">where</span>
-  <span class="ident">F</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">K</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">F</span>: <span class="ident">TypeApp</span> <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">Applied</span><span class="op">=</span><span class="ident">T</span> <span class="op">&gt;</span>,
+  <span class="ident">F</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">A</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">K</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">F</span> : <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
 {
-  <span class="kw">fn</span> <span class="ident">with_applied</span>
-    ( <span class="kw-2">&amp;</span><span class="self">self</span>,
-      <span class="ident">cont</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span> <span class="ident">TypeAppCont</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>
+  <span class="kw">fn</span> <span class="ident">with_applied</span>(
+    <span class="kw-2">&amp;</span><span class="self">self</span>,
+    <span class="ident">cont</span> : <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">TypeAppCont</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>
   {
     <span class="ident">cont</span>.<span class="ident">on_type_app</span>()
   }
 
-  <span class="kw">fn</span> <span class="ident">clone_witness</span>
-    ( <span class="kw-2">&amp;</span><span class="self">self</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span> <span class="ident">TypeAppWitness</span> <span class="op">&lt;</span> <span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">clone_witness</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">TypeAppWitness</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>
   {
-    <span class="ident">Box</span>::<span class="ident">new</span>( () )
+    <span class="ident">Box</span>::<span class="ident">new</span>(())
   }
 }
 
 <span class="kw">impl</span> <span class="ident">TyCon</span> <span class="kw">for</span> () {}
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">X</span> <span class="op">&gt;</span> <span class="ident">TyCon</span> <span class="kw">for</span> <span class="ident">Const</span> <span class="op">&lt;</span> <span class="ident">X</span> <span class="op">&gt;</span>
-<span class="kw">where</span>
-  <span class="ident">X</span>: <span class="lifetime">&#39;static</span>
-{}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="ident">TyCon</span> <span class="kw">for</span> <span class="ident">Const</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">X</span> : <span class="lifetime">&#39;static</span> {}
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span> <span class="ident">TypeApp</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> ()
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> ()
 <span class="kw">where</span>
-  <span class="ident">A</span>: <span class="lifetime">&#39;static</span>
+  <span class="ident">A</span> : <span class="lifetime">&#39;static</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> ();
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">A</span> <span class="op">&gt;</span> <span class="ident">TypeApp</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">Const</span> <span class="op">&lt;</span> <span class="ident">X</span> <span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Const</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
-  <span class="ident">X</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">A</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">X</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">X</span>;
 }

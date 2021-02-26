@@ -56,84 +56,60 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
-<span id="56">56</span>
-<span id="57">57</span>
-<span id="58">58</span>
-<span id="59">59</span>
-<span id="60">60</span>
-<span id="61">61</span>
-<span id="62">62</span>
-<span id="63">63</span>
-<span id="64">64</span>
-<span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
-
 <span class="kw">use</span> <span class="ident">serde</span>;
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReceiveValue</span>
-  <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-( <span class="kw">pub</span> (<span class="kw">crate</span>)
-  <span class="ident">SenderOnce</span> <span class="op">&lt;</span> (
-    <span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-  ) <span class="op">&gt;</span>
-);
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 
-<span class="kw">impl</span>
-  <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="ident">Protocol</span> <span class="kw">for</span>
-  <span class="ident">ReceiveValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">A</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">SenderOnce</span><span class="op">&lt;</span>(<span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>)<span class="op">&gt;</span>);
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">A</span> : <span class="ident">Protocol</span>
-{ }
+  <span class="ident">A</span> : <span class="ident">Protocol</span>,
+{
+}
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">T</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="ident">RecApp</span> <span class="op">&lt;</span> <span class="ident">X</span> <span class="op">&gt;</span> <span class="kw">for</span>
-  <span class="ident">ReceiveValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">A</span> <span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">X</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">A</span> : <span class="ident">RecApp</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>,
+  <span class="ident">A</span> : <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
 {
-  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span>
-    <span class="ident">ReceiveValue</span> <span class="op">&lt;</span>
-      <span class="ident">T</span>,
-      <span class="ident">A</span> :: <span class="ident">Applied</span>
-    <span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span>::<span class="ident">Applied</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="ident">ForwardChannel</span>
-  <span class="kw">for</span> <span class="ident">ReceiveValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">A</span> <span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span>, <span class="ident">X</span><span class="op">&gt;</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span>: <span class="ident">ForwardChannel</span>,
-  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">T</span>: <span class="ident">serde</span>::<span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
+  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">A</span> : <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>,
 {
-  <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span>::<span class="ident">Applied</span><span class="op">&gt;</span>;
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+  <span class="ident">A</span> : <span class="ident">ForwardChannel</span>,
+  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span> : <span class="ident">serde</span>::<span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
+{
+  <span class="kw">fn</span> <span class="ident">forward_to</span>(
+    <span class="self">self</span>,
+    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="self">self</span>.<span class="number">0</span>.<span class="ident">forward_to</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
-    <span class="ident">ReceiveValue</span>(
-      <span class="op">&lt;</span> <span class="ident">SenderOnce</span> <span class="op">&lt;</span> (
-          <span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-          <span class="ident">SenderOnce</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-        ) <span class="op">&gt;</span>
-      <span class="op">&gt;</span> :: <span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
-    )
+    <span class="ident">ReceiveValue</span>(<span class="op">&lt;</span><span class="ident">SenderOnce</span><span class="op">&lt;</span>(<span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>)<span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">forward_from</span>(
+      <span class="ident">sender</span>, <span class="ident">receiver</span>,
+    ))
   }
 }
 </pre></div>

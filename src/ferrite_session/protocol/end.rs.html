@@ -33,40 +33,36 @@
 <span id="30">30</span>
 <span id="31">31</span>
 <span id="32">32</span>
-<span id="33">33</span>
-<span id="34">34</span>
 </pre><div class="example-wrap"><pre class="rust ">
-
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">End</span> ();
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">End</span>();
 
-<span class="kw">impl</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">End</span> { }
+<span class="kw">impl</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">End</span> {}
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="ident">RecApp</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">End</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">End</span>
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">End</span>;
 }
 
-<span class="kw">impl</span> <span class="ident">ForwardChannel</span>
-  <span class="kw">for</span> <span class="ident">End</span>
+<span class="kw">impl</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">End</span>
 {
-  <span class="kw">fn</span> <span class="ident">forward_to</span>(<span class="self">self</span>,
-    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
-    <span class="kw">_</span>: <span class="ident">OpaqueReceiver</span>,
+  <span class="kw">fn</span> <span class="ident">forward_to</span>(
+    <span class="self">self</span>,
+    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
+    <span class="kw">_</span> : <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="ident">sender</span>.<span class="ident">send</span>(())
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
+    <span class="kw">_</span> : <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="kw">let</span> () <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
+
     <span class="ident">End</span>()
   }
 }

@@ -52,57 +52,69 @@
 <span id="49">49</span>
 <span id="50">50</span>
 <span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">super</span>::{
+  <span class="ident">structs</span>::{
+    <span class="ident">CloakedSession</span>,
+    <span class="ident">SessionF</span>,
+  },
+  <span class="ident">traits</span>::{
+    <span class="ident">HasPartialSession</span>,
+    <span class="ident">NeedPartialSession</span>,
+    <span class="ident">PartialSessionWitness</span>,
+  },
+};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+  <span class="ident">base</span>::{
+    <span class="ident">Context</span>,
+    <span class="ident">PartialSession</span>,
+    <span class="ident">Protocol</span>,
+  },
+  <span class="ident">functional</span>::{
+    <span class="ident">TyCon</span>,
+    <span class="ident">TypeApp</span>,
+  },
+};
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">traits</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">structs</span>::<span class="kw-2">*</span>;
-
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="ident">HasPartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">HasPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span>: <span class="ident">Context</span>,
-  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span> : <span class="ident">Context</span>,
+  <span class="ident">A</span> : <span class="ident">Protocol</span>,
 {
-  <span class="kw">fn</span> <span class="ident">get_partial_session</span>
-    ( <span class="self">self</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span> )
-    <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">get_partial_session</span>(<span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
   {
     <span class="kw-2">*</span><span class="self">self</span>
   }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
-  <span class="ident">PartialSessionWitness</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span> <span class="ident">PartialSessionWitness</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span>: <span class="ident">Context</span>,
-  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span> : <span class="ident">Context</span>,
+  <span class="ident">A</span> : <span class="ident">Protocol</span>,
 {
-  <span class="kw">fn</span> <span class="ident">with_partial_session</span>
-    ( <span class="self">self</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>,
-      <span class="ident">cont</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span> <span class="ident">NeedPartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>
+  <span class="kw">fn</span> <span class="ident">with_partial_session</span>(
+    <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+    <span class="ident">cont</span> : <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NeedPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>
   {
     <span class="ident">cont</span>.<span class="ident">on_partial_session</span>(<span class="kw-2">*</span><span class="self">self</span>)
   }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span> <span class="ident">TyCon</span>
-  <span class="kw">for</span> <span class="ident">SessionF</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
-<span class="kw">where</span>
-  <span class="ident">C</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
-{ }
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">TyCon</span> <span class="kw">for</span> <span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">C</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {}
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span> <span class="ident">TypeApp</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">SessionF</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">C</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
-  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">CloakedSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">A</span> <span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">CloakedSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../../../../";window.currentCrate = "ferrite_session";</script><script src="../../../../../../main.js"></script><script src="../../../../../../source-script.js"></script><script src="../../../../../../source-files.js"></script><script defer src="../../../../../../search-index.js"></script></body></html>

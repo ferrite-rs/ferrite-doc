@@ -56,61 +56,71 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span>::{
+  <span class="ident">accept_shared_session</span>,
+  <span class="ident">acquire_shared_session</span>,
+  <span class="ident">append_emtpy_slot</span>,
+  <span class="ident">apply_channel</span>,
+  <span class="ident">async_acquire_shared_session</span>,
+  <span class="ident">async_acquire_shared_session_with_result</span>,
+  <span class="ident">case</span>,
+  <span class="ident">choose</span>,
+  <span class="ident">cut</span>,
+  <span class="ident">cut_append</span>,
+  <span class="ident">detach_shared_session</span>,
+  <span class="ident">fix_session</span>,
+  <span class="ident">fork</span>,
+  <span class="ident">forward</span>,
+  <span class="ident">include_session</span>,
+  <span class="ident">join_sessions</span>,
+  <span class="ident">new_session</span>,
+  <span class="ident">offer_case</span>,
+  <span class="ident">offer_choice</span>,
+  <span class="ident">partial_session</span>,
+  <span class="ident">partial_session_1</span>,
+  <span class="ident">partial_session_2</span>,
+  <span class="ident">receive_channel</span>,
+  <span class="ident">receive_channel_from</span>,
+  <span class="ident">receive_channel_from_slot</span>,
+  <span class="ident">receive_channel_slot</span>,
+  <span class="ident">receive_value</span>,
+  <span class="ident">receive_value_from</span>,
+  <span class="ident">release_shared_session</span>,
+  <span class="ident">run_cont</span>,
   <span class="ident">run_session</span>,
   <span class="ident">run_session_with_result</span>,
+  <span class="ident">run_shared_session</span>,
+  <span class="ident">run_shared_session_with_join_handle</span>,
+  <span class="ident">send_channel_from</span>,
+  <span class="ident">send_channel_to</span>,
+  <span class="ident">send_value</span>,
+  <span class="ident">send_value_to</span>,
+  <span class="ident">session</span>,
+  <span class="ident">session_1</span>,
+  <span class="ident">session_2</span>,
   <span class="ident">step</span>,
-
-  <span class="ident">wait</span>,
+  <span class="ident">succ_session</span>,
   <span class="ident">terminate</span>,
   <span class="ident">terminate_async</span>,
   <span class="ident">terminate_nil</span>,
-
-  <span class="ident">fix_session</span>,
-  <span class="ident">succ_session</span>,
   <span class="ident">unfix_session</span>,
   <span class="ident">unfix_session_for</span>,
-
-  <span class="ident">forward</span>,
-
-  <span class="ident">include_session</span>,
+  <span class="ident">unwrap_session</span>,
+  <span class="ident">wait</span>,
   <span class="ident">wait_session</span>,
   <span class="ident">wait_sessions</span>,
-  <span class="ident">join_sessions</span>,
-
-  <span class="ident">cut</span>,
-  <span class="ident">cut_append</span>,
+  <span class="ident">wrap_session</span>,
+  <span class="ident">AllLeft</span>,
+  <span class="ident">AllRight</span>,
   <span class="ident">Cut</span>,
   <span class="ident">L</span>,
   <span class="ident">R</span>,
-  <span class="ident">AllLeft</span>,
-  <span class="ident">AllRight</span>,
-
-  <span class="ident">clone_session</span>,
-  <span class="ident">PersistentSession</span>,
-  <span class="ident">create_persistent_session</span>,
-
-  <span class="ident">send_value</span>,
-  <span class="ident">receive_value_from</span>,
-
-  <span class="ident">receive_value</span>,
-  <span class="ident">send_value_to</span>,
-
-  <span class="ident">fork</span>,
-  <span class="ident">send_channel_from</span>,
-  <span class="ident">receive_channel_from</span>,
-  <span class="ident">receive_channel_from_slot</span>,
-
-  <span class="ident">apply_channel</span>,
-  <span class="ident">send_channel_to</span>,
-  <span class="ident">receive_channel</span>,
-  <span class="ident">receive_channel_slot</span>,
-
-  <span class="ident">wrap_session</span>,
-  <span class="ident">unwrap_session</span>,
 };
-
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">choice</span>::<span class="kw-2">*</span>;
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "ferrite_session";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

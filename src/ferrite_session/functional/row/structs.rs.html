@@ -68,11 +68,16 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
-<span id="68">68</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">any</span>::<span class="ident">Any</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
-<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{
+  <span class="ident">any</span>::<span class="ident">Any</span>,
+  <span class="ident">marker</span>::<span class="ident">PhantomData</span>,
+};
+
+<span class="kw">use</span> <span class="ident">serde</span>::{
+  <span class="ident">Deserialize</span>,
+  <span class="ident">Serialize</span>,
+};
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">traits</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="ident">type_app</span>::<span class="kw-2">*</span>;
@@ -81,61 +86,54 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Bottom</span> {}
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Sum</span> <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Sum</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
 {
-  <span class="ident">Inl</span> ( <span class="ident">A</span> ),
-  <span class="ident">Inr</span> ( <span class="ident">B</span> ),
+  <span class="ident">Inl</span>(<span class="ident">A</span>),
+  <span class="ident">Inr</span>(<span class="ident">B</span>),
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
 {
-  <span class="kw">pub</span> <span class="ident">row</span>: <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span> <span class="ident">HasRowWitness</span> <span class="op">&lt;</span>
-    <span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">Box</span> <span class="op">&lt;</span> <span class="kw">dyn</span> <span class="ident">Any</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span>
+  <span class="kw">pub</span> <span class="ident">row</span> : <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">HasRowWitness</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Any</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChoiceSelector</span> <span class="op">&lt;</span> <span class="ident">N</span> <span class="op">&gt;</span> {
-  <span class="ident">phantom</span>: <span class="ident">PhantomData</span> <span class="op">&lt;</span> <span class="ident">N</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChoiceSelector</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
+{
+  <span class="ident">phantom</span> : <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Merge</span> <span class="op">&lt;</span> <span class="ident">T1</span>, <span class="ident">T2</span> <span class="op">&gt;</span>
-  ( <span class="ident">PhantomData</span> <span class="op">&lt;</span>( <span class="ident">T1</span>, <span class="ident">T2</span> )<span class="op">&gt;</span> );
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">T1</span>, <span class="ident">T2</span><span class="op">&gt;</span>(<span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">T1</span>, <span class="ident">T2</span>)<span class="op">&gt;</span>);
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ElimConst</span> {}
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span> <span class="op">&gt;</span>
-  <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span> <span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">F</span>: <span class="ident">TyCon</span>,
-  <span class="ident">Row</span>: <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>,
+  <span class="ident">F</span> : <span class="ident">TyCon</span>,
+  <span class="ident">Row</span> : <span class="ident">RowApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
 {
-  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_row</span> (<span class="self">self</span>)
-    <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Row</span>::<span class="ident">Applied</span>
+  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_row</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Row</span>::<span class="ident">Applied</span>
   {
     <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">row</span>.<span class="ident">get_row</span>()
   }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">N</span> <span class="op">&gt;</span>
-  <span class="ident">ChoiceSelector</span> <span class="op">&lt;</span> <span class="ident">N</span> <span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> <span class="ident">ChoiceSelector</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
 {
-  <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span> () <span class="op">-</span><span class="op">&gt;</span>
-    <span class="ident">ChoiceSelector</span> <span class="op">&lt;</span> <span class="ident">N</span> <span class="op">&gt;</span>
+  <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChoiceSelector</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
   {
     <span class="ident">ChoiceSelector</span> {
-      <span class="ident">phantom</span>: <span class="ident">PhantomData</span>
+      <span class="ident">phantom</span> : <span class="ident">PhantomData</span>,
     }
   }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cloak_row</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span> <span class="op">&gt;</span>
-  ( <span class="ident">row</span>: <span class="ident">Row</span>::<span class="ident">Applied</span> )
-  <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span> <span class="op">&lt;</span> <span class="ident">Row</span>, <span class="ident">F</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cloak_row</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">row</span> : <span class="ident">Row</span>::<span class="ident">Applied</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">F</span>: <span class="ident">TyCon</span>,
-  <span class="ident">Row</span>: <span class="ident">RowApp</span> <span class="op">&lt;</span> <span class="ident">F</span> <span class="op">&gt;</span>,
+  <span class="ident">F</span> : <span class="ident">TyCon</span>,
+  <span class="ident">Row</span> : <span class="ident">RowApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
 {
   <span class="ident">AppliedSum</span> {
-    <span class="ident">row</span>: <span class="ident">Box</span>::<span class="ident">new</span>( <span class="ident">row</span> )
+    <span class="ident">row</span> : <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">row</span>),
   }
 }
 </pre></div>

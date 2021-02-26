@@ -43,48 +43,92 @@
 <span id="40">40</span>
 <span id="41">41</span>
 <span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
 </pre><div class="example-wrap"><pre class="rust ">
-
-<span class="doccomment">//! The `base` module  defines the abstract interfaces for `session_rust`.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - [`crate::base::Protocol`] - Protocol expressions in session types with</span>
-<span class="doccomment">//!   translation to Rust channel types.</span>
-
 <span class="kw">mod</span> <span class="ident">channel</span>;
-<span class="kw">mod</span> <span class="ident">protocol</span>;
 <span class="kw">mod</span> <span class="ident">context</span>;
+<span class="kw">mod</span> <span class="ident">protocol</span>;
+<span class="kw">mod</span> <span class="ident">rec</span>;
 <span class="kw">mod</span> <span class="ident">session</span>;
-<span class="kw">mod</span> <span class="ident">lens</span>;
-<span class="kw">mod</span> <span class="ident">fix</span>;
+<span class="kw">mod</span> <span class="ident">shared</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">public</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">channel</span>::<span class="kw-2">*</span>;
-
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">protocol</span>::{
-  <span class="ident">Protocol</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
+  <span class="ident">channel</span>::{
+    <span class="ident">ipc_channel</span>,
+    <span class="ident">once_channel</span>,
+    <span class="ident">opaque_channel</span>,
+    <span class="ident">unbounded</span>,
+    <span class="ident">ForwardChannel</span>,
+    <span class="ident">IpcReceiver</span>,
+    <span class="ident">IpcSender</span>,
+    <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">OpaqueSender</span>,
+    <span class="ident">Receiver</span>,
+    <span class="ident">ReceiverF</span>,
+    <span class="ident">ReceiverOnce</span>,
+    <span class="ident">Sender</span>,
+    <span class="ident">SenderF</span>,
+    <span class="ident">SenderOnce</span>,
+    <span class="ident">Value</span>,
+  },
+  <span class="ident">context</span>::{
+    <span class="ident">AppendContext</span>,
+    <span class="ident">Context</span>,
+    <span class="ident">ContextLens</span>,
+    <span class="ident">Empty</span>,
+    <span class="ident">EmptyContext</span>,
+    <span class="ident">Slot</span>,
+  },
+  <span class="ident">protocol</span>::{
+    <span class="ident">Protocol</span>,
+    <span class="ident">SharedProtocol</span>,
+  },
+  <span class="ident">rec</span>::{
+    <span class="ident">fix</span>,
+    <span class="ident">unfix</span>,
+    <span class="ident">HasRecApp</span>,
+    <span class="ident">Rec</span>,
+    <span class="ident">RecApp</span>,
+    <span class="ident">SharedRecApp</span>,
+    <span class="ident">Unfix</span>,
+  },
+  <span class="ident">session</span>::{
+    <span class="ident">unsafe_create_session</span>,
+    <span class="ident">unsafe_run_session</span>,
+    <span class="ident">PartialSession</span>,
+    <span class="ident">Session</span>,
+  },
+  <span class="ident">shared</span>::{
+    <span class="ident">unsafe_create_shared_channel</span>,
+    <span class="ident">unsafe_create_shared_session</span>,
+    <span class="ident">unsafe_receive_shared_channel</span>,
+    <span class="ident">unsafe_run_shared_session</span>,
+    <span class="ident">SharedChannel</span>,
+    <span class="ident">SharedSession</span>,
+  },
 };
-
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">context</span>::{
-  <span class="ident">Context</span>,
-  <span class="ident">EmptyContext</span>,
-  <span class="ident">AppendContext</span>,
-  <span class="ident">Reversible</span>
-};
-
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">session</span>::{
-  <span class="ident">Session</span>,
-  <span class="ident">PartialSession</span>,
-  <span class="ident">unsafe_create_session</span>,
-  <span class="ident">unsafe_run_session</span>
-};
-
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">lens</span>::{
-  <span class="ident">Slot</span>,
-  <span class="ident">Empty</span>,
-  <span class="ident">ContextLens</span>,
-};
-
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">fix</span>::<span class="kw-2">*</span>;
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "ferrite_session";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

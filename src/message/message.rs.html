@@ -78,33 +78,21 @@
 <span id="75">75</span>
 <span id="76">76</span>
 <span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
-<span id="81">81</span>
-<span id="82">82</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">ferrite_session</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">ipc_channel</span>::<span class="ident">ipc</span>;
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">future</span>::<span class="ident">join_all</span>;
+<span class="kw">use</span> <span class="ident">ipc_channel</span>::<span class="ident">ipc</span>;
 
-<span class="macro">define_choice</span><span class="macro">!</span>{ <span class="ident">CounterCommand</span>;
+<span class="macro">define_choice</span><span class="macro">!</span> { <span class="ident">CounterCommand</span>;
   <span class="ident">Increment</span>: <span class="ident">Z</span>,
   <span class="ident">GetCount</span>: <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">u64</span>, <span class="ident">Z</span> <span class="op">&gt;</span>,
 }
 
-<span class="kw">type</span> <span class="ident">CounterSession</span> <span class="op">=</span>
-  <span class="ident">LinearToShared</span> <span class="op">&lt;</span>
-    <span class="ident">ExternalChoice</span> <span class="op">&lt;</span>
-      <span class="ident">CounterCommand</span>
-    <span class="op">&gt;</span>
-  <span class="op">&gt;</span>;
+<span class="kw">type</span> <span class="ident">CounterSession</span> <span class="op">=</span> <span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">CounterCommand</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-<span class="kw">fn</span> <span class="ident">make_counter_session</span>
-  ( <span class="ident">count</span>: <span class="ident">u64</span> )
-  <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedSession</span> <span class="op">&lt;</span> <span class="ident">CounterSession</span> <span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">make_counter_session</span>(<span class="ident">count</span> : <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">CounterSession</span><span class="op">&gt;</span>
 {
-  <span class="ident">accept_shared_session</span> ( <span class="kw">move</span> <span class="op">|</span><span class="op">|</span>
+  <span class="ident">accept_shared_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
     <span class="macro">offer_choice</span><span class="macro">!</span> {
       <span class="ident">Increment</span> <span class="op">=</span><span class="op">&gt;</span>
         <span class="ident">detach_shared_session</span> (
@@ -115,22 +103,19 @@
           <span class="ident">detach_shared_session</span> (
             <span class="ident">make_counter_session</span> ( <span class="ident">count</span> ) ) )
     }
-  )
+  })
 }
 
-<span class="kw">async</span> <span class="kw">fn</span> <span class="ident">use_counter</span>
-  ( <span class="ident">counter</span>: <span class="ident">SharedChannel</span> <span class="op">&lt;</span> <span class="ident">CounterSession</span> <span class="op">&gt;</span>,
-    <span class="ident">count</span>: <span class="ident">u64</span>,
-  ) <span class="op">-</span><span class="op">&gt;</span>
-    <span class="ident">u64</span>
+<span class="kw">async</span> <span class="kw">fn</span> <span class="ident">use_counter</span>(
+  <span class="ident">counter</span> : <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">CounterSession</span><span class="op">&gt;</span>,
+  <span class="ident">count</span> : <span class="ident">u64</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span>
 {
   <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">futures</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
 
   <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">count</span> {
-    <span class="kw">let</span> <span class="ident">future</span> <span class="op">=</span> <span class="ident">async_acquire_shared_session</span> ( <span class="ident">counter</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span> <span class="ident">chan</span> <span class="op">|</span> {
-      <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">Increment</span>,
-        <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
-          <span class="ident">terminate</span>() ) )
+    <span class="kw">let</span> <span class="ident">future</span> <span class="op">=</span> <span class="ident">async_acquire_shared_session</span>(<span class="ident">counter</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span><span class="ident">chan</span><span class="op">|</span> {
+      <span class="macro">choose</span><span class="macro">!</span>(<span class="ident">chan</span>, <span class="ident">Increment</span>, <span class="ident">release_shared_session</span>(<span class="ident">chan</span>, <span class="ident">terminate</span>()))
     });
 
     <span class="ident">futures</span>.<span class="ident">push</span>(<span class="ident">future</span>);
@@ -142,28 +127,33 @@
 
   <span class="ident">join_all</span>(<span class="ident">futures</span>).<span class="kw">await</span>;
 
-  <span class="ident">run_session_with_result</span> (
-    <span class="macro">acquire_shared_session</span><span class="macro">!</span> ( <span class="ident">counter</span>, <span class="ident">chan</span> <span class="op">=</span><span class="op">&gt;</span>
+  <span class="ident">run_session_with_result</span>(<span class="macro">acquire_shared_session</span><span class="macro">!</span> ( <span class="ident">counter</span>, <span class="ident">chan</span> <span class="op">=</span><span class="op">&gt;</span>
       <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">GetCount</span>,
         <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">count</span> <span class="op">=</span><span class="op">&gt;</span>
           <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
             <span class="ident">send_value</span> ( <span class="ident">count</span> ,
-              <span class="ident">terminate</span>() ) ) ) ) )
-  ).<span class="kw">await</span>
+              <span class="ident">terminate</span>() ) ) ) ) ))
+  .<span class="kw">await</span>
 }
 
 <span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
-<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>() {
+
+<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>()
+{
   <span class="ident">env_logger</span>::<span class="ident">init</span>();
 
-  <span class="kw">let</span> <span class="ident">counter</span> <span class="op">=</span> <span class="ident">run_shared_session</span> ( <span class="ident">make_counter_session</span> ( <span class="number">0</span> ) );
+  <span class="kw">let</span> <span class="ident">counter</span> <span class="op">=</span> <span class="ident">run_shared_session</span>(<span class="ident">make_counter_session</span>(<span class="number">0</span>));
 
   <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">ipc</span>::<span class="ident">channel</span>().<span class="ident">unwrap</span>();
+
   <span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">counter</span>).<span class="ident">unwrap</span>();
+
   <span class="kw">let</span> <span class="ident">shared</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
+
   <span class="comment">// let shared = counter.clone();</span>
 
-  <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">use_counter</span> ( <span class="ident">shared</span>, <span class="number">10000</span> ).<span class="kw">await</span>;
+  <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">use_counter</span>(<span class="ident">shared</span>, <span class="number">10000</span>).<span class="kw">await</span>;
+
   <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;count: {}&quot;</span>, <span class="ident">count</span>);
 }
 </pre></div>

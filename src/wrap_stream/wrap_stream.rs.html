@@ -65,42 +65,36 @@
 <span id="62">62</span>
 <span id="63">63</span>
 <span id="64">64</span>
-<span id="65">65</span>
-<span id="66">66</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
-<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">time</span>::<span class="ident">sleep</span>;
 
 <span class="kw">use</span> <span class="ident">ferrite_session</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">time</span>::<span class="ident">sleep</span>;
 
 <span class="kw">struct</span> <span class="ident">WrapIntStream</span>;
 
 <span class="kw">impl</span> <span class="ident">Wrapper</span> <span class="kw">for</span> <span class="ident">WrapIntStream</span>
-{ <span class="kw">type</span> <span class="ident">Unwrap</span> <span class="op">=</span> <span class="ident">IntStream</span>; }
-
-<span class="kw">type</span> <span class="ident">IntStream</span> <span class="op">=</span> <span class="ident">SendValue</span> <span class="op">&lt;</span> <span class="ident">u64</span>, <span class="ident">Wrap</span> <span class="op">&lt;</span> <span class="ident">WrapIntStream</span> <span class="op">&gt;</span> <span class="op">&gt;</span>;
-
-<span class="kw">fn</span> <span class="ident">producer</span> (<span class="ident">count</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span>
-  <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">IntStream</span> <span class="op">&gt;</span>
 {
-  <span class="macro">send_value</span><span class="macro">!</span> (
+  <span class="kw">type</span> <span class="ident">Unwrap</span> <span class="op">=</span> <span class="ident">IntStream</span>;
+}
+
+<span class="kw">type</span> <span class="ident">IntStream</span> <span class="op">=</span> <span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">Wrap</span><span class="op">&lt;</span><span class="ident">WrapIntStream</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+<span class="kw">fn</span> <span class="ident">producer</span>(<span class="ident">count</span> : <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">IntStream</span><span class="op">&gt;</span>
+{
+  <span class="macro">send_value</span><span class="macro">!</span>(
     {
       <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">1</span>)).<span class="kw">await</span>;
+
       <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Producing value: {}&quot;</span>, <span class="ident">count</span>);
 
       <span class="ident">count</span>
     },
-    <span class="ident">wrap_session</span> ( <span class="ident">producer</span> ( <span class="ident">count</span> <span class="op">+</span> <span class="number">1</span> ) )
+    <span class="ident">wrap_session</span>(<span class="ident">producer</span>(<span class="ident">count</span> <span class="op">+</span> <span class="number">1</span>))
   )
 }
 
-<span class="kw">fn</span> <span class="ident">consumer</span> () <span class="op">-</span><span class="op">&gt;</span>
-  <span class="ident">Session</span> <span class="op">&lt;</span>
-    <span class="ident">ReceiveChannel</span> <span class="op">&lt;</span>
-      <span class="ident">IntStream</span>,
-      <span class="ident">End</span>
-    <span class="op">&gt;</span>
-  <span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">consumer</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">IntStream</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>
 {
   <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">stream</span> <span class="op">=</span><span class="op">&gt;</span> {
     <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">stream</span>,
@@ -121,18 +115,20 @@
   })
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">stream_session</span> () <span class="op">-</span><span class="op">&gt;</span>
-  <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">End</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">stream_session</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 {
-  <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">producer</span> ( <span class="number">0</span> );
-  <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">consumer</span> ();
+  <span class="kw">let</span> <span class="ident">p1</span> <span class="op">=</span> <span class="ident">producer</span>(<span class="number">0</span>);
 
-  <span class="ident">apply_channel</span> ( <span class="ident">p2</span>, <span class="ident">p1</span> )
+  <span class="kw">let</span> <span class="ident">p2</span> <span class="op">=</span> <span class="ident">consumer</span>();
+
+  <span class="ident">apply_channel</span>(<span class="ident">p2</span>, <span class="ident">p1</span>)
 }
 
 <span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
-<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>() {
-  <span class="ident">run_session</span>( <span class="ident">stream_session</span> () ).<span class="kw">await</span>
+
+<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>()
+{
+  <span class="ident">run_session</span>(<span class="ident">stream_session</span>()).<span class="kw">await</span>
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "wrap_stream";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -266,281 +266,243 @@
 <span id="263">263</span>
 <span id="264">264</span>
 <span id="265">265</span>
-<span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
-<span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
-<span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
-<span id="279">279</span>
-<span id="280">280</span>
-<span id="281">281</span>
-<span id="282">282</span>
-<span id="283">283</span>
-<span id="284">284</span>
-<span id="285">285</span>
-<span id="286">286</span>
-<span id="287">287</span>
-<span id="288">288</span>
-<span id="289">289</span>
-<span id="290">290</span>
-<span id="291">291</span>
-<span id="292">292</span>
-<span id="293">293</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">task</span>;
 <span class="kw">use</span> <span class="ident">async_macros</span>::<span class="ident">join</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">task</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">functional</span>::<span class="ident">nat</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{
+  <span class="ident">base</span>::{
+    <span class="ident">once_channel</span>,
+    <span class="ident">unsafe_create_session</span>,
+    <span class="ident">unsafe_run_session</span>,
+    <span class="ident">AppendContext</span>,
+    <span class="ident">Context</span>,
+    <span class="ident">Empty</span>,
+    <span class="ident">PartialSession</span>,
+    <span class="ident">Protocol</span>,
+    <span class="ident">Slot</span>,
+  },
+  <span class="ident">functional</span>::<span class="ident">nat</span>::<span class="ident">Nat</span>,
+};
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">L</span> {}
+
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">R</span> {}
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AllLeft</span> {}
+
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AllRight</span> {}
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SplitContext</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>
+  <span class="ident">C</span> : <span class="ident">Context</span>,
 {
-  <span class="kw">type</span> <span class="ident">Left</span> : <span class="ident">Context</span>;
-  <span class="kw">type</span> <span class="ident">Right</span> : <span class="ident">Context</span>;
+  <span class="kw">type</span> <span class="ident">Left</span>: <span class="ident">Context</span>;
 
-  <span class="kw">fn</span> <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span> )
-    <span class="op">-</span><span class="op">&gt;</span>  ( <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Left</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span>::<span class="ident">Endpoints</span>,
-          <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span>::<span class="ident">Endpoints</span> )
-  ;
+  <span class="kw">type</span> <span class="ident">Right</span>: <span class="ident">Context</span>;
+
+  <span class="kw">fn</span> <span class="ident">split_endpoints</span>(
+    <span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span>
+  ) <span class="op">-</span><span class="op">&gt;</span> (
+    <span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Left</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Endpoints</span>,
+    <span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Endpoints</span>,
+  );
 }
 
-<span class="kw">impl</span> <span class="ident">SplitContext</span> <span class="op">&lt;</span> () <span class="op">&gt;</span> <span class="kw">for</span> ()
+<span class="kw">impl</span> <span class="ident">SplitContext</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="kw">for</span> ()
 {
   <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> ();
+
   <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> ();
 
-  <span class="kw">fn</span> <span class="ident">split_endpoints</span> ( <span class="kw">_</span>: () )
-    <span class="op">-</span><span class="op">&gt;</span> ( (), () )
-  { ( (), () ) }
+  <span class="kw">fn</span> <span class="ident">split_endpoints</span>(<span class="kw">_</span> : ()) <span class="op">-</span><span class="op">&gt;</span> ((), ())
+  {
+    ((), ())
+  }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span> <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">AllLeft</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">SplitContext</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AllLeft</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>
+  <span class="ident">C</span> : <span class="ident">Context</span>,
 {
   <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C</span>;
+
   <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> ();
 
-  <span class="kw">fn</span> <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span> )
-    <span class="op">-</span><span class="op">&gt;</span> ( <span class="ident">C</span>::<span class="ident">Endpoints</span>, () )
+  <span class="kw">fn</span> <span class="ident">split_endpoints</span>(<span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">C</span>::<span class="ident">Endpoints</span>, ())
   {
-    ( <span class="ident">ctx</span>, () )
+    (<span class="ident">ctx</span>, ())
   }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span> <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">AllRight</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">SplitContext</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AllRight</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>
+  <span class="ident">C</span> : <span class="ident">Context</span>,
 {
   <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> ();
+
   <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C</span>;
 
-  <span class="kw">fn</span> <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span> )
-    <span class="op">-</span><span class="op">&gt;</span> ( (), <span class="ident">C</span>::<span class="ident">Endpoints</span> )
+  <span class="kw">fn</span> <span class="ident">split_endpoints</span>(<span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span>) <span class="op">-</span><span class="op">&gt;</span> ((), <span class="ident">C</span>::<span class="ident">Endpoints</span>)
   {
-    ( (), <span class="ident">ctx</span> )
+    ((), <span class="ident">ctx</span>)
   }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span> <span class="op">&gt;</span>
-  <span class="ident">SplitContext</span>
-  <span class="op">&lt;</span> ( <span class="ident">Empty</span>, <span class="ident">C</span> ) <span class="op">&gt;</span>
-  <span class="kw">for</span> ( <span class="ident">Empty</span>, <span class="ident">X</span> )
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span><span class="op">&gt;</span> <span class="ident">SplitContext</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, <span class="ident">C</span>)<span class="op">&gt;</span> <span class="kw">for</span> (<span class="ident">Empty</span>, <span class="ident">X</span>)
 <span class="kw">where</span>
   <span class="ident">C</span> : <span class="ident">Context</span>,
   <span class="ident">C1</span> : <span class="ident">Context</span>,
   <span class="ident">C2</span> : <span class="ident">Context</span>,
-  <span class="ident">X</span> : <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span> <span class="op">&gt;</span>
+  <span class="ident">X</span> : <span class="ident">SplitContext</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
-  <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> ( <span class="ident">Empty</span>, <span class="ident">C1</span> );
-  <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> ( <span class="ident">Empty</span>, <span class="ident">C2</span> );
+  <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> (<span class="ident">Empty</span>, <span class="ident">C1</span>);
 
-  <span class="kw">fn</span> <span class="ident">split_endpoints</span>
-    ( ( <span class="ident">a</span>, <span class="ident">ctx</span> ): ( (), <span class="ident">C</span>::<span class="ident">Endpoints</span> ) )
-    <span class="op">-</span><span class="op">&gt;</span>  ( ( (), <span class="ident">C1</span>::<span class="ident">Endpoints</span> ),
-          ( (), <span class="ident">C2</span>::<span class="ident">Endpoints</span> )
-        )
+  <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> (<span class="ident">Empty</span>, <span class="ident">C2</span>);
+
+  <span class="kw">fn</span> <span class="ident">split_endpoints</span>(
+    (<span class="ident">a</span>, <span class="ident">ctx</span>) : ((), <span class="ident">C</span>::<span class="ident">Endpoints</span>)
+  ) <span class="op">-</span><span class="op">&gt;</span> (((), <span class="ident">C1</span>::<span class="ident">Endpoints</span>), ((), <span class="ident">C2</span>::<span class="ident">Endpoints</span>))
   {
-    <span class="kw">let</span> ( <span class="ident">ctx1</span>, <span class="ident">ctx2</span> ) <span class="op">=</span> <span class="ident">X</span> :: <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> );
-    ( ( <span class="ident">a</span>, <span class="ident">ctx1</span> ), ( (), <span class="ident">ctx2</span> ) )
+    <span class="kw">let</span> (<span class="ident">ctx1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">X</span>::<span class="ident">split_endpoints</span>(<span class="ident">ctx</span>);
+
+    ((<span class="ident">a</span>, <span class="ident">ctx1</span>), ((), <span class="ident">ctx2</span>))
   }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">A</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span> <span class="op">&gt;</span>
-  <span class="ident">SplitContext</span>
-  <span class="op">&lt;</span> ( <span class="ident">A</span>, <span class="ident">C</span> ) <span class="op">&gt;</span>
-  <span class="kw">for</span> ( <span class="ident">L</span>, <span class="ident">X</span> )
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">A</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span><span class="op">&gt;</span> <span class="ident">SplitContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, <span class="ident">C</span>)<span class="op">&gt;</span> <span class="kw">for</span> (<span class="ident">L</span>, <span class="ident">X</span>)
 <span class="kw">where</span>
   <span class="ident">A</span> : <span class="ident">Slot</span>,
   <span class="ident">C</span> : <span class="ident">Context</span>,
   <span class="ident">C1</span> : <span class="ident">Context</span>,
   <span class="ident">C2</span> : <span class="ident">Context</span>,
-  <span class="ident">X</span> : <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span> <span class="op">&gt;</span>
+  <span class="ident">X</span> : <span class="ident">SplitContext</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
-  <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> ( <span class="ident">A</span>, <span class="ident">C1</span> );
-  <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> ( <span class="ident">Empty</span>, <span class="ident">C2</span> );
+  <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> (<span class="ident">A</span>, <span class="ident">C1</span>);
 
-  <span class="kw">fn</span> <span class="ident">split_endpoints</span>
-    ( ( <span class="ident">a</span>, <span class="ident">ctx</span> ): ( <span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C</span>::<span class="ident">Endpoints</span> ) )
-    <span class="op">-</span><span class="op">&gt;</span>  ( ( <span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C1</span>::<span class="ident">Endpoints</span> ),
-          ( (), <span class="ident">C2</span>::<span class="ident">Endpoints</span> )
-        )
+  <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> (<span class="ident">Empty</span>, <span class="ident">C2</span>);
+
+  <span class="kw">fn</span> <span class="ident">split_endpoints</span>(
+    (<span class="ident">a</span>, <span class="ident">ctx</span>) : (<span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C</span>::<span class="ident">Endpoints</span>)
+  ) <span class="op">-</span><span class="op">&gt;</span> ((<span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C1</span>::<span class="ident">Endpoints</span>), ((), <span class="ident">C2</span>::<span class="ident">Endpoints</span>))
   {
-    <span class="kw">let</span> ( <span class="ident">ctx1</span>, <span class="ident">ctx2</span> ) <span class="op">=</span> <span class="ident">X</span> :: <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> );
-    ( ( <span class="ident">a</span>, <span class="ident">ctx1</span> ), ( (), <span class="ident">ctx2</span> ) )
+    <span class="kw">let</span> (<span class="ident">ctx1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">X</span>::<span class="ident">split_endpoints</span>(<span class="ident">ctx</span>);
+
+    ((<span class="ident">a</span>, <span class="ident">ctx1</span>), ((), <span class="ident">ctx2</span>))
   }
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">A</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span> <span class="op">&gt;</span>
-  <span class="ident">SplitContext</span>
-  <span class="op">&lt;</span> ( <span class="ident">A</span>, <span class="ident">C</span> ) <span class="op">&gt;</span>
-  <span class="kw">for</span> ( <span class="ident">R</span>, <span class="ident">X</span> )
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">A</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span><span class="op">&gt;</span> <span class="ident">SplitContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, <span class="ident">C</span>)<span class="op">&gt;</span> <span class="kw">for</span> (<span class="ident">R</span>, <span class="ident">X</span>)
 <span class="kw">where</span>
   <span class="ident">A</span> : <span class="ident">Slot</span>,
   <span class="ident">C</span> : <span class="ident">Context</span>,
   <span class="ident">C1</span> : <span class="ident">Context</span>,
   <span class="ident">C2</span> : <span class="ident">Context</span>,
-  <span class="ident">X</span> : <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span> <span class="op">&gt;</span>
+  <span class="ident">X</span> : <span class="ident">SplitContext</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
-  <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> ( <span class="ident">Empty</span>, <span class="ident">C1</span> );
-  <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> ( <span class="ident">A</span>, <span class="ident">C2</span> );
+  <span class="kw">type</span> <span class="ident">Left</span> <span class="op">=</span> (<span class="ident">Empty</span>, <span class="ident">C1</span>);
 
-  <span class="kw">fn</span> <span class="ident">split_endpoints</span>
-    ( ( <span class="ident">a</span>, <span class="ident">ctx</span> ): ( <span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C</span>::<span class="ident">Endpoints</span> ) )
-    <span class="op">-</span><span class="op">&gt;</span>  ( ( (), <span class="ident">C1</span>::<span class="ident">Endpoints</span> ),
-          ( <span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C2</span>::<span class="ident">Endpoints</span> )
-        )
+  <span class="kw">type</span> <span class="ident">Right</span> <span class="op">=</span> (<span class="ident">A</span>, <span class="ident">C2</span>);
+
+  <span class="kw">fn</span> <span class="ident">split_endpoints</span>(
+    (<span class="ident">a</span>, <span class="ident">ctx</span>) : (<span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C</span>::<span class="ident">Endpoints</span>)
+  ) <span class="op">-</span><span class="op">&gt;</span> (((), <span class="ident">C1</span>::<span class="ident">Endpoints</span>), (<span class="ident">A</span>::<span class="ident">Endpoint</span>, <span class="ident">C2</span>::<span class="ident">Endpoints</span>))
   {
-    <span class="kw">let</span> ( <span class="ident">ctx1</span>, <span class="ident">ctx2</span> ) <span class="op">=</span> <span class="ident">X</span> :: <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> );
-    ( ( (), <span class="ident">ctx1</span> ), ( <span class="ident">a</span>, <span class="ident">ctx2</span> ) )
+    <span class="kw">let</span> (<span class="ident">ctx1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">X</span>::<span class="ident">split_endpoints</span>(<span class="ident">ctx</span>);
+
+    (((), <span class="ident">ctx1</span>), (<span class="ident">a</span>, <span class="ident">ctx2</span>))
   }
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Cut</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
-  : <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Cut</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="ident">SplitContext</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">C</span> : <span class="ident">Context</span>,
 {
-  <span class="kw">fn</span> <span class="ident">cut</span>
-    <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>
-    ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Left</span>, <span class="ident">A</span> <span class="op">&gt;</span>,
-      <span class="ident">cont2</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
-        ( <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span> ::<span class="ident">Length</span> )
-        <span class="op">-</span><span class="op">&gt;</span>
-          <span class="ident">PartialSession</span> <span class="op">&lt;</span>
-            <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span>
-              <span class="kw">as</span> <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>
-            <span class="op">&gt;</span> ::<span class="ident">Appended</span>, <span class="ident">B</span>
-          <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span>
-      <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">cut</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
+    <span class="ident">cont1</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Left</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">cont2</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(
+      <span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Length</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>
+      <span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Appended</span>,
+      <span class="ident">B</span>,
+    <span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Protocol</span>,
     <span class="ident">B</span> : <span class="ident">Protocol</span>,
-    <span class="self">Self</span>::<span class="ident">Right</span> : <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>,
-  ;
+    <span class="self">Self</span>::<span class="ident">Right</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span>;
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">C</span> <span class="op">&gt;</span>
-  <span class="ident">Cut</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">X</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">C</span><span class="op">&gt;</span> <span class="ident">Cut</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">X</span>
 <span class="kw">where</span>
   <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">X</span> : <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span> <span class="op">&gt;</span>
+  <span class="ident">X</span> : <span class="ident">SplitContext</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>,
 {
-  <span class="kw">fn</span> <span class="ident">cut</span>
-    <span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>
-    ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Left</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-    , <span class="ident">cont2</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>
-        ( <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span> <span class="op">&gt;</span> ::<span class="ident">Length</span> )
-        <span class="op">-</span><span class="op">&gt;</span>
-          <span class="ident">PartialSession</span> <span class="op">&lt;</span>
-            <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">Right</span>
-              <span class="kw">as</span> <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>
-            <span class="op">&gt;</span> ::<span class="ident">Appended</span>, <span class="ident">B</span>
-          <span class="op">&gt;</span>
-    ) <span class="op">-</span><span class="op">&gt;</span>
-      <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">cut</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
+    <span class="ident">cont1</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Left</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">cont2</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(
+      <span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Length</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>
+      <span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Right</span> <span class="kw">as</span> <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Appended</span>,
+      <span class="ident">B</span>,
+    <span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Protocol</span>,
     <span class="ident">B</span> : <span class="ident">Protocol</span>,
-    <span class="self">Self</span>::<span class="ident">Right</span> : <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>,
+    <span class="self">Self</span>::<span class="ident">Right</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span>,
   {
-    <span class="ident">cut</span> :: <span class="op">&lt;</span> <span class="ident">X</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span> <span class="op">&gt;</span> ( <span class="ident">cont1</span>, <span class="ident">cont2</span> )
+    <span class="ident">cut</span>::<span class="op">&lt;</span><span class="ident">X</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">cont1</span>, <span class="ident">cont2</span>)
   }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cut</span>
-  <span class="op">&lt;</span> <span class="ident">X</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Func</span> <span class="op">&gt;</span>
-  ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C1</span>, <span class="ident">A</span> <span class="op">&gt;</span>,
-    <span class="ident">cont2</span> : <span class="ident">Func</span>
-  ) <span class="op">-</span><span class="op">&gt;</span>
-    <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cut</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">C</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Func</span><span class="op">&gt;</span>(
+  <span class="ident">cont1</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">cont2</span> : <span class="ident">Func</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span> : <span class="ident">Protocol</span>,
   <span class="ident">B</span> : <span class="ident">Protocol</span>,
   <span class="ident">C</span> : <span class="ident">Context</span>,
   <span class="ident">C1</span> : <span class="ident">Context</span>,
   <span class="ident">C2</span> : <span class="ident">Context</span>,
-  <span class="ident">X</span> : <span class="ident">SplitContext</span> <span class="op">&lt;</span> <span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span> <span class="op">&gt;</span>,
-  <span class="ident">C2</span> : <span class="ident">AppendContext</span> <span class="op">&lt;</span> ( <span class="ident">A</span>, () ) <span class="op">&gt;</span>,
-  <span class="ident">Func</span> : <span class="ident">FnOnce</span> ( <span class="ident">C2</span>::<span class="ident">Length</span> ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C2</span>::<span class="ident">Appended</span>, <span class="ident">B</span> <span class="op">&gt;</span>,
+  <span class="ident">X</span> : <span class="ident">SplitContext</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Left</span> <span class="op">=</span> <span class="ident">C1</span>, <span class="ident">Right</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
+  <span class="ident">C2</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span>,
+  <span class="ident">Func</span> : <span class="ident">FnOnce</span>(<span class="ident">C2</span>::<span class="ident">Length</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C2</span>::<span class="ident">Appended</span>, <span class="ident">B</span><span class="op">&gt;</span>,
 {
-  <span class="kw">let</span> <span class="ident">cont3</span> <span class="op">=</span> <span class="ident">cont2</span> ( <span class="ident">C2</span>::<span class="ident">Length</span>::<span class="ident">nat</span> () );
+  <span class="kw">let</span> <span class="ident">cont3</span> <span class="op">=</span> <span class="ident">cont2</span>(<span class="ident">C2</span>::<span class="ident">Length</span>::<span class="ident">nat</span>());
 
-  <span class="ident">unsafe_create_session</span> (
-    <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx</span>, <span class="ident">sender1</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> ( <span class="ident">ctx1</span>, <span class="ident">ctx2</span> ) <span class="op">=</span> <span class="ident">X</span> :: <span class="ident">split_endpoints</span> ( <span class="ident">ctx</span> );
-      <span class="kw">let</span> ( <span class="ident">sender2</span>, <span class="ident">receiver2</span> ) <span class="op">=</span> <span class="ident">once_channel</span>();
-      <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">C2</span>::<span class="ident">append_context</span> ( <span class="ident">ctx2</span>, ( <span class="ident">receiver2</span>, () ) );
+  <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+    <span class="kw">let</span> (<span class="ident">ctx1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">X</span>::<span class="ident">split_endpoints</span>(<span class="ident">ctx</span>);
 
-      <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="kw">async</span> <span class="kw">move</span> {
-        <span class="ident">unsafe_run_session</span> (
-          <span class="ident">cont3</span>,
-          <span class="ident">ctx3</span>, <span class="ident">sender1</span>
-        ).<span class="kw">await</span>;
-      });
+    <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
-      <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span> ( <span class="kw">async</span> {
-        <span class="ident">unsafe_run_session</span>( <span class="ident">cont1</span>, <span class="ident">ctx1</span>, <span class="ident">sender2</span> ).<span class="kw">await</span>;
-      });
+    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">C2</span>::<span class="ident">append_context</span>(<span class="ident">ctx2</span>, (<span class="ident">receiver2</span>, ()));
 
-      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="kw">await</span>;
-    })
+    <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
+      <span class="ident">unsafe_run_session</span>(<span class="ident">cont3</span>, <span class="ident">ctx3</span>, <span class="ident">sender1</span>).<span class="kw">await</span>;
+    });
+
+    <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> {
+      <span class="ident">unsafe_run_session</span>(<span class="ident">cont1</span>, <span class="ident">ctx1</span>, <span class="ident">sender2</span>).<span class="kw">await</span>;
+    });
+
+    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="kw">await</span>;
+  })
 }
 
 <span class="comment">/*
-  Cut (Communication)
+ Cut (Communication)
 
-    cont1 :: Δ1, Q, Δ2 ⊢ P    cont2 :: Δ3 ⊢ Q
-  ==============================================
-       link(cont1, cont2) :: Δ1, Δ2, Δ3 ⊢ P
- */</span>
+   cont1 :: Δ1, Q, Δ2 ⊢ P    cont2 :: Δ3 ⊢ Q
+ ==============================================
+      link(cont1, cont2) :: Δ1, Δ2, Δ3 ⊢ P
+*/</span>
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cut_append</span>
-  <span class="op">&lt;</span> <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">C3</span>, <span class="ident">C4</span>, <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>
-  ( <span class="ident">cont1</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C3</span>, <span class="ident">B</span> <span class="op">&gt;</span>,
-    <span class="ident">cont2</span> : <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C2</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-  ) <span class="op">-</span><span class="op">&gt;</span>
-    <span class="ident">PartialSession</span> <span class="op">&lt;</span> <span class="ident">C4</span>, <span class="ident">B</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cut_append</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">C3</span>, <span class="ident">C4</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
+  <span class="ident">cont1</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C3</span>, <span class="ident">B</span><span class="op">&gt;</span>,
+  <span class="ident">cont2</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C2</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C4</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span> : <span class="ident">Protocol</span>,
   <span class="ident">B</span> : <span class="ident">Protocol</span>,
@@ -548,45 +510,27 @@
   <span class="ident">C2</span> : <span class="ident">Context</span>,
   <span class="ident">C3</span> : <span class="ident">Context</span>,
   <span class="ident">C4</span> : <span class="ident">Context</span>,
-  <span class="ident">C1</span> :
-    <span class="ident">AppendContext</span> <span class="op">&lt;</span>
-      (<span class="ident">A</span>, ()),
-      <span class="ident">Appended</span> <span class="op">=</span> <span class="ident">C3</span>
-    <span class="op">&gt;</span>,
-  <span class="ident">C1</span> :
-    <span class="ident">AppendContext</span> <span class="op">&lt;</span>
-      <span class="ident">C2</span>,
-      <span class="ident">Appended</span> <span class="op">=</span> <span class="ident">C4</span>
-    <span class="op">&gt;</span>,
+  <span class="ident">C1</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ()), <span class="ident">Appended</span> <span class="op">=</span> <span class="ident">C3</span><span class="op">&gt;</span>,
+  <span class="ident">C1</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span><span class="ident">C2</span>, <span class="ident">Appended</span> <span class="op">=</span> <span class="ident">C4</span><span class="op">&gt;</span>,
 {
-  <span class="ident">unsafe_create_session</span> (
-    <span class="kw">move</span> <span class="op">|</span> <span class="ident">ctx1</span>, <span class="ident">b_sender</span> <span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> (<span class="ident">ctx2</span>, <span class="ident">ctx3</span>) <span class="op">=</span>
-        <span class="op">&lt;</span> <span class="ident">C1</span> <span class="kw">as</span>
-          <span class="ident">AppendContext</span> <span class="op">&lt;</span> <span class="ident">C2</span> <span class="op">&gt;</span>
-        <span class="op">&gt;</span> :: <span class="ident">split_context</span> (<span class="ident">ctx1</span>);
+  <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">b_sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+    <span class="kw">let</span> (<span class="ident">ctx2</span>, <span class="ident">ctx3</span>) <span class="op">=</span> <span class="op">&lt;</span><span class="ident">C1</span> <span class="kw">as</span> <span class="ident">AppendContext</span><span class="op">&lt;</span><span class="ident">C2</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">split_context</span>(<span class="ident">ctx1</span>);
 
-      <span class="kw">let</span> (<span class="ident">a_sender</span>, <span class="ident">a_receiver</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
+    <span class="kw">let</span> (<span class="ident">a_sender</span>, <span class="ident">a_receiver</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
-      <span class="kw">let</span> <span class="ident">ctx4</span> <span class="op">=</span>
-        <span class="op">&lt;</span> <span class="ident">C1</span> <span class="kw">as</span>
-          <span class="ident">AppendContext</span> <span class="op">&lt;</span> (<span class="ident">A</span>, ()) <span class="op">&gt;</span>
-        <span class="op">&gt;</span> :: <span class="ident">append_context</span> ( <span class="ident">ctx2</span>, (<span class="ident">a_receiver</span>, ()) );
+    <span class="kw">let</span> <span class="ident">ctx4</span> <span class="op">=</span>
+      <span class="op">&lt;</span><span class="ident">C1</span> <span class="kw">as</span> <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">append_context</span>(<span class="ident">ctx2</span>, (<span class="ident">a_receiver</span>, ()));
 
-      <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> {
-        <span class="ident">unsafe_run_session</span>
-          ( <span class="ident">cont1</span>, <span class="ident">ctx4</span>, <span class="ident">b_sender</span>
-          ).<span class="kw">await</span>;
-      });
+    <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> {
+      <span class="ident">unsafe_run_session</span>(<span class="ident">cont1</span>, <span class="ident">ctx4</span>, <span class="ident">b_sender</span>).<span class="kw">await</span>;
+    });
 
-      <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> {
-        <span class="ident">unsafe_run_session</span>
-          ( <span class="ident">cont2</span>, <span class="ident">ctx3</span>, <span class="ident">a_sender</span>
-          ).<span class="kw">await</span>;
-      });
+    <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> {
+      <span class="ident">unsafe_run_session</span>(<span class="ident">cont2</span>, <span class="ident">ctx3</span>, <span class="ident">a_sender</span>).<span class="kw">await</span>;
+    });
 
-      <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="kw">await</span>;
-    })
+    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">join</span><span class="macro">!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="kw">await</span>;
+  })
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "ferrite_session";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

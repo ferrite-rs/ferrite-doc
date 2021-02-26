@@ -103,90 +103,60 @@
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
-<span id="103">103</span>
-<span id="104">104</span>
-<span id="105">105</span>
-<span id="106">106</span>
-<span id="107">107</span>
-<span id="108">108</span>
-<span id="109">109</span>
-<span id="110">110</span>
-<span id="111">111</span>
-<span id="112">112</span>
-<span id="113">113</span>
-<span id="114">114</span>
-<span id="115">115</span>
-<span id="116">116</span>
-<span id="117">117</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">vec</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
-<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">time</span>::<span class="ident">sleep</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{
+  <span class="ident">time</span>::<span class="ident">Duration</span>,
+  <span class="ident">vec</span>::<span class="kw-2">*</span>,
+};
 
 <span class="kw">use</span> <span class="ident">ferrite_session</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">time</span>::<span class="ident">sleep</span>;
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">concat_session</span>()
-  <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">End</span> <span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">concat_session</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 {
-  <span class="kw">let</span> <span class="ident">p1</span> :
-    <span class="ident">Session</span> <span class="op">&lt;</span>
-      <span class="ident">ReceiveValue</span> <span class="op">&lt;</span>
-        <span class="ident">Vec</span> <span class="op">&lt;</span> <span class="ident">String</span> <span class="op">&gt;</span>,
-        <span class="ident">ReceiveValue</span> <span class="op">&lt;</span>
-          <span class="ident">Vec</span> <span class="op">&lt;</span> <span class="ident">String</span> <span class="op">&gt;</span>,
-          <span class="ident">SendValue</span> <span class="op">&lt;</span>
-            <span class="ident">String</span>,
-            <span class="ident">End</span>
-          <span class="op">&gt;</span>
-        <span class="op">&gt;</span>
-      <span class="op">&gt;</span>
-    <span class="op">&gt;</span>
-  <span class="op">=</span> <span class="macro">receive_value</span><span class="macro">!</span> ( (<span class="ident">l1</span>: <span class="ident">Vec</span> <span class="op">&lt;</span> <span class="ident">String</span> <span class="op">&gt;</span>) <span class="op">=</span><span class="op">&gt;</span> {
-      <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Received first list: [{}]&quot;</span>, <span class="ident">l1</span>.<span class="ident">join</span>(<span class="string">&quot;, &quot;</span>));
+  <span class="kw">let</span> <span class="ident">p1</span> : <span class="ident">Session</span><span class="op">&lt;</span>
+    <span class="ident">ReceiveValue</span><span class="op">&lt;</span>
+      <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+      <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="op">&gt;</span>,
+  <span class="op">&gt;</span> <span class="op">=</span> <span class="macro">receive_value</span><span class="macro">!</span> ( (<span class="ident">l1</span>: <span class="ident">Vec</span> <span class="op">&lt;</span> <span class="ident">String</span> <span class="op">&gt;</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Received first list: [{}]&quot;</span>, <span class="ident">l1</span>.<span class="ident">join</span>(<span class="string">&quot;, &quot;</span>));
 
-      <span class="macro">receive_value</span><span class="macro">!</span> ( (<span class="ident">l2</span>: <span class="ident">Vec</span> <span class="op">&lt;</span> <span class="ident">String</span> <span class="op">&gt;</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Received second list: [{}]&quot;</span>, <span class="ident">l2</span>.<span class="ident">join</span>(<span class="string">&quot;, &quot;</span>));
+    <span class="macro">receive_value</span><span class="macro">!</span> ( (<span class="ident">l2</span>: <span class="ident">Vec</span> <span class="op">&lt;</span> <span class="ident">String</span> <span class="op">&gt;</span>) <span class="op">=</span><span class="op">&gt;</span> {
+      <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Received second list: [{}]&quot;</span>, <span class="ident">l2</span>.<span class="ident">join</span>(<span class="string">&quot;, &quot;</span>));
 
-        <span class="macro">send_value</span><span class="macro">!</span> (
-          {
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Spending 3 seconds to concat lists&quot;</span>);
-            <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">3</span>)).<span class="kw">await</span>;
+      <span class="macro">send_value</span><span class="macro">!</span> (
+        {
+          <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Spending 3 seconds to concat lists&quot;</span>);
+          <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">3</span>)).<span class="kw">await</span>;
 
-            <span class="kw">let</span> <span class="ident">l5</span> <span class="op">=</span> {
-              <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">l3</span> <span class="op">=</span> <span class="ident">l1</span>;
-              <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">l4</span> <span class="op">=</span> <span class="ident">l2</span>;
-              <span class="ident">l3</span>.<span class="ident">append</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">l4</span>);
-              <span class="ident">l3</span>
-            };
+          <span class="kw">let</span> <span class="ident">l5</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">l3</span> <span class="op">=</span> <span class="ident">l1</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">l4</span> <span class="op">=</span> <span class="ident">l2</span>;
+            <span class="ident">l3</span>.<span class="ident">append</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">l4</span>);
+            <span class="ident">l3</span>
+          };
 
-            <span class="ident">l5</span>.<span class="ident">join</span>(<span class="string">&quot;, &quot;</span>)
-          },
-          <span class="macro">terminate</span><span class="macro">!</span> ({
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Spending 2 seconds to cleanup&quot;</span>);
-            <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">2</span>)).<span class="kw">await</span>;
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Terminating&quot;</span>);
-          })
-        )
-      })
-    });
+          <span class="ident">l5</span>.<span class="ident">join</span>(<span class="string">&quot;, &quot;</span>)
+        },
+        <span class="macro">terminate</span><span class="macro">!</span> ({
+          <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Spending 2 seconds to cleanup&quot;</span>);
+          <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">2</span>)).<span class="kw">await</span>;
+          <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P1] Terminating&quot;</span>);
+        })
+      )
+    })
+  });
 
-  <span class="kw">let</span> <span class="ident">p2</span>
-    : <span class="ident">Session</span> <span class="op">&lt;</span>
-        <span class="ident">ReceiveChannel</span> <span class="op">&lt;</span>
-          <span class="ident">ReceiveValue</span> <span class="op">&lt;</span>
-            <span class="ident">Vec</span> <span class="op">&lt;</span> <span class="ident">String</span> <span class="op">&gt;</span>,
-            <span class="ident">ReceiveValue</span> <span class="op">&lt;</span>
-              <span class="ident">Vec</span> <span class="op">&lt;</span> <span class="ident">String</span> <span class="op">&gt;</span>,
-              <span class="ident">SendValue</span> <span class="op">&lt;</span>
-                <span class="ident">String</span>,
-                <span class="ident">End</span>
-              <span class="op">&gt;</span>
-            <span class="op">&gt;</span>
-          <span class="op">&gt;</span>,
-          <span class="ident">End</span>
-        <span class="op">&gt;</span>
-      <span class="op">&gt;</span>
-  <span class="op">=</span> <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">val_chan</span> <span class="op">=</span><span class="op">&gt;</span> {
+  <span class="kw">let</span> <span class="ident">p2</span> : <span class="ident">Session</span><span class="op">&lt;</span>
+    <span class="ident">ReceiveChannel</span><span class="op">&lt;</span>
+      <span class="ident">ReceiveValue</span><span class="op">&lt;</span>
+        <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+        <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+      <span class="op">&gt;</span>,
+      <span class="ident">End</span>,
+    <span class="op">&gt;</span>,
+  <span class="op">&gt;</span> <span class="op">=</span> <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">val_chan</span> <span class="op">=</span><span class="op">&gt;</span> {
       <span class="macro">send_value_to</span><span class="macro">!</span> ( <span class="ident">val_chan</span>,
         {
           <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[P2] spending 2 seconds to produce [&#39;hello&#39;, &#39;world&#39;]&quot;</span>);
@@ -225,16 +195,16 @@
       )
   });
 
-  <span class="kw">let</span> <span class="ident">p3</span> :
-    <span class="ident">Session</span> <span class="op">&lt;</span> <span class="ident">End</span> <span class="op">&gt;</span>
-  <span class="op">=</span> <span class="ident">apply_channel</span> (<span class="ident">p2</span>, <span class="ident">p1</span>);
+  <span class="kw">let</span> <span class="ident">p3</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">apply_channel</span>(<span class="ident">p2</span>, <span class="ident">p1</span>);
 
   <span class="kw">return</span> <span class="ident">p3</span>;
 }
 
 <span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
-<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>() {
-  <span class="ident">run_session</span>( <span class="ident">concat_session</span>() ) .<span class="kw">await</span>;
+
+<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>()
+{
+  <span class="ident">run_session</span>(<span class="ident">concat_session</span>()).<span class="kw">await</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "concat";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
