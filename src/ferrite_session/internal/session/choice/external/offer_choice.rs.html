@@ -63,6 +63,7 @@
 <span id="60">60</span>
 <span id="61">61</span>
 <span id="62">62</span>
+<span id="63">63</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::{
   <span class="ident">cloak_session</span>::<span class="ident">SessionF</span>,
@@ -106,6 +107,7 @@
   <span class="ident">Row</span> : <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SessionSum</span><span class="op">&gt;</span>,
   <span class="ident">Row</span> :
     <span class="ident">FlattenSumApp</span><span class="op">&lt;</span><span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">FlattenApplied</span> <span class="op">=</span> <span class="ident">InjectSessionSum</span><span class="op">&gt;</span>,
+  <span class="ident">SessionSum</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">InjectSessionSum</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {

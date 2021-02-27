@@ -56,6 +56,7 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
+<span id="56">56</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">structs</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">internal</span>::{
@@ -87,6 +88,7 @@
   <span class="ident">C2</span> : <span class="ident">Context</span>,
   <span class="ident">Del</span> : <span class="ident">Context</span>,
   <span class="ident">Row</span> : <span class="ident">RowCon</span>,
+  <span class="ident">SessionSum</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row</span> : <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C1</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SessionSum</span><span class="op">&gt;</span>,
   <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {

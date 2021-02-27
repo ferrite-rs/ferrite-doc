@@ -78,6 +78,7 @@
 <span id="75">75</span>
 <span id="76">76</span>
 <span id="77">77</span>
+<span id="78">78</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::{
   <span class="ident">inject_session</span>::<span class="kw-2">*</span>,
@@ -127,6 +128,7 @@
     <span class="ident">FlattenApplied</span> <span class="op">=</span> <span class="ident">InjectSessionSum</span>,
   <span class="op">&gt;</span>,
   <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
+  <span class="ident">SessionSum</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">InjectSessionSum</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
