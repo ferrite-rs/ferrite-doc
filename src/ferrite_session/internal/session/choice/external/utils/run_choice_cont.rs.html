@@ -126,8 +126,8 @@
 
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">run_choice_cont</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span><span class="op">&gt;</span>(
   <span class="ident">ctx</span> : <span class="ident">C</span>::<span class="ident">Endpoints</span>,
-  <span class="ident">sender</span> : <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-  <span class="ident">cont1</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">sender</span> : <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">cont1</span> : <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 ) <span class="kw">where</span>
   <span class="ident">C</span> : <span class="ident">Context</span>,
   <span class="ident">Row</span> : <span class="ident">ElimSum</span>,
@@ -204,9 +204,9 @@
 
   <span class="kw">fn</span> <span class="ident">lift_field</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
     <span class="self">self</span>,
-    <span class="ident">_inject</span> : <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="ident">Applied</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">TargetF</span>, <span class="ident">A</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Root</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">cont1</span> : <span class="ident">Applied</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">SourceF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Applied</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">InjectF</span>, <span class="ident">A</span><span class="op">&gt;</span>
+    <span class="ident">_inject</span> : <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">TargetF</span>, <span class="ident">A</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Root</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">cont1</span> : <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">SourceF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">InjectF</span>, <span class="ident">A</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   {
@@ -219,7 +219,7 @@
 
     <span class="kw">let</span> (<span class="ident">receiver</span>, <span class="ident">future</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">with_session</span>(<span class="ident">cont2</span>, <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">runner</span>));
 
-    <span class="ident">cloak_applied</span>((<span class="ident">cloak_applied</span>(<span class="ident">receiver</span>), <span class="ident">cloak_applied</span>(<span class="ident">future</span>)))
+    <span class="ident">wrap_type_app</span>((<span class="ident">wrap_type_app</span>(<span class="ident">receiver</span>), <span class="ident">wrap_type_app</span>(<span class="ident">future</span>)))
   }
 }
 </pre></div>

@@ -45,10 +45,10 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">internal</span>::{
   <span class="ident">base</span>::<span class="ident">ReceiverF</span>,
   <span class="ident">functional</span>::{
-    <span class="ident">cloak_applied</span>,
     <span class="ident">lift_sum</span>,
-    <span class="ident">Applied</span>,
-    <span class="ident">AppliedSum</span>,
+    <span class="ident">wrap_type_app</span>,
+    <span class="ident">App</span>,
+    <span class="ident">AppSum</span>,
     <span class="ident">Merge</span>,
     <span class="ident">SplitRow</span>,
     <span class="ident">SumFunctor</span>,
@@ -56,8 +56,8 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">receiver_to_selector</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>(
-  <span class="ident">row1</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span>
-) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span>, <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, ()<span class="op">&gt;</span>)
+  <span class="ident">row1</span> : <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span>
+) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span>, <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, ()<span class="op">&gt;</span>)
 <span class="kw">where</span>
   <span class="ident">Row</span> : <span class="ident">SplitRow</span>,
   <span class="ident">Row</span> : <span class="ident">SumFunctor</span>,
@@ -71,9 +71,9 @@
           <span class="ident">Merge</span> <span class="op">&lt;</span> <span class="ident">ReceiverF</span>, () <span class="op">&gt;</span> [@<span class="ident">x</span>]
         ;
       (<span class="ident">receiver</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="ident">cloak_applied</span> ( (
+        <span class="ident">wrap_type_app</span> ( (
           <span class="ident">receiver</span>,
-          <span class="ident">cloak_applied</span>( () )
+          <span class="ident">wrap_type_app</span>( () )
         ) )
       }
     },

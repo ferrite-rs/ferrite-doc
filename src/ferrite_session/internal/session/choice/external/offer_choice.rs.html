@@ -61,6 +61,8 @@
 <span id="58">58</span>
 <span id="59">59</span>
 <span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::{
   <span class="ident">cloak_session</span>::<span class="ident">SessionF</span>,
@@ -79,21 +81,20 @@
     <span class="ident">Value</span>,
   },
   <span class="ident">functional</span>::{
-    <span class="ident">AppliedSum</span>,
+    <span class="ident">wrap_sum_app</span>,
     <span class="ident">ElimSum</span>,
+    <span class="ident">FlattenSumApp</span>,
     <span class="ident">RowCon</span>,
     <span class="ident">SplitRow</span>,
+    <span class="ident">SumApp</span>,
     <span class="ident">SumFunctor</span>,
     <span class="ident">SumFunctorInject</span>,
-    <span class="ident">UncloakRow</span>,
   },
   <span class="ident">protocol</span>::<span class="ident">ExternalChoice</span>,
 };
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">offer_choice</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Row</span><span class="op">&gt;</span>(
-  <span class="ident">cont1</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Row</span>::<span class="ident">Uncloaked</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span><span class="op">&gt;</span>
-    <span class="op">+</span> <span class="ident">Send</span>
-    <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">offer_choice</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Row</span>, <span class="ident">SessionSum</span>, <span class="ident">InjectSessionSum</span><span class="op">&gt;</span>(
+  <span class="ident">cont1</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">InjectSessionSum</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SessionSum</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">C</span> : <span class="ident">Context</span>,
@@ -102,7 +103,10 @@
   <span class="ident">Row</span> : <span class="ident">SplitRow</span>,
   <span class="ident">Row</span> : <span class="ident">SumFunctor</span>,
   <span class="ident">Row</span> : <span class="ident">SumFunctorInject</span>,
-  <span class="ident">Row</span> : <span class="ident">UncloakRow</span><span class="op">&lt;</span><span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span> : <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SessionSum</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span> :
+    <span class="ident">FlattenSumApp</span><span class="op">&lt;</span><span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">FlattenApplied</span> <span class="op">=</span> <span class="ident">InjectSessionSum</span><span class="op">&gt;</span>,
+  <span class="ident">InjectSessionSum</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
@@ -115,9 +119,9 @@
 
     <span class="kw">let</span> <span class="ident">cont3</span> <span class="op">=</span> <span class="ident">selector_to_inject_session</span>(<span class="ident">choice</span>);
 
-    <span class="kw">let</span> <span class="ident">cont4</span> <span class="op">=</span> <span class="ident">Row</span>::<span class="ident">full_uncloak_row</span>(<span class="ident">cont3</span>);
+    <span class="kw">let</span> <span class="ident">cont4</span> <span class="op">=</span> <span class="ident">Row</span>::<span class="ident">flatten_sum</span>(<span class="ident">cont3</span>);
 
-    <span class="kw">let</span> <span class="ident">cont5</span> <span class="op">=</span> <span class="ident">cont1</span>(<span class="ident">cont4</span>);
+    <span class="kw">let</span> <span class="ident">cont5</span> <span class="op">=</span> <span class="ident">wrap_sum_app</span>(<span class="ident">cont1</span>(<span class="ident">cont4</span>));
 
     <span class="ident">run_choice_cont</span>(<span class="ident">ctx</span>, <span class="ident">sender3</span>, <span class="ident">cont5</span>).<span class="kw">await</span>;
   })

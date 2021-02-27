@@ -36,17 +36,6 @@
 <span id="33">33</span>
 <span id="34">34</span>
 <span id="35">35</span>
-<span id="36">36</span>
-<span id="37">37</span>
-<span id="38">38</span>
-<span id="39">39</span>
-<span id="40">40</span>
-<span id="41">41</span>
-<span id="42">42</span>
-<span id="43">43</span>
-<span id="44">44</span>
-<span id="45">45</span>
-<span id="46">46</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::{
   <span class="ident">base</span>::<span class="kw-2">*</span>,
@@ -66,23 +55,12 @@
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Identity</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">impl</span> <span class="ident">TypeAppGeneric</span> <span class="kw">for</span> <span class="ident">IdentityF</span>
-{
-  <span class="kw">fn</span> <span class="ident">get_witness</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">TypeAppWitness</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>
-  <span class="kw">where</span>
-    <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">K</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  {
-    <span class="ident">Box</span>::<span class="ident">new</span>(())
-  }
-}
-
 <span class="kw">impl</span> <span class="ident">Functor</span> <span class="kw">for</span> <span class="ident">IdentityF</span>
 {
   <span class="kw">fn</span> <span class="ident">fmap</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-    <span class="ident">fa</span> : <span class="ident">Applied</span><span class="op">&lt;</span><span class="ident">IdentityF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">fa</span> : <span class="ident">App</span><span class="op">&lt;</span><span class="ident">IdentityF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
     <span class="ident">mapper</span> : <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">B</span>,
-  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Applied</span><span class="op">&lt;</span><span class="ident">IdentityF</span>, <span class="ident">B</span><span class="op">&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">App</span><span class="op">&lt;</span><span class="ident">IdentityF</span>, <span class="ident">B</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">B</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
@@ -91,7 +69,7 @@
 
     <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">mapper</span>(<span class="ident">a</span>);
 
-    <span class="ident">cloak_applied</span>(<span class="ident">Identity</span>(<span class="ident">b</span>))
+    <span class="ident">wrap_type_app</span>(<span class="ident">Identity</span>(<span class="ident">b</span>))
   }
 }
 </pre></div>

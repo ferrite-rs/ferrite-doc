@@ -457,6 +457,12 @@
 <span id="454">454</span>
 <span id="455">455</span>
 <span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">paste</span>::<span class="ident">paste</span>;
 
@@ -718,14 +724,18 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">send_value</span> {
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">send_value</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>) })
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">step</span>(
+      <span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">send_value</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>) },
+    )
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">send_value_to</span> {
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">send_value_to</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>) })
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> {
+      <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">send_value_to</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>)
+    })
   };
 }
 
@@ -856,7 +866,9 @@
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">session</span>:<span class="ident">expr</span>,
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>
   ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">include_session</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">session</span>, <span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> <span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> }))
+    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">prelude</span>::<span class="ident">include_session</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">session</span>, <span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> {
+      <span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> })
+    })
   };
 }
 

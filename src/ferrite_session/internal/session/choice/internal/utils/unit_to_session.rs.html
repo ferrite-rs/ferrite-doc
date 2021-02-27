@@ -99,7 +99,6 @@
 <span id="96">96</span>
 <span id="97">97</span>
 <span id="98">98</span>
-<span id="99">99</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
 
@@ -114,8 +113,8 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lift_unit_to_session</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span>(
-  <span class="ident">row</span> : <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, ()<span class="op">&gt;</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>
+  <span class="ident">row</span> : <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, ()<span class="op">&gt;</span>
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">B</span> : <span class="ident">Protocol</span>,
   <span class="ident">C</span> : <span class="ident">Context</span>,
@@ -129,8 +128,7 @@
 
 <span class="kw">struct</span> <span class="ident">LiftUnitToSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">A</span>, <span class="ident">Row</span><span class="op">&gt;</span>(<span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">A</span>, <span class="ident">Row</span>)<span class="op">&gt;</span>);
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span>
-  <span class="ident">InjectLift</span><span class="op">&lt;</span><span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">InjectLift</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">for</span> <span class="ident">LiftUnitToSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">B</span> : <span class="ident">Protocol</span>,
@@ -148,12 +146,12 @@
   <span class="kw">fn</span> <span class="ident">lift_field</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
     <span class="self">self</span>,
     <span class="ident">inject1</span> : <span class="kw">impl</span> <span class="ident">Fn</span>(
-        <span class="ident">Applied</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">TargetF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-      ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">TargetF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+      ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Send</span>
       <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">_row</span> : <span class="ident">Applied</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">SourceF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Applied</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">InjectF</span>, <span class="ident">A</span><span class="op">&gt;</span>
+    <span class="ident">_row</span> : <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">SourceF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">InjectF</span>, <span class="ident">A</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   {
@@ -165,7 +163,7 @@
       <span class="ident">injector</span> : <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">inject2</span>),
     };
 
-    <span class="ident">cloak_applied</span>(<span class="ident">inject3</span>)
+    <span class="ident">wrap_type_app</span>(<span class="ident">inject3</span>)
   }
 }
 
@@ -173,8 +171,8 @@
 {
   <span class="ident">injector</span> : <span class="ident">Box</span><span class="op">&lt;</span>
     <span class="kw">dyn</span> <span class="ident">FnOnce</span>(
-        <span class="ident">Applied</span><span class="op">&lt;</span><span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-      ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="ident">App</span><span class="op">&lt;</span><span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+      ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Send</span>
       <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="op">&gt;</span>,
@@ -186,7 +184,7 @@
   <span class="kw">fn</span> <span class="ident">inject_session</span>(
     <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
     <span class="ident">session1</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,
-  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span> : <span class="ident">Protocol</span>,
     <span class="ident">B</span> : <span class="ident">Protocol</span>,
@@ -197,7 +195,7 @@
   {
     <span class="kw">let</span> <span class="ident">session2</span> <span class="op">=</span> <span class="ident">cloak_internal_session</span>::<span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>(<span class="ident">session1</span>);
 
-    (<span class="self">self</span>.<span class="ident">injector</span>)(<span class="ident">cloak_applied</span>(<span class="ident">session2</span>))
+    (<span class="self">self</span>.<span class="ident">injector</span>)(<span class="ident">wrap_type_app</span>(<span class="ident">session2</span>))
   }
 }
 </pre></div>

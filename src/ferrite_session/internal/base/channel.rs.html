@@ -922,7 +922,7 @@
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">X</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">Applied</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">X</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">X</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">App</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">X</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">X</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">F</span> : <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
@@ -942,15 +942,15 @@
     <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
-    <span class="ident">cloak_applied</span>(<span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
+    <span class="ident">wrap_type_app</span>(<span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">AppliedSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span> : <span class="ident">TyCon</span>,
   <span class="ident">F</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row</span> : <span class="ident">RowApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span> : <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
   <span class="ident">T</span> : <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
@@ -959,7 +959,7 @@
     <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
   )
   {
-    <span class="self">self</span>.<span class="ident">get_row</span>().<span class="ident">forward_to</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
+    <span class="self">self</span>.<span class="ident">get_sum</span>().<span class="ident">forward_to</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
@@ -967,7 +967,7 @@
     <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
-    <span class="ident">cloak_row</span>(<span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
+    <span class="ident">wrap_sum_app</span>(<span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
   }
 }
 
