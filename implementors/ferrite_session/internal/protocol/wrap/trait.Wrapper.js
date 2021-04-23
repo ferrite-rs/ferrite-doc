@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["wrap_stream"] = [{"text":"impl Wrapper for WrapIntStream","synthetic":false,"types":[]}];
+implementors["wrap_stream"] = [{"text":"impl <a class=\"trait\" href=\"ferrite_session/internal/protocol/wrap/trait.Wrapper.html\" title=\"trait ferrite_session::internal::protocol::wrap::Wrapper\">Wrapper</a> for <a class=\"struct\" href=\"wrap_stream/struct.WrapIntStream.html\" title=\"struct wrap_stream::WrapIntStream\">WrapIntStream</a>","synthetic":false,"types":["wrap_stream::WrapIntStream"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
