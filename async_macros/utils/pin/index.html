@@ -1,7 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `pin` mod in crate `async_macros`."><meta name="keywords" content="rust, rustlang, rust-lang, pin"><title>async_macros::utils::pin - Rust</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Types that pin data to its location in memory."><meta name="keywords" content="rust, rustlang, rust-lang, pin"><title>async_macros::utils::pin - Rust</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
 <link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../async_macros/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a><p class="location">Module pin</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li></ul></div><p class="location"><a href="../../index.html">async_macros</a>::<wbr><a href="../index.html">utils</a></p><div id="sidebar-vars" data-name="pin" data-ty="mod" data-relpath="../"></div><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Module <a href="../../index.html">async_macros</a>::<wbr><a href="../index.html">utils</a>::<wbr><a class="mod" href="">pin</a></span><span class="out-of-band"><span class="since" title="Stable since Rust version 1.33.0">1.33.0</span><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="https://doc.rust-lang.org/nightly/src/core/lib.rs.html#253" title="goto source code">[src]</a></span></h1><div class="docblock"><p>Types that pin data to its location in memory.</p>
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../async_macros/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a><p class="location">Module pin</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li></ul></div><p class="location"><a href="../../index.html">async_macros</a>::<wbr><a href="../index.html">utils</a></p><div id="sidebar-vars" data-name="pin" data-ty="mod" data-relpath="../"></div><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Module <a href="../../index.html">async_macros</a>::<wbr><a href="../index.html">utils</a>::<wbr><a class="mod" href="">pin</a></span><span class="out-of-band"><span class="since" title="Stable since Rust version 1.33.0">1.33.0</span><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="https://doc.rust-lang.org/nightly/src/core/lib.rs.html#256" title="goto source code">[src]</a></span></h1><div class="docblock"><p>Types that pin data to its location in memory.</p>
 <p>It is sometimes useful to have objects that are guaranteed not to move,
 in the sense that their placement in memory does not change, and can thus be relied upon.
 A prime example of such a scenario would be building self-referential structs,
@@ -10,7 +10,7 @@ behavior.</p>
 <p>At a high level, a <a href="../../../async_macros/utils/pin/struct.Pin.html" title="Pin&lt;P&gt;"><code>Pin&lt;P&gt;</code></a> ensures that the pointee of any pointer type
 <code>P</code> has a stable location in memory, meaning it cannot be moved elsewhere
 and its memory cannot be deallocated until it gets dropped. We say that the
-pointee is &quot;pinned&quot;. Things get more subtle when discussing types that
+pointee is “pinned”. Things get more subtle when discussing types that
 combine pinned with non-pinned data; <a href="#projections-and-structural-pinning">see below</a>
 for more details.</p>
 <p>By default, all types in Rust are movable. Rust allows passing all types by-value,
@@ -37,7 +37,7 @@ moved by making it impossible to call methods that require <code>&amp;mut T</cod
 (like <a href="https://doc.rust-lang.org/nightly/core/mem/fn.swap.html"><code>mem::swap</code></a>).</p>
 <p><a href="../../../async_macros/utils/pin/struct.Pin.html" title="Pin&lt;P&gt;"><code>Pin&lt;P&gt;</code></a> can be used to wrap any pointer type <code>P</code>, and as such it interacts with
 <a href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html"><code>Deref</code></a> and <a href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.DerefMut.html"><code>DerefMut</code></a>. A <a href="../../../async_macros/utils/pin/struct.Pin.html" title="Pin&lt;P&gt;"><code>Pin&lt;P&gt;</code></a> where <code>P: Deref</code> should be considered
-as a &quot;<code>P</code>-style pointer&quot; to a pinned <code>P::Target</code> -- so, a <a href="../../../async_macros/utils/pin/struct.Pin.html" title="Pin"><code>Pin</code></a><code>&lt;</code><a href="../../std/boxed/struct.Box.html"><code>Box</code></a><code>&lt;T&gt;&gt;</code> is
+as a “<code>P</code>-style pointer” to a pinned <code>P::Target</code> – so, a <a href="../../../async_macros/utils/pin/struct.Pin.html" title="Pin"><code>Pin</code></a><code>&lt;</code><a href="../../std/boxed/struct.Box.html"><code>Box</code></a><code>&lt;T&gt;&gt;</code> is
 an owned pointer to a pinned <code>T</code>, and a <a href="../../../async_macros/utils/pin/struct.Pin.html" title="Pin"><code>Pin</code></a><code>&lt;</code><a href="../../std/rc/struct.Rc.html"><code>Rc</code></a><code>&lt;T&gt;&gt;</code> is a reference-counted
 pointer to a pinned <code>T</code>.
 For correctness, <a href="../../../async_macros/utils/pin/struct.Pin.html" title="Pin&lt;P&gt;"><code>Pin&lt;P&gt;</code></a> relies on the implementations of <a href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html"><code>Deref</code></a> and
@@ -130,8 +130,8 @@ otherwise invalidating the memory used to store the data is restricted, too.
 Concretely, for pinned data you have to maintain the invariant
 that <em>its memory will not get invalidated or repurposed from the moment it gets pinned until
 when <a href="https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html#tymethod.drop"><code>drop</code></a> is called</em>.  Only once <a href="https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html#tymethod.drop"><code>drop</code></a> returns or panics, the memory may be reused.</p>
-<p>Memory can be &quot;invalidated&quot; by deallocation, but also by
-replacing a <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.Some"><code>Some(v)</code></a> by <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None" title="None"><code>None</code></a>, or calling <a href="../../std/vec/struct.Vec.html#method.set_len"><code>Vec::set_len</code></a> to &quot;kill&quot; some elements
+<p>Memory can be “invalidated” by deallocation, but also by
+replacing a <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.Some"><code>Some(v)</code></a> by <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.None" title="None"><code>None</code></a>, or calling <a href="../../std/vec/struct.Vec.html#method.set_len"><code>Vec::set_len</code></a> to “kill” some elements
 off of a vector. It can be repurposed by using <a href="https://doc.rust-lang.org/nightly/core/ptr/fn.write.html"><code>ptr::write</code></a> to overwrite it without
 calling the destructor first. None of this is allowed for pinned data without calling <a href="https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html#tymethod.drop"><code>drop</code></a>.</p>
 <p>This is exactly the kind of guarantee that the intrusive linked list from the previous
@@ -189,7 +189,7 @@ every field can be <em>either</em> projected to a pinned reference, <em>or</em> 
 pinning removed as part of the projection. If both are done for the same field,
 that will likely be unsound!</p>
 <p>As the author of a data structure you get to decide for each field whether pinning
-&quot;propagates&quot; to this field or not. Pinning that propagates is also called &quot;structural&quot;,
+“propagates” to this field or not. Pinning that propagates is also called “structural”,
 because it follows the structure of the type.
 In the following subsections, we describe the considerations that have to be made
 for either choice.</p>
@@ -212,7 +212,7 @@ all you have to ensure is that you never create a pinned reference to that field
 is not <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="Unpin"><code>Unpin</code></a>. What that type thinks about pinning is not relevant
 when no <a href="../../../async_macros/utils/pin/struct.Pin.html" title="Pin"><code>Pin</code></a><code>&lt;&amp;mut Field&gt;</code> is ever created.</p>
 <h2 id="pinning-is-structural-for-field" class="section-header"><a href="#pinning-is-structural-for-field">Pinning <em>is</em> structural for <code>field</code></a></h2>
-<p>The other option is to decide that pinning is &quot;structural&quot; for <code>field</code>,
+<p>The other option is to decide that pinning is “structural” for <code>field</code>,
 meaning that if the struct is pinned then so is the field.</p>
 <p>This allows writing a projection that creates a <a href="../../../async_macros/utils/pin/struct.Pin.html" title="Pin"><code>Pin</code></a><code>&lt;&amp;mut Field&gt;</code>, thus
 witnessing that the field is pinned:</p>
@@ -247,7 +247,7 @@ not accidentally break pinning.</p>
 <li>
 <p>You must make sure that you uphold the <a href="#drop-guarantee"><code>Drop</code> guarantee</a>:
 once your struct is pinned, the memory that contains the
-content is not overwritten or deallocated without calling the content's destructors.
+content is not overwritten or deallocated without calling the content’s destructors.
 This can be tricky, as witnessed by <a href="../../std/collections/struct.VecDeque.html"><code>VecDeque&lt;T&gt;</code></a>: the destructor of <a href="../../std/collections/struct.VecDeque.html"><code>VecDeque&lt;T&gt;</code></a>
 can fail to call <a href="https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html#tymethod.drop"><code>drop</code></a> on all elements if one of the destructors panics. This violates
 the <a href="https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html#tymethod.drop"><code>Drop</code></a> guarantee, because it can lead to elements being deallocated without
@@ -259,7 +259,7 @@ does not cause unsoundness.)</p>
 the structural fields when your type is pinned. For example, if the struct contains an
 <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="Option&lt;T&gt;"><code>Option&lt;T&gt;</code></a> and there is a <code>take</code>-like operation with type
 <code>fn(Pin&lt;&amp;mut Struct&lt;T&gt;&gt;) -&gt; Option&lt;T&gt;</code>,
-that operation can be used to move a <code>T</code> out of a pinned <code>Struct&lt;T&gt;</code> -- which means
+that operation can be used to move a <code>T</code> out of a pinned <code>Struct&lt;T&gt;</code> – which means
 pinning cannot be structural for the field holding this data.</p>
 <p>For a more complex example of moving data out of a pinned type, imagine if <a href="https://doc.rust-lang.org/nightly/core/cell/struct.RefCell.html"><code>RefCell&lt;T&gt;</code></a>
 had a method <code>fn get_pin_mut(self: Pin&lt;&amp;mut Self&gt;) -&gt; Pin&lt;&amp;mut T&gt;</code>.
@@ -304,5 +304,5 @@ mutable reference even when you just have <a href="../../../async_macros/utils/p
 <a href="../../../async_macros/utils/future/trait.Future.html#tymethod.poll"><code>poll</code></a> implementation).</p>
 </div><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
 <table><tr class="module-item"><td><a class="struct" href="struct.Pin.html" title="async_macros::utils::pin::Pin struct">Pin</a></td><td class="docblock-short"><p>A pinned pointer.</p>
-</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="async_macros"></div>
-    <script src="../../../main.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="async_macros" data-search-js="../../../search-index.js"></div>
+    <script src="../../../main.js"></script></body></html>

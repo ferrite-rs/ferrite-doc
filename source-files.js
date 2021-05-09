@@ -38,6 +38,7 @@ sourcesIndex["log"] = {"name":"","files":["lib.rs","macros.rs"]};
 sourcesIndex["memchr"] = {"name":"","dirs":[{"name":"x86","files":["avx.rs","mod.rs","sse2.rs"]}],"files":["fallback.rs","iter.rs","lib.rs","naive.rs"]};
 sourcesIndex["message"] = {"name":"","files":["message.rs"]};
 sourcesIndex["mio"] = {"name":"","dirs":[{"name":"event","files":["event.rs","events.rs","mod.rs","source.rs"]},{"name":"net","dirs":[{"name":"tcp","files":["listener.rs","mod.rs","socket.rs","stream.rs"]},{"name":"uds","files":["datagram.rs","listener.rs","mod.rs","stream.rs"]}],"files":["mod.rs","udp.rs"]},{"name":"sys","dirs":[{"name":"unix","dirs":[{"name":"selector","files":["epoll.rs","mod.rs"]},{"name":"uds","files":["datagram.rs","listener.rs","mod.rs","socketaddr.rs","stream.rs"]}],"files":["mod.rs","net.rs","pipe.rs","sourcefd.rs","tcp.rs","udp.rs","waker.rs"]}],"files":["mod.rs"]}],"files":["interest.rs","io_source.rs","lib.rs","macros.rs","poll.rs","token.rs","waker.rs"]};
+sourcesIndex["nested_recursive"] = {"name":"","files":["nested_recursive.rs"]};
 sourcesIndex["num_cpus"] = {"name":"","files":["lib.rs","linux.rs"]};
 sourcesIndex["once_cell"] = {"name":"","files":["imp_std.rs","lib.rs"]};
 sourcesIndex["pair"] = {"name":"","files":["pair.rs"]};
