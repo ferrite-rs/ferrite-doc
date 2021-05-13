@@ -206,10 +206,10 @@
 
 <span class="macro">define_choice</span><span class="macro">!</span> {
   <span class="ident">ChannelOption</span> <span class="op">&lt;</span> <span class="ident">T</span> <span class="op">&gt;</span> ;
-  <span class="ident">ReceiveNext</span>: <span class="ident">ReceiveValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">Z</span> <span class="op">&gt;</span>,
+  <span class="ident">ReceiveNext</span>: <span class="ident">ReceiveValue</span> <span class="op">&lt;</span> <span class="ident">T</span>, <span class="ident">Release</span> <span class="op">&gt;</span>,
   <span class="ident">SendNext</span>: <span class="ident">SendValue</span> <span class="op">&lt;</span>
     <span class="prelude-ty">Option</span> <span class="op">&lt;</span> <span class="ident">T</span> <span class="op">&gt;</span>,
-    <span class="ident">Z</span>
+    <span class="ident">Release</span>
   <span class="op">&gt;</span>,
 }
 

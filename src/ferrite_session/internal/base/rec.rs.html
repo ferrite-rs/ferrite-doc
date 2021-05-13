@@ -134,6 +134,17 @@
 <span id="131">131</span>
 <span id="132">132</span>
 <span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">protocol</span>::<span class="ident">Protocol</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">internal</span>::<span class="ident">functional</span>::<span class="ident">nat</span>::{
@@ -157,6 +168,10 @@
 {
   <span class="kw">type</span> <span class="ident">Applied</span>;
 }
+
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Release</span> {}
+
+<span class="kw">impl</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">Release</span> {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">HasRecApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">T</span>
 <span class="kw">where</span>
@@ -251,7 +266,7 @@
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> (<span class="ident">X</span>::<span class="ident">Applied</span>, <span class="ident">Y</span>::<span class="ident">Applied</span>);
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Z</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Release</span>
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">X</span>;
 }
@@ -267,6 +282,13 @@
   <span class="ident">Q</span> : <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> (<span class="ident">P</span>::<span class="ident">Applied</span>, <span class="ident">Q</span>::<span class="ident">Applied</span>);
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RecX</span><span class="op">&lt;</span>(), <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+  <span class="ident">F</span> : <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>,
+{
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">RecX</span><span class="op">&lt;</span>(), <span class="ident">F</span>::<span class="ident">Applied</span><span class="op">&gt;</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="ferrite_session" data-search-js="../../../../search-index.js"></div>

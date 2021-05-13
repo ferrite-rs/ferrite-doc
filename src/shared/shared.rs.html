@@ -114,7 +114,7 @@
 <span class="comment">// use std::time::Duration;</span>
 <span class="comment">// use tokio::time::sleep;</span>
 
-<span class="kw">type</span> <span class="ident">SharedCounter</span> <span class="op">=</span> <span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">Z</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="kw">type</span> <span class="ident">SharedCounter</span> <span class="op">=</span> <span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">Release</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
 <span class="comment">// async fn random_sleep(start: u64, end: u64) {</span>
 <span class="comment">//   let sleep_time = thread_rng().gen_range(start, end);</span>
