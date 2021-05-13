@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["main",""],["stream_producer",""]],"type":[["Stream",""]]});
+initSidebarItems({"fn":[["consume_input",""],["consumer",""],["main",""],["producer",""]],"type":[["Stream",""]]});
