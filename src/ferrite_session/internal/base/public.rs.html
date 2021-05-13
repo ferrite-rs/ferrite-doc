@@ -113,19 +113,19 @@
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">A</span> <span class="kw">where</span> <span class="ident">A</span> : <span class="kw">super</span>::<span class="ident">Protocol</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">A</span> <span class="kw">where</span> <span class="ident">A</span>: <span class="kw">super</span>::<span class="ident">Protocol</span> {}
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SharedProtocol</span>: <span class="kw">super</span>::<span class="ident">SharedProtocol</span>
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">SharedProtocol</span> <span class="kw">for</span> <span class="ident">A</span> <span class="kw">where</span> <span class="ident">A</span> : <span class="kw">super</span>::<span class="ident">SharedProtocol</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">SharedProtocol</span> <span class="kw">for</span> <span class="ident">A</span> <span class="kw">where</span> <span class="ident">A</span>: <span class="kw">super</span>::<span class="ident">SharedProtocol</span> {}
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Context</span>: <span class="kw">super</span>::<span class="ident">Context</span>
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">Context</span> <span class="kw">for</span> <span class="ident">C</span> <span class="kw">where</span> <span class="ident">C</span> : <span class="kw">super</span>::<span class="ident">Context</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">Context</span> <span class="kw">for</span> <span class="ident">C</span> <span class="kw">where</span> <span class="ident">C</span>: <span class="kw">super</span>::<span class="ident">Context</span> {}
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">EmptyContext</span>: <span class="kw">super</span>::<span class="ident">EmptyContext</span>
 {
@@ -135,37 +135,37 @@
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">Slot</span> <span class="kw">for</span> <span class="ident">C</span> <span class="kw">where</span> <span class="ident">C</span> : <span class="kw">super</span>::<span class="ident">Slot</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">Slot</span> <span class="kw">for</span> <span class="ident">C</span> <span class="kw">where</span> <span class="ident">C</span>: <span class="kw">super</span>::<span class="ident">Slot</span> {}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">EmptyContext</span> <span class="kw">for</span> <span class="ident">C</span> <span class="kw">where</span> <span class="ident">C</span> : <span class="kw">super</span>::<span class="ident">EmptyContext</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">EmptyContext</span> <span class="kw">for</span> <span class="ident">C</span> <span class="kw">where</span> <span class="ident">C</span>: <span class="kw">super</span>::<span class="ident">EmptyContext</span> {}
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">AppendContext</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>: <span class="kw">super</span>::<span class="ident">AppendContext</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
 {
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">C2</span><span class="op">&gt;</span> <span class="ident">AppendContext</span><span class="op">&lt;</span><span class="ident">C2</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">C1</span>
 <span class="kw">where</span>
-  <span class="ident">C2</span> : <span class="ident">Context</span>,
-  <span class="ident">C1</span> : <span class="kw">super</span>::<span class="ident">AppendContext</span><span class="op">&lt;</span><span class="ident">C2</span><span class="op">&gt;</span>,
+  <span class="ident">C2</span>: <span class="ident">Context</span>,
+  <span class="ident">C1</span>: <span class="kw">super</span>::<span class="ident">AppendContext</span><span class="op">&lt;</span><span class="ident">C2</span><span class="op">&gt;</span>,
 {
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A1</span>, <span class="ident">A2</span><span class="op">&gt;</span>: <span class="kw">super</span>::<span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A1</span>, <span class="ident">A2</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">A1</span> : <span class="ident">Slot</span>,
-  <span class="ident">A2</span> : <span class="ident">Slot</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">A1</span>: <span class="ident">Slot</span>,
+  <span class="ident">A2</span>: <span class="ident">Slot</span>,
 {
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A1</span>, <span class="ident">A2</span><span class="op">&gt;</span> <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A1</span>, <span class="ident">A2</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">N</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">A1</span> : <span class="ident">Slot</span>,
-  <span class="ident">A2</span> : <span class="ident">Slot</span>,
-  <span class="ident">N</span> : <span class="kw">super</span>::<span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A1</span>, <span class="ident">A2</span><span class="op">&gt;</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">A1</span>: <span class="ident">Slot</span>,
+  <span class="ident">A2</span>: <span class="ident">Slot</span>,
+  <span class="ident">N</span>: <span class="kw">super</span>::<span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A1</span>, <span class="ident">A2</span><span class="op">&gt;</span>,
 {
 }
 
@@ -173,25 +173,25 @@
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">X</span><span class="op">&gt;</span> <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">X</span> <span class="kw">where</span> <span class="ident">X</span> : <span class="kw">super</span>::<span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">X</span><span class="op">&gt;</span> <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">X</span> <span class="kw">where</span> <span class="ident">X</span>: <span class="kw">super</span>::<span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> {}
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>: <span class="kw">super</span>::<span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">S</span> <span class="kw">where</span> <span class="ident">S</span> : <span class="kw">super</span>::<span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">S</span><span class="op">&gt;</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">S</span> <span class="kw">where</span> <span class="ident">S</span>: <span class="kw">super</span>::<span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {}
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HasRecApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span>: <span class="kw">super</span>::<span class="ident">HasRecApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span>
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">X</span><span class="op">&gt;</span> <span class="ident">HasRecApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">X</span> <span class="kw">where</span> <span class="ident">X</span> : <span class="kw">super</span>::<span class="ident">HasRecApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span>, <span class="ident">X</span><span class="op">&gt;</span> <span class="ident">HasRecApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">X</span> <span class="kw">where</span> <span class="ident">X</span>: <span class="kw">super</span>::<span class="ident">HasRecApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span> {}
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ForwardChannel</span>: <span class="kw">super</span>::<span class="ident">ForwardChannel</span>
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">A</span> <span class="kw">where</span> <span class="ident">A</span> : <span class="kw">super</span>::<span class="ident">ForwardChannel</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">A</span> <span class="kw">where</span> <span class="ident">A</span>: <span class="kw">super</span>::<span class="ident">ForwardChannel</span> {}
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="ferrite_session" data-search-js="../../../../search-index.js"></div>
     <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script></body></html>

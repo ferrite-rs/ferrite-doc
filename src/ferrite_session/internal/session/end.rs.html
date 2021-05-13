@@ -106,11 +106,11 @@
    Create a unit protocol (1) out of nothing.
 */</span>
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">terminate_async</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Func</span>, <span class="ident">Fut</span><span class="op">&gt;</span>(<span class="ident">cleaner</span> : <span class="ident">Func</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">End</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">terminate_async</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Func</span>, <span class="ident">Fut</span><span class="op">&gt;</span>(<span class="ident">cleaner</span>: <span class="ident">Func</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">End</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">EmptyContext</span>,
-  <span class="ident">Func</span> : <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Fut</span> : <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+  <span class="ident">C</span>: <span class="ident">EmptyContext</span>,
+  <span class="ident">Func</span>: <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="kw">_</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="ident">cleaner</span>().<span class="kw">await</span>;
@@ -121,7 +121,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">terminate</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">End</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">EmptyContext</span>,
+  <span class="ident">C</span>: <span class="ident">EmptyContext</span>,
 {
   <span class="ident">terminate_async</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {})
 }
@@ -140,13 +140,13 @@
 */</span>
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wait</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>(
-  <span class="kw">_</span> : <span class="ident">N</span>,
-  <span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="kw">_</span>: <span class="ident">N</span>,
+  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">A</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">End</span>, <span class="ident">Empty</span><span class="op">&gt;</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">End</span>, <span class="ident">Empty</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">receiver</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N</span>::<span class="ident">extract_source</span>(<span class="ident">ctx1</span>);

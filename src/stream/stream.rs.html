@@ -65,7 +65,7 @@
 
 <span class="kw">type</span> <span class="ident">IntStream</span> <span class="op">=</span> <span class="ident">Rec</span><span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">Z</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-<span class="kw">fn</span> <span class="ident">producer</span>(<span class="ident">count</span> : <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">IntStream</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">producer</span>(<span class="ident">count</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">IntStream</span><span class="op">&gt;</span>
 {
   <span class="ident">fix_session</span>(<span class="macro">send_value</span><span class="macro">!</span>(
     {
@@ -79,7 +79,7 @@
   ))
 }
 
-<span class="kw">fn</span> <span class="ident">consumer</span><span class="op">&lt;</span><span class="ident">A</span> : <span class="ident">Protocol</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">IntStream</span>, <span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">consumer</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Protocol</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">IntStream</span>, <span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>
 {
   <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">stream</span> <span class="op">=</span><span class="op">&gt;</span> {
     <span class="ident">unfix_session_for</span> ( <span class="ident">stream</span>,

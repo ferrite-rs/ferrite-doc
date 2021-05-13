@@ -35,15 +35,15 @@
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Wrap</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="ident">Wrapper</span>,
+  <span class="ident">T</span>: <span class="ident">Wrapper</span>,
 {
-  <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">unwrap</span> : <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">Unwrap</span><span class="op">&gt;</span>,
+  <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">unwrap</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">T</span>::<span class="ident">Unwrap</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">Wrap</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="ident">Wrapper</span>,
-  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span>: <span class="ident">Wrapper</span>,
+  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
 }
 </pre></div>

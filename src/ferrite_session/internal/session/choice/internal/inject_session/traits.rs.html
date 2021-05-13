@@ -34,15 +34,15 @@
 {
   <span class="kw">fn</span> <span class="ident">inject_session</span>(
     <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-    <span class="ident">session</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,
+    <span class="ident">session</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">A</span> : <span class="ident">Protocol</span>,
-    <span class="ident">B</span> : <span class="ident">Protocol</span>,
-    <span class="ident">C</span> : <span class="ident">Context</span>,
-    <span class="ident">Del</span> : <span class="ident">Context</span>,
-    <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-    <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span><span class="op">&gt;</span>;
+    <span class="ident">A</span>: <span class="ident">Protocol</span>,
+    <span class="ident">B</span>: <span class="ident">Protocol</span>,
+    <span class="ident">C</span>: <span class="ident">Context</span>,
+    <span class="ident">Del</span>: <span class="ident">Context</span>,
+    <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+    <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span><span class="op">&gt;</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../../../../../" data-current-crate="ferrite_session" data-search-js="../../../../../../../search-index.js"></div>

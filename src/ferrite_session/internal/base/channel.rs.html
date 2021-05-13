@@ -565,15 +565,15 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">serde</span>::<span class="ident">Serialize</span>, <span class="ident">serde</span>::<span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IpcSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 {
-  <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-  <span class="ident">phantom</span> : <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+  <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">serde</span>::<span class="ident">Serialize</span>, <span class="ident">serde</span>::<span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IpcReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 {
-  <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
-  <span class="ident">phantom</span> : <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+  <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
+  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
 }
 
 <span class="comment">// TODO: Define proper error type</span>
@@ -584,13 +584,13 @@
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   );
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
 }
 
@@ -615,9 +615,9 @@
 {
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
     <span class="kw-2">&amp;</span><span class="self">self</span>,
-    <span class="ident">val</span> : <span class="ident">T</span>,
+    <span class="ident">val</span>: <span class="ident">T</span>,
   ) <span class="kw">where</span>
-    <span class="ident">T</span> : <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>,
+    <span class="ident">T</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>,
   {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cell</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
 
@@ -635,7 +635,7 @@
 {
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recv</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">T</span> : <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>,
+    <span class="ident">T</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>,
   {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cell</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
 
@@ -657,25 +657,25 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span> <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ReceiverF</span>
 <span class="kw">where</span>
-  <span class="ident">P</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">P</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span> <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SenderF</span>
 <span class="kw">where</span>
-  <span class="ident">P</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">P</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">IpcSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>,
+  <span class="ident">T</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>,
 {
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send</span>(
     <span class="kw-2">&amp;</span><span class="self">self</span>,
-    <span class="ident">data</span> : <span class="ident">T</span>,
+    <span class="ident">data</span>: <span class="ident">T</span>,
   )
   {
     <span class="self">self</span>.<span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">data</span>)
@@ -684,7 +684,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">IpcReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>,
+  <span class="ident">T</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Serialize</span>,
 {
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recv</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
   {
@@ -694,18 +694,18 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ipc_channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">IpcSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">IpcReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>)
 <span class="kw">where</span>
-  <span class="ident">IpcReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> : <span class="ident">Send</span>,
+  <span class="ident">IpcReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>: <span class="ident">Send</span>,
 {
   <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">opaque_channel</span>();
 
   (
     <span class="ident">IpcSender</span> {
       <span class="ident">sender</span>,
-      <span class="ident">phantom</span> : <span class="ident">PhantomData</span>,
+      <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
     },
     <span class="ident">IpcReceiver</span> {
       <span class="ident">receiver</span>,
-      <span class="ident">phantom</span> : <span class="ident">PhantomData</span>,
+      <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
     },
   )
 }
@@ -740,7 +740,7 @@
 {
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send</span>(
     <span class="kw-2">&amp;</span><span class="self">self</span>,
-    <span class="ident">msg</span> : <span class="ident">T</span>,
+    <span class="ident">msg</span>: <span class="ident">T</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span>
   {
     <span class="self">self</span>
@@ -762,7 +762,7 @@
 {
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send</span>(
     <span class="self">self</span>,
-    <span class="ident">msg</span> : <span class="ident">T</span>,
+    <span class="ident">msg</span>: <span class="ident">T</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span>
   {
     <span class="self">self</span>
@@ -794,15 +794,15 @@
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="kw">_</span> : <span class="ident">OpaqueSender</span>,
-    <span class="kw">_</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="kw">_</span> : <span class="ident">OpaqueSender</span>,
-    <span class="kw">_</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
   }
@@ -810,12 +810,12 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="ident">ForwardChannel</span>,
+  <span class="ident">T</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="ident">task</span>::<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
@@ -828,14 +828,14 @@
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender1</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver1</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
 
     <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> <span class="ident">payload</span> : <span class="ident">T</span> <span class="op">=</span> <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+      <span class="kw">let</span> <span class="ident">payload</span>: <span class="ident">T</span> <span class="op">=</span> <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
       <span class="ident">task</span>::<span class="ident">spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
         <span class="ident">sender1</span>.<span class="ident">send</span>(());
@@ -850,12 +850,12 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="ident">ForwardChannel</span>,
+  <span class="ident">T</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="ident">sender1</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver1</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="ident">task</span>::<span class="ident">spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
@@ -870,8 +870,8 @@
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender1</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver1</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
@@ -890,14 +890,14 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">C</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> (<span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">C</span>)
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">T</span> : <span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
-  <span class="ident">C</span> : <span class="ident">ForwardChannel</span>,
+  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span>: <span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
+  <span class="ident">C</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="ident">sender1</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver1</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="kw">let</span> (<span class="ident">Value</span>(<span class="ident">payload</span>), <span class="ident">channel</span>) <span class="op">=</span> <span class="self">self</span>;
@@ -910,8 +910,8 @@
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender1</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver1</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
@@ -924,22 +924,22 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">X</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">App</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">X</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">X</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">F</span> : <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
-  <span class="ident">T</span> : <span class="ident">ForwardChannel</span>,
+  <span class="ident">X</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">F</span>: <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
+  <span class="ident">T</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="self">self</span>.<span class="ident">get_applied</span>().<span class="ident">forward_to</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="ident">wrap_type_app</span>(<span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
@@ -948,23 +948,23 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">F</span> : <span class="ident">TyCon</span>,
-  <span class="ident">F</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row</span> : <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
-  <span class="ident">T</span> : <span class="ident">ForwardChannel</span>,
+  <span class="ident">F</span>: <span class="ident">TyCon</span>,
+  <span class="ident">F</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
+  <span class="ident">T</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="self">self</span>.<span class="ident">get_sum</span>().<span class="ident">forward_to</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="ident">wrap_sum_app</span>(<span class="ident">T</span>::<span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
@@ -973,13 +973,13 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">Sum</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">ForwardChannel</span>,
-  <span class="ident">B</span> : <span class="ident">ForwardChannel</span>,
+  <span class="ident">A</span>: <span class="ident">ForwardChannel</span>,
+  <span class="ident">B</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="ident">sender1</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver1</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="kw">match</span> <span class="self">self</span> {
@@ -997,8 +997,8 @@
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender1</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver1</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="kw">if</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>() {
@@ -1013,16 +1013,16 @@
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="kw">_</span> : <span class="ident">OpaqueSender</span>,
-    <span class="kw">_</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="kw">match</span> <span class="self">self</span> {}
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="kw">_</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver1</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="kw">_</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>()

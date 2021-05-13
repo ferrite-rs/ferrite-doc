@@ -70,57 +70,57 @@
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
 {
-  <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">field</span> : <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span>,
+  <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">field</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">Row</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
+  <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
 {
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-  <span class="ident">Row</span> : <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-  <span class="ident">Row</span>::<span class="ident">Applied</span> : <span class="ident">RowCon</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">Row</span>: <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span>::<span class="ident">Applied</span>: <span class="ident">RowCon</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span>::<span class="ident">Applied</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">Row</span> : <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">ReceiverF</span><span class="op">&gt;</span>,
-  <span class="ident">Row</span> : <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-  <span class="op">&lt;</span><span class="ident">Row</span> <span class="kw">as</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Applied</span> : <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">ReceiverF</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">ReceiverF</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="op">&lt;</span><span class="ident">Row</span> <span class="kw">as</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Applied</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">ReceiverF</span><span class="op">&gt;</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">Row</span> <span class="kw">as</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Applied</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-  <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span> : <span class="ident">ForwardChannel</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
-    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
     <span class="self">self</span>.<span class="ident">field</span>.<span class="ident">forward_to</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>)
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
-    <span class="ident">sender</span> : <span class="ident">OpaqueSender</span>,
-    <span class="ident">receiver</span> : <span class="ident">OpaqueReceiver</span>,
+    <span class="ident">sender</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="ident">InternalChoice</span> {
-      <span class="ident">field</span> : <span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>),
+      <span class="ident">field</span>: <span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>),
     }
   }
 }

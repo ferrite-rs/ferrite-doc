@@ -32,25 +32,25 @@
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RunCont</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
 {
   <span class="kw">type</span> <span class="ident">Ret</span>;
 
   <span class="kw">fn</span> <span class="ident">run_cont</span>(
     <span class="self">self</span>,
-    <span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Ret</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run_cont</span><span class="op">&lt;</span><span class="ident">Runner</span>, <span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>(
-  <span class="ident">runner</span> : <span class="ident">Runner</span>,
-  <span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">runner</span>: <span class="ident">Runner</span>,
+  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Runner</span>::<span class="ident">Ret</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">Runner</span> : <span class="ident">RunCont</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">Runner</span>: <span class="ident">RunCont</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
 {
   <span class="ident">runner</span>.<span class="ident">run_cont</span>(<span class="ident">cont</span>)
 }

@@ -36,26 +36,26 @@
 {
   <span class="kw">fn</span> <span class="ident">on_partial_session</span>(
     <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-    <span class="ident">session</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">session</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>
   <span class="kw">where</span>
-    <span class="ident">C</span> : <span class="ident">Context</span>,
-    <span class="ident">A</span> : <span class="ident">Protocol</span>;
+    <span class="ident">C</span>: <span class="ident">Context</span>,
+    <span class="ident">A</span>: <span class="ident">Protocol</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HasPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>: <span class="ident">Send</span>
 {
   <span class="kw">fn</span> <span class="ident">get_partial_session</span>(<span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">C</span> : <span class="ident">Context</span>,
-    <span class="ident">A</span> : <span class="ident">Protocol</span>;
+    <span class="ident">C</span>: <span class="ident">Context</span>,
+    <span class="ident">A</span>: <span class="ident">Protocol</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">PartialSessionWitness</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span>: <span class="ident">HasPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 {
   <span class="kw">fn</span> <span class="ident">with_partial_session</span>(
     <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-    <span class="ident">cont</span> : <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NeedPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">cont</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NeedPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">K</span>;
 }
 </pre></div>

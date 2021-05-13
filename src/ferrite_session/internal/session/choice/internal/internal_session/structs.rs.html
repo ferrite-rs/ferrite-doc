@@ -50,24 +50,24 @@
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>
 {
-  <span class="ident">phantom</span> : <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span>)<span class="op">&gt;</span>,
+  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span>)<span class="op">&gt;</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InternalSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">Del</span> : <span class="ident">Context</span>,
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span><span class="op">&gt;</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">Del</span>: <span class="ident">Context</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span><span class="op">&gt;</span>,
 {
-  <span class="kw">pub</span> <span class="ident">session</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,
+  <span class="kw">pub</span> <span class="ident">session</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CloakInternalSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>
 {
-  <span class="kw">pub</span> <span class="ident">session</span> :
+  <span class="kw">pub</span> <span class="ident">session</span>:
     <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">InternalSessionWitness</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Any</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 </pre></div>

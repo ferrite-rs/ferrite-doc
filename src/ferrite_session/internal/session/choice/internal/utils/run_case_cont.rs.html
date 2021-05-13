@@ -161,20 +161,20 @@
 };
 
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">run_case_cont</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span>(
-  <span class="ident">ctx</span> : <span class="ident">D</span>::<span class="ident">Endpoints</span>,
-  <span class="ident">sender</span> : <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
-  <span class="ident">cont1</span> : <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ReceiverF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">ctx</span>: <span class="ident">D</span>::<span class="ident">Endpoints</span>,
+  <span class="ident">sender</span>: <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+  <span class="ident">cont1</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ReceiverF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 ) <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">D</span> : <span class="ident">Context</span>,
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">Row</span> : <span class="ident">ElimSum</span>,
-  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">D</span>: <span class="ident">Context</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">Row</span>: <span class="ident">ElimSum</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
   <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">ContRunner1</span>::<span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span> {
     <span class="ident">ctx</span>,
     <span class="ident">sender</span>,
-    <span class="ident">phantom</span> : <span class="ident">PhantomData</span>,
+    <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
   };
 
   <span class="ident">Row</span>::<span class="ident">elim_sum</span>(<span class="ident">cont2</span>, <span class="ident">cont1</span>).<span class="kw">await</span>;
@@ -182,32 +182,32 @@
 
 <span class="kw">struct</span> <span class="ident">ContRunner1</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">D</span> : <span class="ident">Context</span>,
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">D</span>: <span class="ident">Context</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
-  <span class="ident">ctx</span> : <span class="ident">D</span>::<span class="ident">Endpoints</span>,
-  <span class="ident">sender</span> : <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
-  <span class="ident">phantom</span> : <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">Row</span>)<span class="op">&gt;</span>,
+  <span class="ident">ctx</span>: <span class="ident">D</span>::<span class="ident">Endpoints</span>,
+  <span class="ident">sender</span>: <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">Row</span>)<span class="op">&gt;</span>,
 }
 
 <span class="kw">struct</span> <span class="ident">ContRunner2</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">D</span> : <span class="ident">Context</span>,
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">D</span>: <span class="ident">Context</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
-  <span class="ident">ctx</span> : <span class="ident">D</span>::<span class="ident">Endpoints</span>,
+  <span class="ident">ctx</span>: <span class="ident">D</span>::<span class="ident">Endpoints</span>,
 
-  <span class="ident">sender</span> : <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+  <span class="ident">sender</span>: <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
 
-  <span class="ident">receiver</span> : <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">receiver</span>: <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
 
-  <span class="ident">phantom</span> : <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">Row</span>)<span class="op">&gt;</span>,
+  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">Row</span>)<span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>
@@ -221,23 +221,23 @@
     <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ContRunner2</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">D</span> : <span class="ident">Context</span>,
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-  <span class="ident">N</span> : <span class="lifetime">&#39;static</span>,
-  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">D</span>: <span class="ident">Context</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">N</span>: <span class="lifetime">&#39;static</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
   <span class="kw">fn</span> <span class="ident">on_internal_session</span>(
     <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-    <span class="ident">cont</span> : <span class="ident">InternalSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>,
+    <span class="ident">cont</span>: <span class="ident">InternalSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">A</span> : <span class="ident">Protocol</span>,
-    <span class="ident">B</span> : <span class="ident">Protocol</span>,
-    <span class="ident">C</span> : <span class="ident">Context</span>,
-    <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-    <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
+    <span class="ident">A</span>: <span class="ident">Protocol</span>,
+    <span class="ident">B</span>: <span class="ident">Protocol</span>,
+    <span class="ident">C</span>: <span class="ident">Context</span>,
+    <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+    <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
   {
     <span class="kw">let</span> <span class="ident">ctx1</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">ctx</span>;
 
@@ -261,18 +261,18 @@
     <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ContRunner1</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">D</span> : <span class="ident">Context</span>,
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">D</span>: <span class="ident">Context</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
   <span class="kw">fn</span> <span class="ident">elim_field</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
     <span class="self">self</span>,
-    <span class="ident">fa</span> : <span class="ident">App</span><span class="op">&lt;</span><span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ReceiverF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ReceiverF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">A</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   {
     <span class="kw">let</span> (<span class="ident">receiver1</span>, <span class="ident">session1</span>) <span class="op">=</span> <span class="ident">fa</span>.<span class="ident">get_applied</span>();
 
@@ -285,8 +285,8 @@
     <span class="kw">let</span> <span class="ident">cont</span> <span class="op">=</span> <span class="ident">ContRunner2</span>::<span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span> {
       <span class="ident">ctx</span>,
       <span class="ident">sender</span>,
-      <span class="ident">receiver</span> : <span class="ident">receiver2</span>,
-      <span class="ident">phantom</span> : <span class="ident">PhantomData</span>,
+      <span class="ident">receiver</span>: <span class="ident">receiver2</span>,
+      <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
     };
 
     <span class="kw-2">*</span><span class="ident">with_internal_session</span>(<span class="ident">session2</span>, <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">cont</span>))

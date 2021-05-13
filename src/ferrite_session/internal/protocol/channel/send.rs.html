@@ -40,23 +40,23 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Q</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">SendChannel</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Q</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">P</span> : <span class="ident">Protocol</span>,
-  <span class="ident">Q</span> : <span class="ident">Protocol</span>,
+  <span class="ident">P</span>: <span class="ident">Protocol</span>,
+  <span class="ident">Q</span>: <span class="ident">Protocol</span>,
 {
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">P</span>, <span class="ident">Q</span><span class="op">&gt;</span> <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SendChannel</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Q</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">P</span> : <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-  <span class="ident">Q</span> : <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">P</span>: <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">Q</span>: <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SendChannel</span><span class="op">&lt;</span><span class="ident">P</span>::<span class="ident">Applied</span>, <span class="ident">Q</span>::<span class="ident">Applied</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Q</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SendChannel</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Q</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">P</span> : <span class="ident">Protocol</span>,
-  <span class="ident">Q</span> : <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
+  <span class="ident">P</span>: <span class="ident">Protocol</span>,
+  <span class="ident">Q</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SendChannel</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Q</span>::<span class="ident">Applied</span><span class="op">&gt;</span>;
 }

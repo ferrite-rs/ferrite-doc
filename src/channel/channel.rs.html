@@ -218,10 +218,10 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">ChannelOption</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">make_receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
-  <span class="ident">source</span> : <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
+  <span class="ident">source</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="macro">acquire_shared_session</span><span class="macro">!</span> ( <span class="ident">source</span>, <span class="ident">chan</span> <span class="op">=</span><span class="op">&gt;</span> {
     <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">SendNext</span>,
@@ -257,12 +257,12 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sender_session</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Fut</span><span class="op">&gt;</span>(
-  <span class="ident">source</span> : <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-  <span class="ident">make_val</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">source</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">make_val</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Fut</span> : <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
 {
   <span class="macro">acquire_shared_session</span><span class="macro">!</span> ( <span class="ident">source</span>, <span class="ident">chan</span> <span class="op">=</span><span class="op">&gt;</span> {
     <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">ReceiveNext</span>,
@@ -275,9 +275,9 @@
   })
 }
 
-<span class="kw">fn</span> <span class="ident">do_create_channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">queue</span> : <span class="ident">VecDeque</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">do_create_channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">queue</span>: <span class="ident">VecDeque</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="ident">accept_shared_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
     <span class="macro">offer_choice</span><span class="macro">!</span> {
@@ -302,7 +302,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">T</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="kw">let</span> <span class="ident">session</span> <span class="op">=</span> <span class="ident">run_shared_session</span>(<span class="ident">do_create_channel</span>(<span class="ident">VecDeque</span>::<span class="ident">new</span>()));
 
@@ -311,9 +311,9 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channel_session</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 {
-  <span class="kw">let</span> <span class="ident">channel</span> : <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">create_channel</span>();
+  <span class="kw">let</span> <span class="ident">channel</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">create_channel</span>();
 
-  <span class="kw">let</span> <span class="ident">consumer1</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">include_session</span><span class="macro">!</span> (
+  <span class="kw">let</span> <span class="ident">consumer1</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">include_session</span><span class="macro">!</span> (
   <span class="ident">make_receiver</span> ( <span class="ident">channel</span>.<span class="ident">clone</span>() ),
   <span class="ident">receiver</span> <span class="op">=</span><span class="op">&gt;</span> {
     <span class="ident">unfix_session_for</span> ( <span class="ident">receiver</span>,
@@ -337,14 +337,14 @@
     )
   });
 
-  <span class="kw">let</span> <span class="ident">producer1</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span>
+  <span class="kw">let</span> <span class="ident">producer1</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span>
     <span class="ident">sender_session</span>(<span class="ident">channel</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
       <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">2</span>)).<span class="kw">await</span>;
 
       <span class="string">&quot;hello&quot;</span>.<span class="ident">to_string</span>()
     });
 
-  <span class="kw">let</span> <span class="ident">producer2</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender_session</span>(<span class="ident">channel</span>.<span class="ident">clone</span>(), <span class="op">|</span><span class="op">|</span> {
+  <span class="kw">let</span> <span class="ident">producer2</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender_session</span>(<span class="ident">channel</span>.<span class="ident">clone</span>(), <span class="op">|</span><span class="op">|</span> {
     <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="kw">async</span> {
       <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">1</span>)).<span class="kw">await</span>;
 
@@ -352,7 +352,7 @@
     })
   });
 
-  <span class="kw">let</span> <span class="ident">producer3</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender_session</span>(<span class="ident">channel</span>.<span class="ident">clone</span>(), <span class="op">|</span><span class="op">|</span> {
+  <span class="kw">let</span> <span class="ident">producer3</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender_session</span>(<span class="ident">channel</span>.<span class="ident">clone</span>(), <span class="op">|</span><span class="op">|</span> {
     <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="kw">async</span> {
       <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">3</span>)).<span class="kw">await</span>;
 

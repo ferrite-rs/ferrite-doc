@@ -121,28 +121,28 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">include_session</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-  <span class="ident">session</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-  <span class="ident">cont</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">C</span>::<span class="ident">Length</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>::<span class="ident">Appended</span>, <span class="ident">B</span><span class="op">&gt;</span>,
+  <span class="ident">session</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">C</span>::<span class="ident">Length</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>::<span class="ident">Appended</span>, <span class="ident">B</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">C</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">C</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span>,
 {
   <span class="ident">AllRight</span>::<span class="ident">cut</span>(<span class="ident">session</span>, <span class="ident">cont</span>)
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wait_session</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span><span class="op">&gt;</span>(
-  <span class="ident">session1</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>,
-  <span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span><span class="op">&gt;</span>,
+  <span class="ident">session1</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>,
+  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">P</span> : <span class="ident">Protocol</span>,
-  <span class="ident">I</span> : <span class="ident">Context</span>,
-  <span class="ident">I</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">End</span>, ())<span class="op">&gt;</span>,
-  <span class="ident">I</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, ())<span class="op">&gt;</span>,
-  <span class="ident">I</span>::<span class="ident">Length</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span>
+  <span class="ident">P</span>: <span class="ident">Protocol</span>,
+  <span class="ident">I</span>: <span class="ident">Context</span>,
+  <span class="ident">I</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">End</span>, ())<span class="op">&gt;</span>,
+  <span class="ident">I</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, ())<span class="op">&gt;</span>,
+  <span class="ident">I</span>::<span class="ident">Length</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span>
     <span class="op">&lt;</span><span class="ident">I</span> <span class="kw">as</span> <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">End</span>, ())<span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Appended</span>,
     <span class="ident">End</span>,
     <span class="ident">Empty</span>,
@@ -153,14 +153,14 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wait_sessions</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span><span class="op">&gt;</span>(
-  <span class="ident">sessions</span> : <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-  <span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span><span class="op">&gt;</span>,
+  <span class="ident">sessions</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">P</span> : <span class="ident">Protocol</span>,
-  <span class="ident">I</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">End</span>, ())<span class="op">&gt;</span>,
-  <span class="ident">I</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, ())<span class="op">&gt;</span>,
-  <span class="ident">I</span>::<span class="ident">Length</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span>
+  <span class="ident">P</span>: <span class="ident">Protocol</span>,
+  <span class="ident">I</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">End</span>, ())<span class="op">&gt;</span>,
+  <span class="ident">I</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, ())<span class="op">&gt;</span>,
+  <span class="ident">I</span>::<span class="ident">Length</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span>
     <span class="op">&lt;</span><span class="ident">I</span> <span class="kw">as</span> <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">End</span>, ())<span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Appended</span>,
     <span class="ident">End</span>,
     <span class="ident">Empty</span>,
@@ -170,12 +170,12 @@
   <span class="ident">wait_session</span>(<span class="ident">join_sessions</span>(<span class="ident">sessions</span>), <span class="ident">cont</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">join_sessions</span>(<span class="ident">sessions</span> : <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">join_sessions</span>(<span class="ident">sessions</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 {
   <span class="ident">do_join_sessions</span>(<span class="ident">sessions</span>.<span class="ident">into_iter</span>().<span class="ident">collect</span>())
 }
 
-<span class="kw">fn</span> <span class="ident">do_join_sessions</span>(<span class="kw-2">mut</span> <span class="ident">sessions</span> : <span class="ident">LinkedList</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">do_join_sessions</span>(<span class="kw-2">mut</span> <span class="ident">sessions</span>: <span class="ident">LinkedList</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 {
   <span class="kw">match</span> <span class="ident">sessions</span>.<span class="ident">pop_front</span>() {
     <span class="prelude-val">Some</span>(<span class="ident">session</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">include_session</span>(<span class="ident">session</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">c1</span><span class="op">|</span> {

@@ -67,21 +67,21 @@
 
 <span class="kw">struct</span> <span class="ident">SessionContWrapper</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span>
 {
-  <span class="ident">cont</span> : <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NeedPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">cont</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NeedPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span> <span class="ident">NeedPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Any</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">for</span> <span class="ident">SessionContWrapper</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">K</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">K</span>: <span class="lifetime">&#39;static</span>,
 {
   <span class="kw">fn</span> <span class="ident">on_partial_session</span>(
     <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-    <span class="ident">session</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">session</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Any</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">C</span> : <span class="ident">Context</span>,
-    <span class="ident">A</span> : <span class="ident">Protocol</span>,
+    <span class="ident">C</span>: <span class="ident">Context</span>,
+    <span class="ident">A</span>: <span class="ident">Protocol</span>,
   {
     <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">cont</span>.<span class="ident">on_partial_session</span>(<span class="ident">session</span>);
 
@@ -90,15 +90,15 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_session</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span>(
-  <span class="ident">session</span> : <span class="ident">CloakedSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-  <span class="ident">cont1</span> : <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NeedPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">session</span>: <span class="ident">CloakedSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">cont1</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NeedPartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">K</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="lifetime">&#39;static</span>,
-  <span class="ident">A</span> : <span class="lifetime">&#39;static</span>,
-  <span class="ident">K</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">C</span>: <span class="lifetime">&#39;static</span>,
+  <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
+  <span class="ident">K</span>: <span class="lifetime">&#39;static</span>,
 {
-  <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">SessionContWrapper</span> { <span class="ident">cont</span> : <span class="ident">cont1</span> };
+  <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">SessionContWrapper</span> { <span class="ident">cont</span>: <span class="ident">cont1</span> };
 
   <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">session</span>.<span class="ident">session</span>.<span class="ident">with_partial_session</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">cont2</span>));
 

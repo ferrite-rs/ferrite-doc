@@ -114,7 +114,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">concat_session</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 {
-  <span class="kw">let</span> <span class="ident">p1</span> : <span class="ident">Session</span><span class="op">&lt;</span>
+  <span class="kw">let</span> <span class="ident">p1</span>: <span class="ident">Session</span><span class="op">&lt;</span>
     <span class="ident">ReceiveValue</span><span class="op">&lt;</span>
       <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
       <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>,
@@ -148,7 +148,7 @@
     })
   });
 
-  <span class="kw">let</span> <span class="ident">p2</span> : <span class="ident">Session</span><span class="op">&lt;</span>
+  <span class="kw">let</span> <span class="ident">p2</span>: <span class="ident">Session</span><span class="op">&lt;</span>
     <span class="ident">ReceiveChannel</span><span class="op">&lt;</span>
       <span class="ident">ReceiveValue</span><span class="op">&lt;</span>
         <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
@@ -195,7 +195,7 @@
       )
   });
 
-  <span class="kw">let</span> <span class="ident">p3</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">apply_channel</span>(<span class="ident">p2</span>, <span class="ident">p1</span>);
+  <span class="kw">let</span> <span class="ident">p3</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">apply_channel</span>(<span class="ident">p2</span>, <span class="ident">p1</span>);
 
   <span class="kw">return</span> <span class="ident">p3</span>;
 }

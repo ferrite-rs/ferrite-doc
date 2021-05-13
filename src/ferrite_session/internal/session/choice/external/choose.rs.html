@@ -84,23 +84,23 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">choose</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">M</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span>(
-  <span class="kw">_</span> : <span class="ident">N</span>,
-  <span class="kw">_</span> : <span class="ident">M</span>,
-  <span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C2</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="kw">_</span>: <span class="ident">N</span>,
+  <span class="kw">_</span>: <span class="ident">M</span>,
+  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C2</span>, <span class="ident">A</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C1</span> : <span class="ident">Context</span>,
-  <span class="ident">C2</span> : <span class="ident">Context</span>,
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">Row</span> : <span class="ident">RowCon</span>,
-  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">B</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
-  <span class="ident">M</span> : <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">Elem</span> <span class="op">=</span> <span class="ident">B</span><span class="op">&gt;</span>,
+  <span class="ident">C1</span>: <span class="ident">Context</span>,
+  <span class="ident">C2</span>: <span class="ident">Context</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">B</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
+  <span class="ident">M</span>: <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">Elem</span> <span class="op">=</span> <span class="ident">B</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">receiver1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N</span>::<span class="ident">extract_source</span>(<span class="ident">ctx1</span>);
 
-    <span class="kw">let</span> <span class="ident">choice</span> : <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, ()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">inject_elem</span>(<span class="ident">wrap_type_app</span>(()));
+    <span class="kw">let</span> <span class="ident">choice</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, ()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">inject_elem</span>(<span class="ident">wrap_type_app</span>(()));
 
     <span class="kw">let</span> <span class="ident">ExternalChoice</span> { <span class="ident">sender</span>: <span class="ident">sender2</span> } <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 

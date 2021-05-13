@@ -120,17 +120,17 @@
   },
 };
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">cont</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">cont</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
 {
   <span class="ident">cont</span>
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">session</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">session</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">EmptyContext</span>,
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">EmptyContext</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span>(), <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> <span class="ident">ctx</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">EmptyContext</span><span class="op">&gt;</span>::<span class="ident">empty_values</span>();
@@ -139,10 +139,10 @@
   })
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">partial_session</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">cont</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">partial_session</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">cont</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">EmptyContext</span>,
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">EmptyContext</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="kw">_</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, (), <span class="ident">sender</span>).<span class="kw">await</span>
@@ -150,11 +150,11 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">append_emtpy_slot</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>(
-  <span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
+  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>::<span class="ident">Appended</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">C</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, ())<span class="op">&gt;</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, ())<span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">ctx2</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">C</span>::<span class="ident">split_context</span>(<span class="ident">ctx1</span>);
@@ -163,40 +163,40 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">session_1</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
-  <span class="ident">cont</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Z</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, ()), <span class="ident">A</span><span class="op">&gt;</span>
+  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Z</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, ()), <span class="ident">A</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
 {
   <span class="ident">session</span>(<span class="ident">cont</span>(<span class="ident">Z</span>::<span class="ident">Value</span>))
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">session_2</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
-  <span class="ident">cont</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Z</span>, <span class="ident">S</span><span class="op">&lt;</span><span class="ident">Z</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, (<span class="ident">Empty</span>, ())), <span class="ident">A</span><span class="op">&gt;</span>
+  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Z</span>, <span class="ident">S</span><span class="op">&lt;</span><span class="ident">Z</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Empty</span>, (<span class="ident">Empty</span>, ())), <span class="ident">A</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
 {
   <span class="ident">session</span>(<span class="ident">cont</span>(<span class="ident">Z</span>::<span class="ident">Value</span>, <span class="op">&lt;</span><span class="ident">S</span><span class="op">&lt;</span><span class="ident">Z</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Value</span>))
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">partial_session_1</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-  <span class="ident">cont</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Z</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">A</span>, ()), <span class="ident">B</span><span class="op">&gt;</span>
+  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Z</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">A</span>, ()), <span class="ident">B</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">A</span>, ()), <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">Slot</span>,
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
+  <span class="ident">A</span>: <span class="ident">Slot</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
 {
   <span class="ident">cont</span>(<span class="ident">Z</span>::<span class="ident">Value</span>)
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">partial_session_2</span><span class="op">&lt;</span><span class="ident">A1</span>, <span class="ident">A2</span>, <span class="ident">B</span>, <span class="ident">F</span><span class="op">&gt;</span>(
-  <span class="ident">cont</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Z</span>, <span class="ident">S</span><span class="op">&lt;</span><span class="ident">Z</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">A1</span>, (<span class="ident">A2</span>, ())), <span class="ident">B</span><span class="op">&gt;</span>
+  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Z</span>, <span class="ident">S</span><span class="op">&lt;</span><span class="ident">Z</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">A1</span>, (<span class="ident">A2</span>, ())), <span class="ident">B</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">A1</span>, (<span class="ident">A2</span>, ())), <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A1</span> : <span class="ident">Slot</span>,
-  <span class="ident">A2</span> : <span class="ident">Slot</span>,
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
+  <span class="ident">A1</span>: <span class="ident">Slot</span>,
+  <span class="ident">A2</span>: <span class="ident">Slot</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
 {
   <span class="ident">cont</span>(<span class="ident">Z</span>::<span class="ident">Value</span>, <span class="op">&lt;</span><span class="ident">S</span><span class="op">&lt;</span><span class="ident">Z</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Value</span>)
 }

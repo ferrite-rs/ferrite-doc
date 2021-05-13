@@ -57,32 +57,32 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span><span class="op">&gt;</span> <span class="ident">TyCon</span> <span class="kw">for</span> <span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">C</span>: <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row</span>: <span class="lifetime">&#39;static</span>,
 {
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">C</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">A</span> : <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row</span> : <span class="lifetime">&#39;static</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row</span>: <span class="lifetime">&#39;static</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">InjectSession</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">SessionSum</span><span class="op">&gt;</span> <span class="ident">RunCont</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InjectSession</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">Row</span> : <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SessionSum</span><span class="op">&gt;</span>,
-  <span class="ident">SessionSum</span> : <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SessionSum</span><span class="op">&gt;</span>,
+  <span class="ident">SessionSum</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="kw">type</span> <span class="ident">Ret</span> <span class="op">=</span> <span class="ident">SessionSum</span>;
 
   <span class="kw">fn</span> <span class="ident">run_cont</span>(
     <span class="self">self</span>,
-    <span class="ident">session</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">session</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SessionSum</span>
   {
     <span class="ident">run_inject_session</span>(<span class="self">self</span>, <span class="ident">session</span>).<span class="ident">get_sum</span>()

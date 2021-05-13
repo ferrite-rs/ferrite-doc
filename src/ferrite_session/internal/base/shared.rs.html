@@ -277,9 +277,9 @@
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span>,
 {
-  <span class="ident">executor</span> : <span class="ident">Box</span><span class="op">&lt;</span>
+  <span class="ident">executor</span>: <span class="ident">Box</span><span class="op">&lt;</span>
     <span class="kw">dyn</span> <span class="ident">FnOnce</span>(
         <span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
       ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>
@@ -289,71 +289,71 @@
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span>,
 {
-  <span class="ident">endpoint</span> : <span class="ident">Sender</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
+  <span class="ident">endpoint</span>: <span class="ident">Sender</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">serde</span>::<span class="ident">Serialize</span>, <span class="ident">serde</span>::<span class="ident">Deserialize</span>)]</span>
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SerializedSharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span>,
 {
-  <span class="ident">acquire_sender</span> : <span class="ident">IpcSender</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
-  <span class="ident">acquire_receiver</span> : <span class="ident">IpcReceiver</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
-  <span class="ident">linear_sender</span> : <span class="ident">OpaqueSender</span>,
-  <span class="ident">linear_receiver</span> : <span class="ident">OpaqueReceiver</span>,
-  <span class="ident">phantom</span> : <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
+  <span class="ident">acquire_sender</span>: <span class="ident">IpcSender</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+  <span class="ident">acquire_receiver</span>: <span class="ident">IpcReceiver</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+  <span class="ident">linear_sender</span>: <span class="ident">OpaqueSender</span>,
+  <span class="ident">linear_receiver</span>: <span class="ident">OpaqueReceiver</span>,
+  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">SerializedSharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span>,
 {
   <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="ident">SerializedSharedChannel</span> {
-      <span class="ident">acquire_sender</span> : <span class="self">self</span>.<span class="ident">acquire_sender</span>.<span class="ident">clone</span>(),
-      <span class="ident">acquire_receiver</span> : <span class="self">self</span>.<span class="ident">acquire_receiver</span>.<span class="ident">clone</span>(),
-      <span class="ident">linear_sender</span> : <span class="self">self</span>.<span class="ident">linear_sender</span>.<span class="ident">clone</span>(),
-      <span class="ident">linear_receiver</span> : <span class="self">self</span>.<span class="ident">linear_receiver</span>.<span class="ident">clone</span>(),
-      <span class="ident">phantom</span> : <span class="ident">PhantomData</span>,
+      <span class="ident">acquire_sender</span>: <span class="self">self</span>.<span class="ident">acquire_sender</span>.<span class="ident">clone</span>(),
+      <span class="ident">acquire_receiver</span>: <span class="self">self</span>.<span class="ident">acquire_receiver</span>.<span class="ident">clone</span>(),
+      <span class="ident">linear_sender</span>: <span class="self">self</span>.<span class="ident">linear_sender</span>.<span class="ident">clone</span>(),
+      <span class="ident">linear_receiver</span>: <span class="self">self</span>.<span class="ident">linear_receiver</span>.<span class="ident">clone</span>(),
+      <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
     }
   }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span>,
 {
   <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
   {
     <span class="ident">SharedChannel</span> {
-      <span class="ident">endpoint</span> : <span class="self">self</span>.<span class="ident">endpoint</span>.<span class="ident">clone</span>(),
+      <span class="ident">endpoint</span>: <span class="self">self</span>.<span class="ident">endpoint</span>.<span class="ident">clone</span>(),
     }
   }
 }
 
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">unsafe_run_shared_session</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(
-  <span class="ident">session</span> : <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
-  <span class="ident">receiver</span> : <span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
+  <span class="ident">session</span>: <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
+  <span class="ident">receiver</span>: <span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
 ) <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span>,
 {
   (<span class="ident">session</span>.<span class="ident">executor</span>)(<span class="ident">receiver</span>).<span class="kw">await</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unsafe_create_shared_session</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">Fut</span><span class="op">&gt;</span>(
-  <span class="ident">executor1</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
+  <span class="ident">executor1</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>
     <span class="op">+</span> <span class="ident">Send</span>
     <span class="op">+</span> <span class="lifetime">&#39;static</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span>,
-  <span class="ident">Fut</span> : <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span>,
+  <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
 {
-  <span class="kw">let</span> <span class="ident">executor</span> : <span class="ident">Box</span><span class="op">&lt;</span>
+  <span class="kw">let</span> <span class="ident">executor</span>: <span class="ident">Box</span><span class="op">&lt;</span>
     <span class="kw">dyn</span> <span class="ident">FnOnce</span>(
         <span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
       ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>
@@ -370,18 +370,18 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unsafe_create_shared_channel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(
 ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>, <span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>)
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span>,
 {
   <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">unbounded</span>();
 
-  (<span class="ident">SharedChannel</span> { <span class="ident">endpoint</span> : <span class="ident">sender</span> }, <span class="ident">receiver</span>)
+  (<span class="ident">SharedChannel</span> { <span class="ident">endpoint</span>: <span class="ident">sender</span> }, <span class="ident">receiver</span>)
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unsafe_receive_shared_channel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(
-  <span class="ident">session</span> : <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
+  <span class="ident">session</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">ReceiverOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span>,
 {
   <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">once_channel</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>();
 
@@ -394,14 +394,14 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">SharedProtocol</span> <span class="op">+</span> <span class="ident">ForwardChannel</span>,
+  <span class="ident">A</span>: <span class="ident">SharedProtocol</span> <span class="op">+</span> <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(
     <span class="kw-2">&amp;</span><span class="self">self</span>,
-    <span class="ident">serializer</span> : <span class="ident">S</span>,
+    <span class="ident">serializer</span>: <span class="ident">S</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">S</span> : <span class="ident">serde</span>::<span class="ident">Serializer</span>,
+    <span class="ident">S</span>: <span class="ident">serde</span>::<span class="ident">Serializer</span>,
   {
     <span class="ident">serialize_shared_channel</span>(<span class="self">self</span>.<span class="ident">clone</span>()).<span class="ident">serialize</span>(<span class="ident">serializer</span>)
   }
@@ -409,11 +409,11 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">SharedProtocol</span> <span class="op">+</span> <span class="ident">ForwardChannel</span>,
+  <span class="ident">A</span>: <span class="ident">SharedProtocol</span> <span class="op">+</span> <span class="ident">ForwardChannel</span>,
 {
-  <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span> : <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">D</span> : <span class="ident">serde</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="ident">D</span>: <span class="ident">serde</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
   {
     <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">SerializedSharedChannel</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
 
@@ -422,10 +422,10 @@
 }
 
 <span class="kw">fn</span> <span class="ident">serialize_shared_channel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(
-  <span class="ident">channel</span> : <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
+  <span class="ident">channel</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SerializedSharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span> <span class="op">+</span> <span class="ident">ForwardChannel</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span> <span class="op">+</span> <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">ipc_channel</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>();
 
@@ -477,19 +477,19 @@
   });
 
   <span class="ident">SerializedSharedChannel</span> {
-    <span class="ident">acquire_sender</span> : <span class="ident">sender1</span>,
-    <span class="ident">acquire_receiver</span> : <span class="ident">receiver2</span>,
-    <span class="ident">linear_sender</span> : <span class="ident">sender3</span>,
-    <span class="ident">linear_receiver</span> : <span class="ident">receiver4</span>,
-    <span class="ident">phantom</span> : <span class="ident">PhantomData</span>,
+    <span class="ident">acquire_sender</span>: <span class="ident">sender1</span>,
+    <span class="ident">acquire_receiver</span>: <span class="ident">receiver2</span>,
+    <span class="ident">linear_sender</span>: <span class="ident">sender3</span>,
+    <span class="ident">linear_receiver</span>: <span class="ident">receiver4</span>,
+    <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
   }
 }
 
 <span class="kw">fn</span> <span class="ident">deserialize_shared_channel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(
-  <span class="ident">channel</span> : <span class="ident">SerializedSharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
+  <span class="ident">channel</span>: <span class="ident">SerializedSharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">S</span> : <span class="ident">SharedProtocol</span> <span class="op">+</span> <span class="ident">ForwardChannel</span> <span class="op">+</span> <span class="ident">Send</span>,
+  <span class="ident">S</span>: <span class="ident">SharedProtocol</span> <span class="op">+</span> <span class="ident">ForwardChannel</span> <span class="op">+</span> <span class="ident">Send</span>,
 {
   <span class="kw">let</span> (<span class="ident">sender1</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">unbounded</span>::<span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>();
 
@@ -524,7 +524,7 @@
     }
   });
 
-  <span class="ident">SharedChannel</span> { <span class="ident">endpoint</span> : <span class="ident">sender1</span> }
+  <span class="ident">SharedChannel</span> { <span class="ident">endpoint</span>: <span class="ident">sender1</span> }
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="ferrite_session" data-search-js="../../../../search-index.js"></div>

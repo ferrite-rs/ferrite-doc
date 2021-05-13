@@ -41,12 +41,12 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">apply_channel</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-  <span class="ident">f</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-  <span class="ident">a</span> : <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">f</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">a</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
 {
   <span class="ident">include_session</span>(<span class="ident">f</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">c1</span><span class="op">|</span> {
     <span class="ident">include_session</span>(<span class="ident">a</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">c2</span><span class="op">|</span> <span class="ident">send_channel_to</span>(<span class="ident">c1</span>, <span class="ident">c2</span>, <span class="ident">forward</span>(<span class="ident">c1</span>)))

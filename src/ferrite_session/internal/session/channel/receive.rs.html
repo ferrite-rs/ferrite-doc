@@ -134,13 +134,13 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">receive_channel</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-  <span class="ident">cont</span> : <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">C</span>::<span class="ident">Length</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>::<span class="ident">Appended</span>, <span class="ident">B</span><span class="op">&gt;</span>
+  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">C</span>::<span class="ident">Length</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>::<span class="ident">Appended</span>, <span class="ident">B</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">A</span> : <span class="ident">Protocol</span>,
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">C</span> : <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">C</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span>,
 {
   <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">cont</span>(<span class="ident">C</span>::<span class="ident">Length</span>::<span class="ident">nat</span>());
 
@@ -158,14 +158,14 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">receive_channel_slot</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">P</span>, <span class="ident">Q</span>, <span class="ident">N</span><span class="op">&gt;</span>(
-  <span class="kw">_</span> : <span class="ident">N</span>,
-  <span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">Q</span><span class="op">&gt;</span>,
+  <span class="kw">_</span>: <span class="ident">N</span>,
+  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">Q</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Q</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">P</span> : <span class="ident">Protocol</span>,
-  <span class="ident">Q</span> : <span class="ident">Protocol</span>,
-  <span class="ident">I</span> : <span class="ident">Context</span>,
-  <span class="ident">N</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">Empty</span>, <span class="ident">P</span><span class="op">&gt;</span>,
+  <span class="ident">P</span>: <span class="ident">Protocol</span>,
+  <span class="ident">Q</span>: <span class="ident">Protocol</span>,
+  <span class="ident">I</span>: <span class="ident">Context</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">Empty</span>, <span class="ident">P</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> ((), <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N</span>::<span class="ident">extract_source</span>(<span class="ident">ctx1</span>);
@@ -190,17 +190,17 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_channel_to</span><span class="op">&lt;</span><span class="ident">N1</span>, <span class="ident">N2</span>, <span class="ident">C</span>, <span class="ident">A1</span>, <span class="ident">A2</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-  <span class="kw">_</span> : <span class="ident">N1</span>,
-  <span class="kw">_</span> : <span class="ident">N2</span>,
-  <span class="ident">cont</span> : <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N1</span>::<span class="ident">Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,
+  <span class="kw">_</span>: <span class="ident">N1</span>,
+  <span class="kw">_</span>: <span class="ident">N2</span>,
+  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N1</span>::<span class="ident">Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">C</span> : <span class="ident">Context</span>,
-  <span class="ident">A1</span> : <span class="ident">Protocol</span>,
-  <span class="ident">A2</span> : <span class="ident">Protocol</span>,
-  <span class="ident">B</span> : <span class="ident">Protocol</span>,
-  <span class="ident">N2</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A1</span>, <span class="ident">Empty</span><span class="op">&gt;</span>,
-  <span class="ident">N1</span> : <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">N2</span>::<span class="ident">Target</span>, <span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">A1</span>, <span class="ident">A2</span><span class="op">&gt;</span>, <span class="ident">A2</span><span class="op">&gt;</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">A1</span>: <span class="ident">Protocol</span>,
+  <span class="ident">A2</span>: <span class="ident">Protocol</span>,
+  <span class="ident">B</span>: <span class="ident">Protocol</span>,
+  <span class="ident">N2</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A1</span>, <span class="ident">Empty</span><span class="op">&gt;</span>,
+  <span class="ident">N1</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">N2</span>::<span class="ident">Target</span>, <span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">A1</span>, <span class="ident">A2</span><span class="op">&gt;</span>, <span class="ident">A2</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">receiver1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N2</span>::<span class="ident">extract_source</span>(<span class="ident">ctx1</span>);

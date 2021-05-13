@@ -63,7 +63,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">internal_choice_session</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 {
-  <span class="kw">let</span> <span class="ident">client</span> : <span class="ident">Session</span><span class="op">&lt;</span>
+  <span class="kw">let</span> <span class="ident">client</span>: <span class="ident">Session</span><span class="op">&lt;</span>
     <span class="ident">ReceiveChannel</span><span class="op">&lt;</span>
       <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Either</span><span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">End</span><span class="op">&gt;</span>, <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
       <span class="ident">End</span>,
@@ -87,11 +87,11 @@
     }
   });
 
-  <span class="kw">let</span> <span class="ident">provider_left</span> : <span class="ident">Session</span><span class="op">&lt;</span>
+  <span class="kw">let</span> <span class="ident">provider_left</span>: <span class="ident">Session</span><span class="op">&lt;</span>
     <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Either</span><span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">End</span><span class="op">&gt;</span>, <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="op">&gt;</span> <span class="op">=</span> <span class="macro">offer_case</span><span class="macro">!</span>(<span class="ident">Left</span>, <span class="macro">send_value</span><span class="macro">!</span>(<span class="string">&quot;provider_left&quot;</span>.<span class="ident">to_string</span>(), <span class="macro">terminate</span><span class="macro">!</span>()));
 
-  <span class="kw">let</span> <span class="ident">_provider_right</span> : <span class="ident">Session</span><span class="op">&lt;</span>
+  <span class="kw">let</span> <span class="ident">_provider_right</span>: <span class="ident">Session</span><span class="op">&lt;</span>
     <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Either</span><span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">End</span><span class="op">&gt;</span>, <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="op">&gt;</span> <span class="op">=</span> <span class="macro">offer_case</span><span class="macro">!</span>(
     <span class="ident">Right</span>,

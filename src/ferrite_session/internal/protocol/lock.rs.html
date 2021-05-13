@@ -30,16 +30,16 @@
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">F</span> : <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 {
-  <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">unlock</span> : <span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
+  <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">unlock</span>: <span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">F</span> : <span class="ident">Protocol</span>,
-  <span class="ident">F</span> : <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-  <span class="ident">F</span>::<span class="ident">Applied</span> : <span class="ident">Protocol</span>,
+  <span class="ident">F</span>: <span class="ident">Protocol</span>,
+  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">F</span>::<span class="ident">Applied</span>: <span class="ident">Protocol</span>,
 {
 }
 </pre></div>
