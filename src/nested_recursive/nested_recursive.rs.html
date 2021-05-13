@@ -43,10 +43,10 @@
   <span class="ident">prelude</span>::<span class="kw-2">*</span>,
 };
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Stream</span> <span class="op">=</span> <span class="ident">Rec1</span><span class="op">&lt;</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Stream</span> <span class="op">=</span> <span class="ident">Rec</span><span class="op">&lt;</span>
   <span class="ident">InternalChoice</span><span class="op">&lt;</span>
     <span class="ident">Either</span><span class="op">&lt;</span>
-      <span class="ident">Rec1</span><span class="op">&lt;</span><span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Either</span><span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Z</span><span class="op">&gt;</span>, <span class="ident">S</span><span class="op">&lt;</span><span class="ident">Z</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+      <span class="ident">Rec</span><span class="op">&lt;</span><span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Either</span><span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Z</span><span class="op">&gt;</span>, <span class="ident">S</span><span class="op">&lt;</span><span class="ident">Z</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
       <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Z</span><span class="op">&gt;</span>,
     <span class="op">&gt;</span>,
   <span class="op">&gt;</span>,
