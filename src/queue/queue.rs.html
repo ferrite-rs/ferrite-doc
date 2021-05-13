@@ -136,7 +136,7 @@
 <span class="kw">fn</span> <span class="ident">read_queue</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">StringQueue</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span>
 {
   <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">queue</span> <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">unfix_session_for</span> ( <span class="ident">queue</span>,
+    <span class="ident">unfix_session</span> ( <span class="ident">queue</span>,
       <span class="macro">case</span><span class="macro">!</span> { <span class="ident">queue</span> ;
         <span class="ident">Left</span> <span class="op">=</span><span class="op">&gt;</span> {
           <span class="ident">wait</span> ( <span class="ident">queue</span>, <span class="ident">terminate</span> () )
