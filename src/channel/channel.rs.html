@@ -186,6 +186,13 @@
 <span id="183">183</span>
 <span id="184">184</span>
 <span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">collections</span>::<span class="ident">VecDeque</span>,
@@ -223,36 +230,34 @@
 <span class="kw">where</span>
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
-  <span class="macro">acquire_shared_session</span><span class="macro">!</span> ( <span class="ident">source</span>, <span class="ident">chan</span> <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">SendNext</span>,
-      <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">m_val</span> <span class="op">=</span><span class="op">&gt;</span> {
+  <span class="ident">acquire_shared_session</span>(<span class="ident">source</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span><span class="ident">chan</span><span class="op">|</span> {
+    <span class="macro">choose</span><span class="macro">!</span>(
+      <span class="ident">chan</span>,
+      <span class="ident">SendNext</span>,
+      <span class="ident">receive_value_from</span>(<span class="ident">chan</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">m_val</span><span class="op">|</span> {
         <span class="kw">match</span> <span class="ident">m_val</span> {
-          <span class="prelude-val">Some</span> ( <span class="ident">val</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="ident">fix_session</span> (
-              <span class="macro">offer_choice</span><span class="macro">!</span> {
-                <span class="ident">Next</span> <span class="op">=</span><span class="op">&gt;</span> {
-                  <span class="macro">send_value</span><span class="macro">!</span> (
-                    <span class="ident">val</span>,
-                    <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
-                        <span class="ident">partial_session</span> (
-                          <span class="ident">make_receiver</span> ( <span class="ident">source</span> ) ) )
-                      )
-                }
-                <span class="ident">Close</span> <span class="op">=</span><span class="op">&gt;</span> {
-                  <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
-                    <span class="macro">terminate</span><span class="macro">!</span> () )
-                }
-              })
-          },
-          <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+          <span class="prelude-val">Some</span>(<span class="ident">val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">fix_session</span>(<span class="macro">offer_choice</span><span class="macro">!</span> {
+            <span class="ident">Next</span> <span class="op">=</span><span class="op">&gt;</span> {
+              <span class="ident">send_value</span> (
+                <span class="ident">val</span>,
+                <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
+                    <span class="ident">partial_session</span> (
+                      <span class="ident">make_receiver</span> ( <span class="ident">source</span> ) ) )
+                  )
+            }
+            <span class="ident">Close</span> <span class="op">=</span><span class="op">&gt;</span> {
+              <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
+                <span class="ident">terminate</span> () )
+            }
+          }),
+          <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> {
             <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">100</span>)).<span class="kw">await</span>;
 
-            <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
-              <span class="ident">partial_session</span> (
-                <span class="ident">make_receiver</span> ( <span class="ident">source</span> ) ) )
-          }
+            <span class="ident">release_shared_session</span>(<span class="ident">chan</span>, <span class="ident">partial_session</span>(<span class="ident">make_receiver</span>(<span class="ident">source</span>)))
+          }),
         }
-      }) )
+      })
+    )
   })
 }
 
@@ -264,14 +269,18 @@
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
 {
-  <span class="macro">acquire_shared_session</span><span class="macro">!</span> ( <span class="ident">source</span>, <span class="ident">chan</span> <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">ReceiveNext</span>,
-      <span class="macro">send_value_to</span><span class="macro">!</span> (
-        <span class="ident">chan</span>,
-        <span class="ident">make_val</span>().<span class="kw">await</span>,
-        <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
-          <span class="macro">terminate</span><span class="macro">!</span> () )
-      ) )
+  <span class="ident">acquire_shared_session</span>(<span class="ident">source</span>, <span class="op">|</span><span class="ident">chan</span><span class="op">|</span> {
+    <span class="macro">choose</span><span class="macro">!</span>(
+      <span class="ident">chan</span>,
+      <span class="ident">ReceiveNext</span>,
+      <span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> {
+        <span class="ident">send_value_to</span>(
+          <span class="ident">chan</span>,
+          <span class="ident">make_val</span>().<span class="kw">await</span>,
+          <span class="ident">release_shared_session</span>(<span class="ident">chan</span>, <span class="ident">terminate</span>()),
+        )
+      })
+    )
   })
 }
 
@@ -282,7 +291,7 @@
   <span class="ident">accept_shared_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
     <span class="macro">offer_choice</span><span class="macro">!</span> {
       <span class="ident">ReceiveNext</span> <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="macro">receive_value</span><span class="macro">!</span> ( <span class="ident">val</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">receive_value</span>( <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
           <span class="ident">queue</span>.<span class="ident">push_back</span> ( <span class="ident">val</span> );
 
           <span class="ident">detach_shared_session</span> (
@@ -292,7 +301,7 @@
       <span class="ident">SendNext</span> <span class="op">=</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">m_val</span> <span class="op">=</span> <span class="ident">queue</span>.<span class="ident">pop_front</span>();
 
-        <span class="macro">send_value</span><span class="macro">!</span> ( <span class="ident">m_val</span>,
+        <span class="ident">send_value</span> ( <span class="ident">m_val</span>,
           <span class="ident">detach_shared_session</span> (
             <span class="ident">do_create_channel</span> ( <span class="ident">queue</span> ) ) )
       }
@@ -313,29 +322,35 @@
 {
   <span class="kw">let</span> <span class="ident">channel</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">create_channel</span>();
 
-  <span class="kw">let</span> <span class="ident">consumer1</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">include_session</span><span class="macro">!</span> (
-  <span class="ident">make_receiver</span> ( <span class="ident">channel</span>.<span class="ident">clone</span>() ),
-  <span class="ident">receiver</span> <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">unfix_session</span> ( <span class="ident">receiver</span>,
-      <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">receiver</span>, <span class="ident">Next</span>,
-        <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">receiver</span>, <span class="ident">val</span> <span class="op">=</span><span class="op">&gt;</span> {
-          <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[Consumer 1] Receive first value: {}&quot;</span>, <span class="ident">val</span>);
+  <span class="kw">let</span> <span class="ident">consumer1</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span>
+    <span class="ident">include_session</span>(<span class="ident">make_receiver</span>(<span class="ident">channel</span>.<span class="ident">clone</span>()), <span class="op">|</span><span class="ident">receiver</span><span class="op">|</span> {
+      <span class="ident">unfix_session</span>(
+        <span class="ident">receiver</span>,
+        <span class="macro">choose</span><span class="macro">!</span>(
+          <span class="ident">receiver</span>,
+          <span class="ident">Next</span>,
+          <span class="ident">receive_value_from</span>(<span class="ident">receiver</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[Consumer 1] Receive first value: {}&quot;</span>, <span class="ident">val</span>);
 
-          <span class="ident">unfix_session</span> ( <span class="ident">receiver</span>,
-            <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">receiver</span>, <span class="ident">Next</span>,
-              <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">receiver</span>, <span class="ident">val</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">println</span><span class="macro">!</span> (<span class="string">&quot;[Consumer 1] Receive second value: {}&quot;</span>, <span class="ident">val</span>);
+            <span class="ident">unfix_session</span>(
+              <span class="ident">receiver</span>,
+              <span class="macro">choose</span><span class="macro">!</span>(
+                <span class="ident">receiver</span>,
+                <span class="ident">Next</span>,
+                <span class="ident">receive_value_from</span>(<span class="ident">receiver</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
+                  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[Consumer 1] Receive second value: {}&quot;</span>, <span class="ident">val</span>);
 
-                <span class="ident">unfix_session</span> ( <span class="ident">receiver</span>,
-                  <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">receiver</span>, <span class="ident">Close</span>,
-                    <span class="macro">wait</span><span class="macro">!</span> ( <span class="ident">receiver</span>,
-                      <span class="macro">terminate</span><span class="macro">!</span> () ) )
-                )
-              } ) )
-          )
-        } ) )
-    )
-  });
+                  <span class="ident">unfix_session</span>(
+                    <span class="ident">receiver</span>,
+                    <span class="macro">choose</span><span class="macro">!</span>(<span class="ident">receiver</span>, <span class="ident">Close</span>, <span class="ident">wait</span>(<span class="ident">receiver</span>, <span class="ident">terminate</span>())),
+                  )
+                })
+              ),
+            )
+          })
+        ),
+      )
+    });
 
   <span class="kw">let</span> <span class="ident">producer1</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span>
     <span class="ident">sender_session</span>(<span class="ident">channel</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
@@ -367,7 +382,6 @@
 }
 
 <span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
-
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>()
 {
   <span class="ident">run_session</span>(<span class="ident">channel_session</span>()).<span class="kw">await</span>;

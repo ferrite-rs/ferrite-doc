@@ -47,16 +47,6 @@
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
-<span id="49">49</span>
-<span id="50">50</span>
-<span id="51">51</span>
-<span id="52">52</span>
-<span id="53">53</span>
-<span id="54">54</span>
-<span id="55">55</span>
-<span id="56">56</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
 
@@ -67,35 +57,25 @@
 
 <span class="kw">fn</span> <span class="ident">producer</span>(<span class="ident">count</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">IntStream</span><span class="op">&gt;</span>
 {
-  <span class="ident">fix_session</span>(<span class="macro">send_value</span><span class="macro">!</span>(
-    {
-      <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">1</span>)).<span class="kw">await</span>;
-
-      <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[producer] Producing value: {}&quot;</span>, <span class="ident">count</span>);
-
-      <span class="ident">count</span>
-    },
-    <span class="ident">producer</span>(<span class="ident">count</span> <span class="op">+</span> <span class="number">1</span>)
-  ))
+  <span class="ident">fix_session</span>(<span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> {
+    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[producer] Producing value: {}&quot;</span>, <span class="ident">count</span>);
+    <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">1</span>)).<span class="kw">await</span>;
+    <span class="ident">send_value</span>(<span class="ident">count</span>, <span class="ident">producer</span>(<span class="ident">count</span> <span class="op">+</span> <span class="number">1</span>))
+  }))
 }
 
 <span class="kw">fn</span> <span class="ident">consumer</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">Protocol</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">IntStream</span>, <span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>
 {
-  <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">stream</span> <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="ident">unfix_session</span> ( <span class="ident">stream</span>,
-      <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">stream</span>,
-        <span class="ident">count</span> <span class="op">=</span><span class="op">&gt;</span> {
-          <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[consumer] Received value: {}&quot;</span>, <span class="ident">count</span>);
-          <span class="macro">include_session</span><span class="macro">!</span> (
-            <span class="ident">consumer</span> (),
-            <span class="ident">next</span> <span class="op">=</span><span class="op">&gt;</span> {
-              <span class="ident">send_channel_to</span> (
-                <span class="ident">next</span>,
-                <span class="ident">stream</span>,
-                <span class="ident">forward</span> ( <span class="ident">next</span> )
-              )
-            })
-      }) )
+  <span class="ident">receive_channel</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">stream</span><span class="op">|</span> {
+    <span class="ident">unfix_session</span>(
+      <span class="ident">stream</span>,
+      <span class="ident">receive_value_from</span>(<span class="ident">stream</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">count</span><span class="op">|</span> {
+        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;[consumer] Received value: {}&quot;</span>, <span class="ident">count</span>);
+        <span class="ident">include_session</span>(<span class="ident">consumer</span>(), <span class="op">|</span><span class="ident">next</span><span class="op">|</span> {
+          <span class="ident">send_channel_to</span>(<span class="ident">next</span>, <span class="ident">stream</span>, <span class="ident">forward</span>(<span class="ident">next</span>))
+        })
+      }),
+    )
   })
 }
 

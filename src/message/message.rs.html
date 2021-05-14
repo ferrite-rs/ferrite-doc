@@ -78,6 +78,10 @@
 <span id="75">75</span>
 <span id="76">76</span>
 <span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">ferrite_session</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">future</span>::<span class="ident">join_all</span>;
@@ -127,12 +131,16 @@
 
   <span class="ident">join_all</span>(<span class="ident">futures</span>).<span class="kw">await</span>;
 
-  <span class="ident">run_session_with_result</span>(<span class="macro">acquire_shared_session</span><span class="macro">!</span> ( <span class="ident">counter</span>, <span class="ident">chan</span> <span class="op">=</span><span class="op">&gt;</span>
-      <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">GetCount</span>,
-        <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">count</span> <span class="op">=</span><span class="op">&gt;</span>
-          <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
-            <span class="ident">send_value</span> ( <span class="ident">count</span> ,
-              <span class="ident">terminate</span>() ) ) ) ) ))
+  <span class="ident">run_session_with_result</span>(<span class="ident">acquire_shared_session</span>(<span class="ident">counter</span>, <span class="op">|</span><span class="ident">chan</span><span class="op">|</span> {
+    <span class="macro">choose</span><span class="macro">!</span>(
+      <span class="ident">chan</span>,
+      <span class="ident">GetCount</span>,
+      <span class="ident">receive_value_from</span>(<span class="ident">chan</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">count</span><span class="op">|</span> <span class="ident">release_shared_session</span>(
+        <span class="ident">chan</span>,
+        <span class="ident">send_value</span>(<span class="ident">count</span>, <span class="ident">terminate</span>())
+      ))
+    )
+  }))
   .<span class="kw">await</span>
 }
 

@@ -59,6 +59,7 @@
 <span id="56">56</span>
 <span id="57">57</span>
 <span id="58">58</span>
+<span id="59">59</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
 
@@ -77,24 +78,26 @@
   <span class="op">&gt;</span> <span class="op">=</span> <span class="macro">receive_channels</span><span class="macro">!</span> ( (<span class="ident">c1</span>, <span class="ident">c2</span>, <span class="ident">c3</span>) <span class="op">=</span><span class="op">&gt;</span> {
     <span class="macro">cut</span><span class="macro">!</span> {
       [ <span class="ident">R</span>, <span class="ident">L</span>, <span class="ident">R</span> ] ;
-      <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">c2</span>, <span class="ident">x2</span> <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="macro">println</span><span class="macro">!</span> (<span class="string">&quot;[right] got x2: {}&quot;</span>, <span class="ident">x2</span>);
-        <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">1</span>)).<span class="kw">await</span>;
+      <span class="ident">receive_value_from</span> ( <span class="ident">c2</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">x2</span><span class="op">|</span> {
+        <span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> {
+          <span class="macro">println</span><span class="macro">!</span> (<span class="string">&quot;[right] got x2: {}&quot;</span>, <span class="ident">x2</span>);
+          <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">1</span>)).<span class="kw">await</span>;
 
-        <span class="macro">wait</span><span class="macro">!</span> ( <span class="ident">c2</span>,
-          <span class="macro">terminate</span><span class="macro">!</span> ({
-            <span class="macro">println</span><span class="macro">!</span> (<span class="string">&quot;[right] terminating&quot;</span>);
-          }) )
+          <span class="ident">wait</span>( <span class="ident">c2</span>,
+            <span class="ident">terminate_async</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {
+              <span class="macro">println</span><span class="macro">!</span> (<span class="string">&quot;[right] terminating&quot;</span>);
+            }) )
+        })
       });
       <span class="ident">c4</span> <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">c1</span>, <span class="ident">x1</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">receive_value_from</span>( <span class="ident">c1</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">x1</span><span class="op">|</span> {
           <span class="macro">println</span><span class="macro">!</span> (<span class="string">&quot;[left] got x1: {}&quot;</span>, <span class="ident">x1</span>);
 
-          <span class="macro">receive_value_from</span><span class="macro">!</span> ( <span class="ident">c3</span>, <span class="ident">x3</span> <span class="op">=</span><span class="op">&gt;</span> {
+          <span class="ident">receive_value_from</span> ( <span class="ident">c3</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">x3</span><span class="op">|</span> {
             <span class="macro">println</span><span class="macro">!</span> (<span class="string">&quot;[left] got x3: {}&quot;</span>, <span class="ident">x3</span>);
 
             <span class="macro">wait_all</span><span class="macro">!</span> ( [ <span class="ident">c1</span>, <span class="ident">c3</span>, <span class="ident">c4</span> ],
-              <span class="macro">terminate</span><span class="macro">!</span> ({
+              <span class="ident">terminate_async</span> (<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {
                 <span class="macro">println</span><span class="macro">!</span> (<span class="string">&quot;[left] terminating&quot;</span>);
               }) )
           })
@@ -113,7 +116,6 @@
 }
 
 <span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
-
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>()
 {
   <span class="ident">run_session</span>(<span class="ident">cut_session</span>()).<span class="kw">await</span>;

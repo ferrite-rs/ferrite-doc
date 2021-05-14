@@ -47,9 +47,6 @@
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
-<span id="49">49</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">ferrite_session</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 
@@ -64,12 +61,12 @@
 {
   <span class="kw">let</span> <span class="ident">provider</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">FooBarBaz</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">offer_choice</span><span class="macro">!</span> {
     <span class="ident">Foo</span> <span class="op">=</span><span class="op">&gt;</span> {
-      <span class="macro">send_value</span><span class="macro">!</span> (
+      <span class="ident">send_value</span>(
         <span class="string">&quot;provider_foo&quot;</span>.<span class="ident">to_string</span>(),
         <span class="ident">terminate</span>() )
     }
     <span class="ident">Bar</span> <span class="op">=</span><span class="op">&gt;</span> {
-      <span class="macro">receive_value</span><span class="macro">!</span> ( <span class="ident">val</span> <span class="op">=</span><span class="op">&gt;</span> {
+      <span class="ident">receive_value</span>( <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
         <span class="macro">println</span><span class="macro">!</span> ( <span class="string">&quot;received bar value: {}&quot;</span>, <span class="ident">val</span> );
         <span class="ident">terminate</span>()
       })
@@ -78,24 +75,21 @@
       <span class="ident">terminate</span>()
     }
     <span class="ident">Quux</span> <span class="op">=</span><span class="op">&gt;</span> {
-      <span class="macro">send_value</span><span class="macro">!</span> (
+      <span class="ident">send_value</span>(
         <span class="number">8</span>,
         <span class="ident">terminate</span>() )
     }
   };
 
-  <span class="kw">let</span> <span class="ident">client_bar</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">FooBarBaz</span><span class="op">&gt;</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">receive_channel</span><span class="macro">!</span> ( <span class="ident">chan</span> <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro">choose</span><span class="macro">!</span> ( <span class="ident">chan</span>, <span class="ident">Bar</span>,
-      <span class="ident">send_value_to</span> (<span class="ident">chan</span>, <span class="number">42</span>,
-        <span class="ident">wait</span> ( <span class="ident">chan</span>, <span class="ident">terminate</span> () ) )
-    )
-  });
+  <span class="kw">let</span> <span class="ident">client_bar</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">FooBarBaz</span><span class="op">&gt;</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span>
+    <span class="ident">receive_channel</span>(<span class="op">|</span><span class="ident">chan</span><span class="op">|</span> {
+      <span class="macro">choose</span><span class="macro">!</span>(<span class="ident">chan</span>, <span class="ident">Bar</span>, <span class="ident">send_value_to</span>(<span class="ident">chan</span>, <span class="number">42</span>, <span class="ident">wait</span>(<span class="ident">chan</span>, <span class="ident">terminate</span>())))
+    });
 
   <span class="ident">apply_channel</span>(<span class="ident">client_bar</span>, <span class="ident">provider</span>)
 }
 
 <span class="attribute">#[<span class="ident">tokio</span>::<span class="ident">main</span>]</span>
-
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>()
 {
   <span class="ident">run_session</span>(<span class="ident">external_choice_session</span>()).<span class="kw">await</span>
