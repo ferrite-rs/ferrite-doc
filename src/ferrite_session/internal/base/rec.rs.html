@@ -355,6 +355,54 @@
 <span id="352">352</span>
 <span id="353">353</span>
 <span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
 
@@ -526,43 +574,83 @@
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">RecX</span><span class="op">&lt;</span>(), <span class="ident">F</span>::<span class="ident">Applied</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LinearMode</span> {}
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SharedMode</span> {}
+
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span>
 {
-  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">R</span>, <span class="ident">Row</span>)<span class="op">&gt;</span>,
+  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row</span>)<span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">LinearRecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">LinearMode</span>, <span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">SharedRecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">SharedMode</span>, <span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span>;
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row</span>: <span class="ident">Protocol</span>,
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">RowCon</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">RowCon</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span> <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">R</span><span class="op">&gt;</span>
+{
+  <span class="kw">type</span> <span class="ident">Applied</span>;
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LinearMode</span>
+<span class="kw">where</span>
+  <span class="ident">Row</span>: <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
+{
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row</span>::<span class="ident">Applied</span>;
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row</span><span class="op">&gt;</span> <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SharedMode</span>
+<span class="kw">where</span>
+  <span class="ident">Row</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
+{
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row</span>::<span class="ident">Applied</span>;
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R1</span>, <span class="ident">R2</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Row3</span><span class="op">&gt;</span> <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">R2</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">SharedMode</span>, <span class="ident">R1</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+  <span class="ident">R1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row3</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R2</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Row2</span>: <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">R2</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row3</span><span class="op">&gt;</span>,
+{
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row3</span>;
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Mode</span><span class="op">&gt;</span> <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">TyCon</span>,
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row2</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
 {
   <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row2</span>, <span class="ident">F</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Row3</span><span class="op">&gt;</span> <span class="ident">FlattenSumApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Row3</span>, <span class="ident">Mode</span><span class="op">&gt;</span> <span class="ident">FlattenSumApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">TyCon</span>,
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row3</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">FlattenSumApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">FlattenApplied</span> <span class="op">=</span> <span class="ident">Row3</span><span class="op">&gt;</span>,
 {
   <span class="kw">type</span> <span class="ident">FlattenApplied</span> <span class="op">=</span> <span class="ident">Row3</span>;
@@ -578,12 +666,13 @@
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span> <span class="ident">SplitRow</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Mode</span><span class="op">&gt;</span> <span class="ident">SplitRow</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row2</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">SplitRow</span>,
 {
   <span class="kw">fn</span> <span class="ident">split_row</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(
@@ -598,12 +687,13 @@
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span> <span class="ident">SumFunctor</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Mode</span><span class="op">&gt;</span> <span class="ident">SumFunctor</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row2</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">SumFunctor</span>,
 {
   <span class="kw">fn</span> <span class="ident">lift_sum</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(
@@ -619,12 +709,13 @@
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span> <span class="ident">SumFunctorInject</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Mode</span><span class="op">&gt;</span> <span class="ident">SumFunctorInject</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row2</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">SumFunctorInject</span>,
 {
   <span class="kw">fn</span> <span class="ident">lift_sum_inject</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">Root</span>, <span class="ident">Inject</span><span class="op">&gt;</span>(
@@ -643,12 +734,13 @@
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span> <span class="ident">IntersectSum</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Mode</span><span class="op">&gt;</span> <span class="ident">IntersectSum</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row2</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">IntersectSum</span>,
 {
   <span class="kw">fn</span> <span class="ident">intersect_sum</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(
@@ -664,12 +756,13 @@
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span> <span class="ident">ElimSum</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Mode</span><span class="op">&gt;</span> <span class="ident">ElimSum</span> <span class="kw">for</span> <span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row2</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">ElimSum</span>,
 {
   <span class="kw">fn</span> <span class="ident">elim_sum</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">E</span>, <span class="ident">Res</span><span class="op">&gt;</span>(
@@ -684,17 +777,20 @@
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span> <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">N</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">R</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Mode</span><span class="op">&gt;</span> <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">N</span>
 <span class="kw">where</span>
   <span class="ident">R</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Mode</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row2</span>: <span class="ident">RowCon</span>,
-  <span class="ident">Row1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Mode</span>: <span class="ident">RecRowApp</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">R</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">N</span>: <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">Row2</span><span class="op">&gt;</span>,
 {
   <span class="kw">type</span> <span class="ident">Elem</span> <span class="op">=</span> <span class="ident">N</span>::<span class="ident">Elem</span>;
 
-  <span class="kw">fn</span> <span class="ident">inject_elem</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">elem</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="self">Self</span>::<span class="ident">Elem</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>, <span class="ident">F</span><span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">inject_elem</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
+    <span class="ident">elem</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="self">Self</span>::<span class="ident">Elem</span><span class="op">&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>, <span class="ident">F</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">F</span>: <span class="ident">TyCon</span>,
   {
@@ -702,7 +798,7 @@
   }
 
   <span class="kw">fn</span> <span class="ident">extract_elem</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-    <span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>, <span class="ident">F</span><span class="op">&gt;</span>
+    <span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">RecRow</span><span class="op">&lt;</span><span class="ident">Mode</span>, <span class="ident">R</span>, <span class="ident">Row1</span><span class="op">&gt;</span>, <span class="ident">F</span><span class="op">&gt;</span>
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">App</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="self">Self</span>::<span class="ident">Elem</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">F</span>: <span class="ident">TyCon</span>,
