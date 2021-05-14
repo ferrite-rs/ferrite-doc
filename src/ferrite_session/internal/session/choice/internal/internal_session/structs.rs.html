@@ -35,6 +35,7 @@
 <span id="32">32</span>
 <span id="33">33</span>
 <span id="34">34</span>
+<span id="35">35</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">any</span>::<span class="ident">Any</span>,
@@ -58,8 +59,9 @@
   <span class="ident">A</span>: <span class="ident">Protocol</span>,
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
   <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">Row</span>: <span class="ident">ToRow</span>,
+  <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Del</span>: <span class="ident">Context</span>,
-  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span><span class="op">&gt;</span>,
 {
   <span class="kw">pub</span> <span class="ident">session</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,

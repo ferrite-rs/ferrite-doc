@@ -50,6 +50,9 @@
 <span id="47">47</span>
 <span id="48">48</span>
 <span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">async_macros</span>::<span class="ident">join</span>;
 <span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">task</span>;
@@ -68,19 +71,22 @@
     <span class="ident">wrap_type_app</span>,
     <span class="ident">Prism</span>,
     <span class="ident">SumApp</span>,
+    <span class="ident">ToRow</span>,
   },
   <span class="ident">protocol</span>::<span class="ident">InternalChoice</span>,
 };
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">offer_case</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">Row</span><span class="op">&gt;</span>(
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">offer_case</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span>(
   <span class="kw">_</span>: <span class="ident">N</span>,
   <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span><span class="op">&gt;</span>
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row1</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">C</span>: <span class="ident">Context</span>,
   <span class="ident">A</span>: <span class="ident">Protocol</span>,
-  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">ReceiverF</span><span class="op">&gt;</span>,
-  <span class="ident">N</span>: <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">Elem</span> <span class="op">=</span> <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row1</span>: <span class="ident">ToRow</span><span class="op">&lt;</span><span class="ident">Row</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Row2</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">ReceiverF</span><span class="op">&gt;</span>,
+  <span class="ident">N</span>: <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">Row2</span>, <span class="ident">Elem</span> <span class="op">=</span> <span class="ident">A</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();

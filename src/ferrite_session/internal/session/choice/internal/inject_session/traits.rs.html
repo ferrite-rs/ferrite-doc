@@ -22,6 +22,8 @@
 <span id="19">19</span>
 <span id="20">20</span>
 <span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">internal_session</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">internal</span>::{
@@ -35,13 +37,15 @@
   <span class="kw">fn</span> <span class="ident">inject_session</span>(
     <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
     <span class="ident">session</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N</span>::<span class="ident">Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,
-  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>::<span class="ident">Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span>: <span class="ident">Protocol</span>,
     <span class="ident">B</span>: <span class="ident">Protocol</span>,
     <span class="ident">C</span>: <span class="ident">Context</span>,
     <span class="ident">Del</span>: <span class="ident">Context</span>,
-    <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+    <span class="ident">Row</span>: <span class="ident">ToRow</span>,
+    <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">Row</span>::<span class="ident">Row</span>: <span class="ident">RowCon</span>,
     <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span><span class="op">&gt;</span>;
 }
 </pre></div>

@@ -193,6 +193,7 @@
 <span id="190">190</span>
 <span id="191">191</span>
 <span id="192">192</span>
+<span id="193">193</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">collections</span>::<span class="ident">VecDeque</span>,
@@ -241,9 +242,10 @@
               <span class="ident">send_value</span> (
                 <span class="ident">val</span>,
                 <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,
-                    <span class="ident">partial_session</span> (
-                      <span class="ident">make_receiver</span> ( <span class="ident">source</span> ) ) )
+                  <span class="ident">partial_session</span> (
+                    <span class="ident">make_receiver</span> ( <span class="ident">source</span> )
                   )
+                ))
             }
             <span class="ident">Close</span> <span class="op">=</span><span class="op">&gt;</span> {
               <span class="ident">release_shared_session</span> ( <span class="ident">chan</span>,

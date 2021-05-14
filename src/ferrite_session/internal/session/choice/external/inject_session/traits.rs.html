@@ -17,6 +17,7 @@
 <span id="14">14</span>
 <span id="15">15</span>
 <span id="16">16</span>
+<span id="17">17</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">cloak_session</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">internal</span>::{
@@ -29,10 +30,11 @@
   <span class="kw">fn</span> <span class="ident">inject_session</span>(
     <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
     <span class="ident">session</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span><span class="op">&gt;</span>
+  ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>::<span class="ident">Row</span>, <span class="ident">SessionF</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">C</span>: <span class="ident">Context</span>,
-    <span class="ident">A</span>: <span class="ident">Protocol</span>;
+    <span class="ident">A</span>: <span class="ident">Protocol</span>,
+    <span class="ident">Row</span>: <span class="ident">ToRow</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../../../../../" data-current-crate="ferrite_session" data-search-js="../../../../../../../search-index.js"></div>

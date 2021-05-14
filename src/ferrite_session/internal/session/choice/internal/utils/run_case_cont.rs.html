@@ -146,6 +146,10 @@
 <span id="143">143</span>
 <span id="144">144</span>
 <span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">future</span>::<span class="ident">Future</span>,
@@ -160,24 +164,26 @@
   <span class="ident">protocol</span>::<span class="kw-2">*</span>,
 };
 
-<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">run_case_cont</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span>(
+<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">run_case_cont</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span>(
   <span class="ident">ctx</span>: <span class="ident">D</span>::<span class="ident">Endpoints</span>,
   <span class="ident">sender</span>: <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
-  <span class="ident">cont1</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ReceiverF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">cont1</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row2</span>, <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ReceiverF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 ) <span class="kw">where</span>
   <span class="ident">C</span>: <span class="ident">Context</span>,
   <span class="ident">D</span>: <span class="ident">Context</span>,
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
-  <span class="ident">Row</span>: <span class="ident">ElimSum</span>,
-  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
+  <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row1</span>: <span class="ident">ToRow</span><span class="op">&lt;</span><span class="ident">Row</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+  <span class="ident">Row2</span>: <span class="ident">ElimSum</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row1</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
-  <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">ContRunner1</span>::<span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span> {
+  <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">ContRunner1</span>::<span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span> {
     <span class="ident">ctx</span>,
     <span class="ident">sender</span>,
     <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
   };
 
-  <span class="ident">Row</span>::<span class="ident">elim_sum</span>(<span class="ident">cont2</span>, <span class="ident">cont1</span>).<span class="kw">await</span>;
+  <span class="ident">Row2</span>::<span class="ident">elim_sum</span>(<span class="ident">cont2</span>, <span class="ident">cont1</span>).<span class="kw">await</span>;
 }
 
 <span class="kw">struct</span> <span class="ident">ContRunner1</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>
@@ -185,7 +191,8 @@
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
   <span class="ident">C</span>: <span class="ident">Context</span>,
   <span class="ident">D</span>: <span class="ident">Context</span>,
-  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">Row</span>: <span class="ident">ToRow</span>,
+  <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
   <span class="ident">ctx</span>: <span class="ident">D</span>::<span class="ident">Endpoints</span>,
@@ -198,7 +205,8 @@
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
   <span class="ident">C</span>: <span class="ident">Context</span>,
   <span class="ident">D</span>: <span class="ident">Context</span>,
-  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">Row</span>: <span class="ident">ToRow</span>,
+  <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
   <span class="ident">ctx</span>: <span class="ident">D</span>::<span class="ident">Endpoints</span>,
@@ -224,8 +232,8 @@
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
   <span class="ident">C</span>: <span class="ident">Context</span>,
   <span class="ident">D</span>: <span class="ident">Context</span>,
-  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
-  <span class="ident">N</span>: <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row</span>: <span class="ident">ToRow</span>,
+  <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
   <span class="kw">fn</span> <span class="ident">on_internal_session</span>(
@@ -236,7 +244,6 @@
     <span class="ident">A</span>: <span class="ident">Protocol</span>,
     <span class="ident">B</span>: <span class="ident">Protocol</span>,
     <span class="ident">C</span>: <span class="ident">Context</span>,
-    <span class="ident">Row</span>: <span class="ident">RowCon</span>,
     <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
   {
     <span class="kw">let</span> <span class="ident">ctx1</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">ctx</span>;
@@ -264,7 +271,8 @@
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
   <span class="ident">C</span>: <span class="ident">Context</span>,
   <span class="ident">D</span>: <span class="ident">Context</span>,
-  <span class="ident">Row</span>: <span class="ident">RowCon</span>,
+  <span class="ident">Row</span>: <span class="ident">ToRow</span>,
+  <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
   <span class="kw">fn</span> <span class="ident">elim_field</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(

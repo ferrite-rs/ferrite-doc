@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["BarLabel",""],["BazLabel",""],["FooLabel",""],["QuuxLabel",""]],"enum":[["FooBarBazChoice",""]],"fn":[["external_choice_session",""],["main",""]],"type":[["FooBarBaz",""]]});
+initSidebarItems({"constant":[["BarLabel",""],["BazLabel",""],["FooLabel",""],["QuuxLabel",""]],"enum":[["FooBarBaz",""],["FooBarBazChoice",""]],"fn":[["external_choice_session",""],["main",""]]});
