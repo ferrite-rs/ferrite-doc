@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["End",""],["ExternalChoice",""],["InternalChoice",""],["LinearToShared",""],["ReceiveChannel",""],["ReceiveValue",""],["SendChannel",""],["SendValue",""],["SharedToLinear",""],["Wrap",""]],"trait":[["Wrapper",""]]});

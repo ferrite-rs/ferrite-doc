@@ -46,18 +46,22 @@
 <span id="43">43</span>
 <span id="44">44</span>
 <span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
+
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">internal</span>::<span class="ident">functional</span>::{
   <span class="ident">nat</span>::<span class="kw-2">*</span>,
   <span class="ident">row</span>::<span class="kw-2">*</span>,
 };
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> {
-  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">A</span>, <span class="ident">B</span>)<span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
+{
+  <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">A</span>, <span class="ident">B</span>)<span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">ToRow</span> <span class="kw">for</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">ToRow</span> <span class="kw">for</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
 {
   <span class="kw">type</span> <span class="ident">Row</span> <span class="op">=</span> (<span class="ident">A</span>, (<span class="ident">B</span>, ()));
 }

@@ -68,6 +68,7 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
+<span id="68">68</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">internal</span>::{
   <span class="ident">base</span>::<span class="kw-2">*</span>,
@@ -84,8 +85,9 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">Row1</span>: <span class="ident">ToRow</span><span class="op">&lt;</span><span class="ident">Row</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>
-{}
+  <span class="ident">Row1</span>: <span class="ident">ToRow</span><span class="op">&lt;</span><span class="ident">Row</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
+{
+}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Row3</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="ident">RecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>

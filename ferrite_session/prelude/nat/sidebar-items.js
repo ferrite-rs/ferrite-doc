@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["succ",""]],"struct":[["S",""],["Z",""]],"trait":[["Nat",""]]});

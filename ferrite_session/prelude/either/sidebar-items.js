@@ -1,1 +1,0 @@
-initSidebarItems({"constant":[["LeftLabel",""],["RightLabel",""]],"enum":[["EitherChoice",""]],"struct":[["Either",""]],"type":[["EitherRow",""]]});

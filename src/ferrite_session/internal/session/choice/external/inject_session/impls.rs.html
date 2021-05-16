@@ -69,10 +69,10 @@
   <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
   <span class="ident">Row</span>: <span class="lifetime">&#39;static</span>,
 {
-  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">InjectSession</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">InjectExternal</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">SessionSum</span><span class="op">&gt;</span> <span class="ident">RunCont</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InjectSession</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">SessionSum</span><span class="op">&gt;</span> <span class="ident">RunCont</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InjectExternal</span><span class="op">&lt;</span><span class="ident">Row1</span>, <span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">C</span>: <span class="ident">Context</span>,
   <span class="ident">A</span>: <span class="ident">Protocol</span>,

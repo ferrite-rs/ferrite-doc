@@ -82,7 +82,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">Del</span>, <span class="ident">SessionSum</span><span class="op">&gt;</span> <span class="ident">RunCont</span><span class="op">&lt;</span><span class="ident">C2</span>, <span class="ident">B</span><span class="op">&gt;</span>
-  <span class="kw">for</span> <span class="ident">InjectSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C1</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">Del</span><span class="op">&gt;</span>
+  <span class="kw">for</span> <span class="ident">InjectInternal</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C1</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">Del</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span>: <span class="ident">Protocol</span>,
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
@@ -116,7 +116,7 @@
   <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Del</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
-  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">InjectSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">InjectInternal</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../../../../../../" data-current-crate="ferrite_session" data-search-js="../../../../../../../search-index.js"></div>
