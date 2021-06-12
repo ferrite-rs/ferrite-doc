@@ -215,9 +215,6 @@
 <span id="212">212</span>
 <span id="213">213</span>
 <span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">internal</span>::{
   <span class="ident">base</span>::{
@@ -365,10 +362,7 @@
 
 <span class="kw">impl</span> <span class="ident">EmptyContext</span> <span class="kw">for</span> ()
 {
-  <span class="kw">fn</span> <span class="ident">empty_values</span>()
-  {
-    ()
-  }
+  <span class="kw">fn</span> <span class="ident">empty_values</span>() { }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">EmptyContext</span> <span class="kw">for</span> (<span class="ident">Empty</span>, <span class="ident">R</span>)
@@ -399,14 +393,14 @@
     <span class="ident">r</span>: <span class="op">&lt;</span><span class="ident">R</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Endpoints</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> <span class="op">&lt;</span><span class="ident">R</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Endpoints</span>
   {
-    <span class="kw">return</span> <span class="ident">r</span>;
+    <span class="ident">r</span>
   }
 
   <span class="kw">fn</span> <span class="ident">split_context</span>(
     <span class="ident">r</span>: <span class="op">&lt;</span><span class="ident">R</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Endpoints</span>
   ) <span class="op">-</span><span class="op">&gt;</span> ((), <span class="op">&lt;</span><span class="ident">R</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Endpoints</span>)
   {
-    <span class="kw">return</span> ((), <span class="ident">r</span>);
+    ((), <span class="ident">r</span>)
   }
 }
 
@@ -424,7 +418,7 @@
     <span class="ident">s</span>: <span class="op">&lt;</span><span class="ident">S</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Endpoints</span>,
   ) <span class="op">-</span><span class="op">&gt;</span> (<span class="op">&lt;</span><span class="ident">P</span> <span class="kw">as</span> <span class="ident">Slot</span><span class="op">&gt;</span>::<span class="ident">Endpoint</span>, <span class="op">&lt;</span><span class="ident">R</span>::<span class="ident">Appended</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">Endpoints</span>)
   {
-    <span class="kw">return</span> (<span class="ident">p</span>, <span class="op">&lt;</span><span class="ident">R</span> <span class="kw">as</span> <span class="ident">AppendContext</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">append_context</span>(<span class="ident">r</span>, <span class="ident">s</span>));
+    (<span class="ident">p</span>, <span class="op">&lt;</span><span class="ident">R</span> <span class="kw">as</span> <span class="ident">AppendContext</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">append_context</span>(<span class="ident">r</span>, <span class="ident">s</span>))
   }
 
   <span class="kw">fn</span> <span class="ident">split_context</span>(
@@ -433,7 +427,7 @@
   {
     <span class="kw">let</span> (<span class="ident">r2</span>, <span class="ident">s</span>) <span class="op">=</span> <span class="ident">R</span>::<span class="ident">split_context</span>(<span class="ident">r</span>);
 
-    <span class="kw">return</span> ((<span class="ident">p</span>, <span class="ident">r2</span>), <span class="ident">s</span>);
+    ((<span class="ident">p</span>, <span class="ident">r2</span>), <span class="ident">s</span>)
   }
 }
 </pre></div>

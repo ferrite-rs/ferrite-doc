@@ -54,11 +54,7 @@
 <span id="51">51</span>
 <span id="52">52</span>
 <span id="53">53</span>
-<span id="54">54</span>
-<span id="55">55</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">serde</span>;
-
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">internal</span>::<span class="ident">base</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">SenderOnce</span><span class="op">&lt;</span>(<span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>)<span class="op">&gt;</span>);

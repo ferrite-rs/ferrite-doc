@@ -192,8 +192,6 @@
 <span id="189">189</span>
 <span id="190">190</span>
 <span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">collections</span>::<span class="ident">VecDeque</span>,
@@ -315,9 +313,7 @@
 <span class="kw">where</span>
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
-  <span class="kw">let</span> <span class="ident">session</span> <span class="op">=</span> <span class="ident">run_shared_session</span>(<span class="ident">do_create_channel</span>(<span class="ident">VecDeque</span>::<span class="ident">new</span>()));
-
-  <span class="ident">session</span>
+  <span class="ident">run_shared_session</span>(<span class="ident">do_create_channel</span>(<span class="ident">VecDeque</span>::<span class="ident">new</span>()))
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channel_session</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
@@ -369,7 +365,7 @@
     })
   });
 
-  <span class="kw">let</span> <span class="ident">producer3</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender_session</span>(<span class="ident">channel</span>.<span class="ident">clone</span>(), <span class="op">|</span><span class="op">|</span> {
+  <span class="kw">let</span> <span class="ident">producer3</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">sender_session</span>(<span class="ident">channel</span>, <span class="op">|</span><span class="op">|</span> {
     <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="kw">async</span> {
       <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">3</span>)).<span class="kw">await</span>;
 
