@@ -1,6 +1,5 @@
 var N = null;var sourcesIndex = {};
 sourcesIndex["aho_corasick"] = {"name":"","dirs":[{"name":"packed","dirs":[{"name":"teddy","files":["compile.rs","mod.rs","runtime.rs"]}],"files":["api.rs","mod.rs","pattern.rs","rabinkarp.rs","vector.rs"]}],"files":["ahocorasick.rs","automaton.rs","buffer.rs","byte_frequencies.rs","classes.rs","dfa.rs","error.rs","lib.rs","nfa.rs","prefilter.rs","state_id.rs"]};
-sourcesIndex["async_macros"] = {"name":"","files":["join.rs","join_stream.rs","lib.rs","maybe_done.rs","poll_fn.rs","ready.rs","select.rs","try_join.rs","try_select.rs"]};
 sourcesIndex["atty"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["bincode"] = {"name":"","dirs":[{"name":"config","files":["endian.rs","int.rs","legacy.rs","limit.rs","mod.rs","trailing.rs"]},{"name":"de","files":["mod.rs","read.rs"]},{"name":"ser","files":["mod.rs"]}],"files":["byteorder.rs","error.rs","internal.rs","lib.rs"]};
 sourcesIndex["bytes"] = {"name":"","dirs":[{"name":"buf","files":["buf_impl.rs","buf_mut.rs","chain.rs","iter.rs","limit.rs","mod.rs","reader.rs","take.rs","uninit_slice.rs","vec_deque.rs","writer.rs"]},{"name":"fmt","files":["debug.rs","hex.rs","mod.rs"]}],"files":["bytes.rs","bytes_mut.rs","lib.rs","loom.rs"]};
