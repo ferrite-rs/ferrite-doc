@@ -63,6 +63,7 @@ sourcesIndex["scopeguard"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["serde"] = {"name":"","dirs":[{"name":"de","files":["ignored_any.rs","impls.rs","mod.rs","seed.rs","utf8.rs","value.rs"]},{"name":"private","files":["de.rs","doc.rs","mod.rs","ser.rs","size_hint.rs"]},{"name":"ser","files":["fmt.rs","impls.rs","impossible.rs","mod.rs"]}],"files":["integer128.rs","lib.rs","macros.rs"]};
 sourcesIndex["serde_derive"] = {"name":"","dirs":[{"name":"internals","files":["ast.rs","attr.rs","case.rs","check.rs","ctxt.rs","mod.rs","receiver.rs","respan.rs","symbol.rs"]}],"files":["bound.rs","de.rs","dummy.rs","fragment.rs","lib.rs","pretend.rs","ser.rs","try.rs"]};
 sourcesIndex["shared"] = {"name":"","files":["shared.rs"]};
+sourcesIndex["shared_queue"] = {"name":"","files":["shared_queue.rs"]};
 sourcesIndex["signal_hook_registry"] = {"name":"","files":["half_lock.rs","lib.rs"]};
 sourcesIndex["slab"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["smallvec"] = {"name":"","files":["lib.rs"]};

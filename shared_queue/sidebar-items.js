@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["DequeueLabel",""],["EnqueueLabel",""],["NoneLabel",""],["SomeLabel",""]],"enum":[["DequeueOps",""],["DequeueOpsChoice",""],["QueueOps",""],["QueueOpsChoice",""]],"fn":[["dequeue_and_print",""],["empty_queue",""],["enqueue",""],["head_queue",""],["main",""]],"type":[["Queue",""]]});
