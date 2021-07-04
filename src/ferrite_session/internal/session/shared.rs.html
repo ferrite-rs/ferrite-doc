@@ -347,6 +347,12 @@
 <span id="344">344</span>
 <span id="345">345</span>
 <span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
@@ -372,7 +378,7 @@
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">Protocol</span>,
-  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="ident">F::Applied</span>: <span class="ident">Protocol</span>,
 {
   <span class="ident">unsafe_create_shared_session</span>(
@@ -400,7 +406,11 @@
 
           <span class="macro">debug!</span>(<span class="string">&quot;[accept_shared_session] received from receiver4&quot;</span>);
 
-          <span class="ident">sender6</span>.<span class="ident">send</span>(<span class="ident">LinearToShared</span> { <span class="ident">linear</span> }).<span class="ident">unwrap</span>();
+          <span class="ident">sender6</span>
+            .<span class="ident">send</span>(<span class="ident">LinearToShared</span> {
+              <span class="ident">linear</span>: <span class="ident">Box::new</span>(<span class="ident">linear</span>),
+            })
+            .<span class="ident">unwrap</span>();
         });
 
         <span class="kw">let</span> <span class="ident">child3</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
@@ -426,10 +436,10 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">detach_shared_session</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">C</span><span class="op">&gt;</span>(
   <span class="ident">cont</span>: <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, <span class="ident">C</span>), <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, <span class="ident">C</span>), <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">Protocol</span>,
-  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="ident">F::Applied</span>: <span class="ident">Protocol</span>,
   <span class="ident">C</span>: <span class="ident">EmptyContext</span>,
 {
@@ -475,7 +485,7 @@
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">task::JoinHandle</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">Protocol</span>,
-  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="ident">F::Applied</span>: <span class="ident">Protocol</span>,
 {
   <span class="macro">debug!</span>(<span class="string">&quot;[async_acquire_shared_session] acquiring shared session&quot;</span>);
@@ -494,7 +504,7 @@
     <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> <span class="ident">LinearToShared</span> { <span class="ident">linear</span> } <span class="op">=</span> <span class="ident">receiver4</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-      <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="ident">linear</span>).<span class="ident">unwrap</span>();
+      <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="kw-2">*</span><span class="ident">linear</span>.<span class="ident">get_applied</span>()).<span class="ident">unwrap</span>();
     });
 
     <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
@@ -524,7 +534,7 @@
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">Protocol</span>,
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="ident">F::Applied</span>: <span class="ident">Protocol</span>,
 {
   <span class="macro">debug!</span>(<span class="string">&quot;[async_acquire_shared_session_with_result] acquiring shared session&quot;</span>);
@@ -543,7 +553,7 @@
     <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> <span class="ident">LinearToShared</span> { <span class="ident">linear</span> } <span class="op">=</span> <span class="ident">receiver4</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-      <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="ident">linear</span>).<span class="ident">unwrap</span>();
+      <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="kw-2">*</span><span class="ident">linear</span>.<span class="ident">get_applied</span>()).<span class="ident">unwrap</span>();
     });
 
     <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
@@ -583,7 +593,7 @@
   <span class="ident">A1</span>: <span class="ident">Protocol</span>,
   <span class="ident">A2</span>: <span class="ident">Protocol</span>,
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
-  <span class="ident">A1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">A2</span><span class="op">&gt;</span>,
+  <span class="ident">A1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">A2</span><span class="op">&gt;</span>,
   <span class="ident">C1</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A2</span>, ()), <span class="ident">Appended</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
@@ -604,7 +614,7 @@
     <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> <span class="ident">LinearToShared</span> { <span class="ident">linear</span> } <span class="op">=</span> <span class="ident">receiver4</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-      <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="ident">linear</span>).<span class="ident">unwrap</span>();
+      <span class="ident">sender2</span>.<span class="ident">send</span>(<span class="kw-2">*</span><span class="ident">linear</span>.<span class="ident">get_applied</span>()).<span class="ident">unwrap</span>();
     });
 
     <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
@@ -626,7 +636,7 @@
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
   <span class="ident">C1</span>: <span class="ident">Context</span>,
   <span class="ident">C2</span>: <span class="ident">Context</span>,
-  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">receiver2</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx1</span>);
@@ -635,7 +645,8 @@
 
     <span class="macro">debug!</span>(<span class="string">&quot;[release_shared_session] waiting receiver2&quot;</span>);
 
-    <span class="kw">let</span> <span class="ident">lock</span>: <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">lock</span>: <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span>
+      <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
     <span class="ident">lock</span>.<span class="ident">unlock</span>.<span class="ident">send</span>(()).<span class="ident">unwrap</span>();
 
@@ -646,13 +657,14 @@
     <span class="macro">debug!</span>(<span class="string">&quot;[release_shared_session] ran cont&quot;</span>);
   })
 }
+
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shared_forward</span><span class="op">&lt;</span><span class="ident">A1</span>, <span class="ident">A2</span>, <span class="ident">C</span><span class="op">&gt;</span>(
   <span class="ident">channel</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span><span class="op">&gt;</span>
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span>, <span class="ident">C</span>), <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A1</span>: <span class="ident">Protocol</span>,
   <span class="ident">A2</span>: <span class="ident">Protocol</span>,
-  <span class="ident">A1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">A2</span><span class="op">&gt;</span>,
+  <span class="ident">A1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">A2</span><span class="op">&gt;</span>,
   <span class="ident">C</span>: <span class="ident">EmptyContext</span>,
 {
   <span class="ident">unsafe_create_session</span>(
@@ -679,7 +691,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">Protocol</span>,
-  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="ident">F::Applied</span>: <span class="ident">Protocol</span>,
 {
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">acquire</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>(
