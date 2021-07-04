@@ -353,6 +353,7 @@
 <span id="350">350</span>
 <span id="351">351</span>
 <span id="352">352</span>
+<span id="353">353</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
@@ -636,6 +637,7 @@
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
   <span class="ident">C1</span>: <span class="ident">Context</span>,
   <span class="ident">C2</span>: <span class="ident">Context</span>,
+  <span class="ident">A</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
@@ -660,7 +662,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shared_forward</span><span class="op">&lt;</span><span class="ident">A1</span>, <span class="ident">A2</span>, <span class="ident">C</span><span class="op">&gt;</span>(
   <span class="ident">channel</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span><span class="op">&gt;</span>
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span>, <span class="ident">C</span>), <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span><span class="op">&gt;</span>
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span>, <span class="ident">C</span>), <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A1</span>: <span class="ident">Protocol</span>,
   <span class="ident">A2</span>: <span class="ident">Protocol</span>,
