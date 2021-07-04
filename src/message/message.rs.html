@@ -80,8 +80,6 @@
 <span id="77">77</span>
 <span id="78">78</span>
 <span id="79">79</span>
-<span id="80">80</span>
-<span id="81">81</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">ferrite_session::prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">futures::future::join_all</span>;
@@ -96,17 +94,15 @@
 
 <span class="kw">fn</span> <span class="ident">make_counter_session</span>(<span class="ident">count</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">CounterSession</span><span class="op">&gt;</span>
 {
-  <span class="ident">accept_shared_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-    <span class="macro">offer_choice!</span> {
-      <span class="ident">Increment</span> <span class="op">=</span><span class="op">&gt;</span>
+  <span class="ident">accept_shared_session</span>(<span class="macro">offer_choice!</span> {
+    <span class="ident">Increment</span> <span class="op">=</span><span class="op">&gt;</span>
+      <span class="ident">detach_shared_session</span> (
+        <span class="ident">make_counter_session</span> ( <span class="ident">count</span> <span class="op">+</span> <span class="number">1</span> )
+      )
+    <span class="ident">GetCount</span> <span class="op">=</span><span class="op">&gt;</span>
+      <span class="ident">send_value</span> ( <span class="ident">count</span>,
         <span class="ident">detach_shared_session</span> (
-          <span class="ident">make_counter_session</span> ( <span class="ident">count</span> <span class="op">+</span> <span class="number">1</span> )
-        )
-      <span class="ident">GetCount</span> <span class="op">=</span><span class="op">&gt;</span>
-        <span class="ident">send_value</span> ( <span class="ident">count</span>,
-          <span class="ident">detach_shared_session</span> (
-            <span class="ident">make_counter_session</span> ( <span class="ident">count</span> ) ) )
-    }
+          <span class="ident">make_counter_session</span> ( <span class="ident">count</span> ) ) )
   })
 }
 

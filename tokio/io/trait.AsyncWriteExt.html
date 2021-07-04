@@ -441,8 +441,8 @@ syscalls.</p>
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 
-    <span class="ident">writer</span>.<span class="ident">write_i64</span>(<span class="ident">i64::min_value</span>()).<span class="kw">await</span><span class="question-mark">?</span>;
-    <span class="ident">writer</span>.<span class="ident">write_i64</span>(<span class="ident">i64::max_value</span>()).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_i64</span>(<span class="ident">i64::MIN</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_i64</span>(<span class="ident">i64::MAX</span>).<span class="kw">await</span><span class="question-mark">?</span>;
 
     <span class="macro">assert_eq!</span>(<span class="ident">writer</span>, <span class="string">b&quot;\x80\x00\x00\x00\x00\x00\x00\x00\x7f\xff\xff\xff\xff\xff\xff\xff&quot;</span>);
     <span class="prelude-val">Ok</span>(())
@@ -495,7 +495,7 @@ syscalls.</p>
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 
-    <span class="ident">writer</span>.<span class="ident">write_i128</span>(<span class="ident">i128::min_value</span>()).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_i128</span>(<span class="ident">i128::MIN</span>).<span class="kw">await</span><span class="question-mark">?</span>;
 
     <span class="macro">assert_eq!</span>(<span class="ident">writer</span>, <span class="macro">vec!</span>[
         <span class="number">0x80</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
@@ -653,8 +653,8 @@ syscalls.</p>
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 
-    <span class="ident">writer</span>.<span class="ident">write_i64_le</span>(<span class="ident">i64::min_value</span>()).<span class="kw">await</span><span class="question-mark">?</span>;
-    <span class="ident">writer</span>.<span class="ident">write_i64_le</span>(<span class="ident">i64::max_value</span>()).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_i64_le</span>(<span class="ident">i64::MIN</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_i64_le</span>(<span class="ident">i64::MAX</span>).<span class="kw">await</span><span class="question-mark">?</span>;
 
     <span class="macro">assert_eq!</span>(<span class="ident">writer</span>, <span class="string">b&quot;\x00\x00\x00\x00\x00\x00\x00\x80\xff\xff\xff\xff\xff\xff\xff\x7f&quot;</span>);
     <span class="prelude-val">Ok</span>(())
@@ -707,7 +707,7 @@ syscalls.</p>
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
 
-    <span class="ident">writer</span>.<span class="ident">write_i128_le</span>(<span class="ident">i128::min_value</span>()).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="ident">writer</span>.<span class="ident">write_i128_le</span>(<span class="ident">i128::MIN</span>).<span class="kw">await</span><span class="question-mark">?</span>;
 
     <span class="macro">assert_eq!</span>(<span class="ident">writer</span>, <span class="macro">vec!</span>[
          <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,

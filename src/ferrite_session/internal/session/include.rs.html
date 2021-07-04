@@ -93,6 +93,7 @@
 <span id="90">90</span>
 <span id="91">91</span>
 <span id="92">92</span>
+<span id="93">93</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std::collections::LinkedList</span>;
 
@@ -120,15 +121,16 @@
   },
 };
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">include_session</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">include_session</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">N</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
   <span class="ident">session</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">C::Length</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C::Appended</span>, <span class="ident">B</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
+  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">N</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C2</span>, <span class="ident">B</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span>: <span class="ident">Protocol</span>,
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
-  <span class="ident">C</span>: <span class="ident">Context</span>,
-  <span class="ident">C</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ())<span class="op">&gt;</span>,
+  <span class="ident">C1</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="ident">Length</span> <span class="op">=</span> <span class="ident">N</span><span class="op">&gt;</span>,
+  <span class="ident">C2</span>: <span class="ident">Context</span>,
+  <span class="ident">C1</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A</span>, ()), <span class="ident">Appended</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
   <span class="ident">AllRight::cut</span>(<span class="ident">session</span>, <span class="ident">cont</span>)
 }

@@ -116,41 +116,6 @@
 <span id="113">113</span>
 <span id="114">114</span>
 <span id="115">115</span>
-<span id="116">116</span>
-<span id="117">117</span>
-<span id="118">118</span>
-<span id="119">119</span>
-<span id="120">120</span>
-<span id="121">121</span>
-<span id="122">122</span>
-<span id="123">123</span>
-<span id="124">124</span>
-<span id="125">125</span>
-<span id="126">126</span>
-<span id="127">127</span>
-<span id="128">128</span>
-<span id="129">129</span>
-<span id="130">130</span>
-<span id="131">131</span>
-<span id="132">132</span>
-<span id="133">133</span>
-<span id="134">134</span>
-<span id="135">135</span>
-<span id="136">136</span>
-<span id="137">137</span>
-<span id="138">138</span>
-<span id="139">139</span>
-<span id="140">140</span>
-<span id="141">141</span>
-<span id="142">142</span>
-<span id="143">143</span>
-<span id="144">144</span>
-<span id="145">145</span>
-<span id="146">146</span>
-<span id="147">147</span>
-<span id="148">148</span>
-<span id="149">149</span>
-<span id="150">150</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std::time::Duration</span>;
 
@@ -159,12 +124,6 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pair_session</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span>
 {
-  <span class="comment">/*
-         cont_builder() :: Prim Int ; End
-   =====================================================
-     P1 = send_value_async(cont_builder) :: · ⊢ Int ∧ End
-  */</span>
-
   <span class="kw">let</span> <span class="ident">p1</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">step</span>(<span class="kw">async</span> {
     <span class="macro">println!</span>(<span class="string">&quot;[P1] Spending 7 seconds to produce first output&quot;</span>);
     <span class="ident">sleep</span>(<span class="ident">Duration::from_secs</span>(<span class="number">7</span>)).<span class="kw">await</span>;
@@ -179,14 +138,6 @@
       }),
     )
   });
-
-  <span class="comment">/*
-                       cont_builder() :: Prim Str ; End
-   ==========================================================================
-               cont1 = send_value_async(cont_builder) :: · ⊢ Str ∧ End
-   ==========================================================================
-     P2 = send_channel_from (cont1) :: (Int ∧ End) ⊢ (Int ∧ End) ⊗ (Str ∧ End)
-  */</span>
 
   <span class="kw">let</span> <span class="ident">p2</span>: <span class="ident">Session</span><span class="op">&lt;</span>
     <span class="ident">ReceiveChannel</span><span class="op">&lt;</span>
@@ -212,22 +163,6 @@
       }),
     )
   });
-
-  <span class="comment">/*
-                       cont_builder4 = terminate_async () :: · ⊢ End
-   ===========================================================================
-               cont_builder3(Str) = wait_async (cont_builder4) :: End ⊢ End
-   ===========================================================================
-       cont_builder2() = receive_value_from(cont_builder3) :: Str ∧ End ⊢ End
-   ===========================================================================
-       cont_builder1(Int) = wait_async (cont_builder2) :: End, Str ∧ End ⊢ End
-   ===========================================================================
-      cont2 = receive_value_from(cont_builder1) :: Int ∧ End, Str ∧ End ⊢ End
-   ===========================================================================
-       cont1 = receive_channel_from(cont2) :: (Int ∧ End) ⊗ (Str ∧ End) ⊢ End
-   ===========================================================================
-           P3 = wait_async (cont1) :: End, (Int ∧ End) ⊗ (Str ∧ End) ⊢ End
-  */</span>
 
   <span class="kw">let</span> <span class="ident">p3</span>: <span class="ident">Session</span><span class="op">&lt;</span>
     <span class="ident">ReceiveChannel</span><span class="op">&lt;</span>
@@ -274,11 +209,6 @@
       )
     })
   });
-
-  <span class="comment">/*
-   ===============
-     P4 :: · ⊢ 1
-  */</span>
 
   <span class="kw">let</span> <span class="ident">p4</span>: <span class="ident">Session</span><span class="op">&lt;</span><span class="ident">End</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">terminate_async</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {
     <span class="macro">println!</span>(<span class="string">&quot;[P4] Sleeping for 3 seconds before terminating&quot;</span>);

@@ -65,6 +65,7 @@
 <span id="62">62</span>
 <span id="63">63</span>
 <span id="64">64</span>
+<span id="65">65</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::internal</span>::{
   <span class="ident">base</span>::{
@@ -104,17 +105,18 @@
   )
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_value_to</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">T</span><span class="op">&gt;</span>(
-  <span class="kw">_</span>: <span class="ident">N</span>,
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_value_to</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">T</span><span class="op">&gt;</span>(
+  <span class="ident">_n</span>: <span class="ident">N</span>,
   <span class="ident">val</span>: <span class="ident">T</span>,
-  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N::Target</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
+  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C2</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span>: <span class="ident">Protocol</span>,
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
-  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">C1</span>: <span class="ident">Context</span>,
+  <span class="ident">C2</span>: <span class="ident">Context</span>,
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">B</span><span class="op">&gt;</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">B</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">receiver1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx1</span>);

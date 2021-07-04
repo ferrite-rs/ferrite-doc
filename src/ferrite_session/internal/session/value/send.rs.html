@@ -68,11 +68,6 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
-<span id="71">71</span>
-<span id="72">72</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">tokio</span>::{
   <span class="ident">task</span>,
@@ -117,22 +112,17 @@
   })
 }
 
-<span class="comment">/*
-       cont_builder(x) :: Q, Δ ⊢ P    x :: T
-   ================================================
-     receive_value_from(cont_builder) :: T ∧ Q, Δ ⊢ P
-*/</span>
-
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">receive_value_from</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">T</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-  <span class="kw">_</span>: <span class="ident">N</span>,
-  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N::Target</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">receive_value_from</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">T</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
+  <span class="ident">_n</span>: <span class="ident">N</span>,
+  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C2</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">A</span>: <span class="ident">Protocol</span>,
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
-  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">C1</span>: <span class="ident">Context</span>,
+  <span class="ident">C2</span>: <span class="ident">Context</span>,
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">receiver1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx1</span>);
