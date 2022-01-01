@@ -76,6 +76,8 @@
 <span id="76">76</span>
 <span id="77">77</span>
 <span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::future::Future</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
@@ -108,10 +110,10 @@
   <span class="ident">Func</span>: <span class="ident">FnOnce</span>() -&gt; <span class="ident">Fut</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
 {
-  <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="kw">_</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+  <span class="ident">unsafe_create_session</span>::<span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">End</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw">move</span> <span class="op">|</span><span class="kw">_</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="ident">cleaner</span>().<span class="kw">await</span>;
 
-    <span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">End</span>()).<span class="ident">unwrap</span>();
+    <span class="ident">sender</span>.<span class="ident">send</span>(()).<span class="ident">unwrap</span>();
   })
 }
 
@@ -145,7 +147,9 @@
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">End</span>, <span class="ident">Empty</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-    <span class="kw">let</span> (<span class="ident">receiver</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx1</span>);
+    <span class="kw">let</span> (<span class="ident">endpoint</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx1</span>);
+
+    <span class="kw">let</span> <span class="ident">receiver</span> <span class="op">=</span> <span class="ident">endpoint</span>.<span class="ident">get_applied</span>();
 
     <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>((), <span class="ident">ctx2</span>);
 

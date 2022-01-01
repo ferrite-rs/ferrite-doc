@@ -42,26 +42,11 @@
 <span id="42">42</span>
 <span id="43">43</span>
 <span id="44">44</span>
-<span id="45">45</span>
-<span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
-<span id="49">49</span>
-<span id="50">50</span>
-<span id="51">51</span>
-<span id="52">52</span>
-<span id="53">53</span>
-<span id="54">54</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">tokio</span>::{
-  <span class="ident">task</span>,
-  <span class="ident">try_join</span>,
-};
-
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
   <span class="ident">base</span>::{
-    <span class="ident">once_channel</span>,
     <span class="ident">unsafe_create_session</span>,
     <span class="ident">unsafe_run_session</span>,
+    <span class="ident">ConsumerEndpointF</span>,
     <span class="ident">Context</span>,
     <span class="ident">PartialSession</span>,
     <span class="ident">Protocol</span>,
@@ -88,23 +73,18 @@
   <span class="ident">Row2</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">ReceiverF</span><span class="op">&gt;</span>,
   <span class="ident">N</span>: <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">Row2</span>, <span class="ident">Elem</span> <span class="op">=</span> <span class="ident">A</span><span class="op">&gt;</span>,
 {
-  <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-    <span class="kw">let</span> (<span class="ident">sender2</span>, <span class="ident">receiver2</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
+  <span class="ident">unsafe_create_session</span>::<span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row1</span><span class="op">&gt;</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(
+    <span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">consumer_end_sum_sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+      <span class="kw">let</span> (<span class="ident">provider_end</span>, <span class="ident">consumer_end</span>) <span class="op">=</span> <span class="ident">A::create_endpoints</span>();
 
-    <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
-      <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, <span class="ident">ctx</span>, <span class="ident">sender2</span>).<span class="kw">await</span>;
-    });
+      <span class="kw">let</span> <span class="ident">consumer_end_sum</span> <span class="op">=</span>
+        <span class="ident">N::inject_elem</span>(<span class="ident">wrap_type_app</span>::<span class="op">&lt;</span><span class="ident">ConsumerEndpointF</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">consumer_end</span>));
 
-    <span class="kw">let</span> <span class="ident">child2</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
-      <span class="ident">sender1</span>
-        .<span class="ident">send</span>(<span class="ident">InternalChoice</span> {
-          <span class="ident">field</span>: <span class="ident">N::inject_elem</span>(<span class="ident">wrap_type_app</span>(<span class="ident">receiver2</span>)),
-        })
-        .<span class="ident">unwrap</span>();
-    });
+      <span class="ident">consumer_end_sum_sender</span>.<span class="ident">send</span>(<span class="ident">consumer_end_sum</span>).<span class="ident">unwrap</span>();
 
-    <span class="macro">try_join!</span>(<span class="ident">child1</span>, <span class="ident">child2</span>).<span class="ident">unwrap</span>();
-  })
+      <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, <span class="ident">ctx</span>, <span class="ident">provider_end</span>).<span class="kw">await</span>;
+    },
+  )
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="ferrite_session" data-search-index-js="../../../../../../search-index.js" data-search-js="../../../../../../search.js"></div>

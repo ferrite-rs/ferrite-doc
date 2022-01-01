@@ -20,11 +20,7 @@
 <span id="20">20</span>
 <span id="21">21</span>
 <span id="22">22</span>
-<span id="23">23</span>
-<span id="24">24</span>
-</pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TyCon</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
-{
-}
+</pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TyCon</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {}
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>: <span class="ident">TyCon</span>
 <span class="kw">where</span>

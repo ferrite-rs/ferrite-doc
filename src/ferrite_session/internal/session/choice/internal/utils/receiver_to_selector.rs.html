@@ -39,7 +39,7 @@
 <span id="39">39</span>
 <span id="40">40</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
-  <span class="ident">base::ReceiverF</span>,
+  <span class="ident">base::ConsumerEndpointF</span>,
   <span class="ident">functional</span>::{
     <span class="ident">lift_sum</span>,
     <span class="ident">wrap_type_app</span>,
@@ -52,8 +52,8 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">receiver_to_selector</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>(
-  <span class="ident">row1</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span>
-) -&gt; (<span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ReceiverF</span><span class="op">&gt;</span>, <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, ()<span class="op">&gt;</span>)
+  <span class="ident">row1</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ConsumerEndpointF</span><span class="op">&gt;</span>
+) -&gt; (<span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">ConsumerEndpointF</span><span class="op">&gt;</span>, <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, ()<span class="op">&gt;</span>)
 <span class="kw">where</span>
   <span class="ident">Row</span>: <span class="ident">SplitRow</span>,
   <span class="ident">Row</span>: <span class="ident">SumFunctor</span>,
@@ -63,8 +63,8 @@
       { } ;
       <span class="ident">ReceiverOnceToSelector</span> :
         <span class="ident">forall</span> <span class="ident">x</span> .
-          <span class="ident">ReceiverF</span> [@<span class="ident">x</span>] -&gt;
-          <span class="ident">Merge</span> <span class="op">&lt;</span> <span class="ident">ReceiverF</span>, () <span class="op">&gt;</span> [@<span class="ident">x</span>]
+          <span class="ident">ConsumerEndpointF</span> [@<span class="ident">x</span>] -&gt;
+          <span class="ident">Merge</span> <span class="op">&lt;</span> <span class="ident">ConsumerEndpointF</span>, () <span class="op">&gt;</span> [@<span class="ident">x</span>]
         ;
       (<span class="ident">receiver</span>) =&gt; {
         <span class="ident">wrap_type_app</span> ( (

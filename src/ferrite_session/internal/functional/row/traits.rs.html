@@ -142,17 +142,13 @@
 <span id="142">142</span>
 <span id="143">143</span>
 <span id="144">144</span>
-<span id="145">145</span>
-<span id="146">146</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::structs</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal::functional</span>::{
   <span class="ident">base</span>::<span class="kw-2">*</span>,
   <span class="ident">type_app</span>::<span class="kw-2">*</span>,
 };
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RowCon</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
-{
-}
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RowCon</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {}
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ToRow</span>
 {

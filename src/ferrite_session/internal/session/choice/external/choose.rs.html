@@ -59,12 +59,8 @@
 <span id="59">59</span>
 <span id="60">60</span>
 <span id="61">61</span>
-<span id="62">62</span>
-<span id="63">63</span>
-<span id="64">64</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
   <span class="ident">base</span>::{
-    <span class="ident">once_channel</span>,
     <span class="ident">unsafe_create_session</span>,
     <span class="ident">unsafe_run_session</span>,
     <span class="ident">Context</span>,
@@ -99,26 +95,24 @@
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">Row1</span><span class="op">&gt;</span>, <span class="ident">B</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
   <span class="ident">M</span>: <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">Row2</span>, <span class="ident">Elem</span> <span class="op">=</span> <span class="ident">B</span><span class="op">&gt;</span>,
 {
-  <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-    <span class="kw">let</span> (<span class="ident">receiver1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx1</span>);
+  <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">provider_end</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+    <span class="kw">let</span> (<span class="ident">endpoint</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx1</span>);
+
+    <span class="kw">let</span> (<span class="ident">choice_sender</span>, <span class="ident">sum_receiver</span>) <span class="op">=</span> <span class="ident">endpoint</span>.<span class="ident">get_applied</span>();
 
     <span class="kw">let</span> <span class="ident">choice</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row2</span>, ()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">M::inject_elem</span>(<span class="ident">wrap_type_app</span>(()));
 
-    <span class="kw">let</span> <span class="ident">ExternalChoice</span> { <span class="ident">sender</span>: <span class="ident">sender2</span> } <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+    <span class="ident">choice_sender</span>.<span class="ident">send</span>(<span class="ident">Value</span>(<span class="ident">choice</span>)).<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> (<span class="ident">sender3</span>, <span class="ident">receiver3</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
+    <span class="kw">let</span> <span class="ident">consumer_end_sum</span> <span class="op">=</span> <span class="ident">sum_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-    <span class="ident">sender2</span>.<span class="ident">send</span>((<span class="ident">Value</span>(<span class="ident">choice</span>), <span class="ident">sender3</span>)).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">m_consumer_end</span> <span class="op">=</span> <span class="ident">M::extract_elem</span>(<span class="ident">consumer_end_sum</span>);
 
-    <span class="kw">let</span> <span class="ident">receiver_sum</span> <span class="op">=</span> <span class="ident">receiver3</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+    <span class="kw">match</span> <span class="ident">m_consumer_end</span> {
+      <span class="prelude-val">Some</span>(<span class="ident">consumer_end</span>) =&gt; {
+        <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">consumer_end</span>, <span class="ident">ctx2</span>);
 
-    <span class="kw">let</span> <span class="ident">m_receiver</span> <span class="op">=</span> <span class="ident">M::extract_elem</span>(<span class="ident">receiver_sum</span>);
-
-    <span class="kw">match</span> <span class="ident">m_receiver</span> {
-      <span class="prelude-val">Some</span>(<span class="ident">receiver4</span>) =&gt; {
-        <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">receiver4</span>.<span class="ident">get_applied</span>(), <span class="ident">ctx2</span>);
-
-        <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, <span class="ident">ctx3</span>, <span class="ident">sender1</span>).<span class="kw">await</span>;
+        <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, <span class="ident">ctx3</span>, <span class="ident">provider_end</span>).<span class="kw">await</span>;
       }
       <span class="prelude-val">None</span> =&gt; {
         <span class="macro">panic!</span>(<span class="string">&quot;impossible happened: received mismatch choice from provider&quot;</span>);

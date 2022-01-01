@@ -20,9 +20,6 @@
 <span id="20">20</span>
 <span id="21">21</span>
 <span id="22">22</span>
-<span id="23">23</span>
-<span id="24">24</span>
-<span id="25">25</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal::base</span>::{
   <span class="ident">unsafe_create_session</span>,
   <span class="ident">Context</span>,
@@ -40,12 +37,9 @@
   <span class="ident">N::Target</span>: <span class="ident">EmptyContext</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="ident">Empty</span><span class="op">&gt;</span>,
 {
-  <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-    <span class="kw">let</span> (<span class="ident">receiver</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx</span>);
-
-    <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
-
-    <span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">val</span>).<span class="ident">unwrap</span>();
+  <span class="ident">unsafe_create_session</span>::<span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">provider_end</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+    <span class="kw">let</span> (<span class="ident">consumer_end</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx</span>);
+    <span class="ident">A::forward</span>(<span class="ident">consumer_end</span>.<span class="ident">get_applied</span>(), <span class="ident">provider_end</span>).<span class="kw">await</span>;
   })
 }
 </code></pre></div>

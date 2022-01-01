@@ -106,6 +106,8 @@
 <span id="106">106</span>
 <span id="107">107</span>
 <span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">tokio</span>::{
   <span class="ident">task</span>,
   <span class="ident">try_join</span>,
@@ -118,6 +120,7 @@
     <span class="ident">unsafe_create_shared_channel</span>,
     <span class="ident">unsafe_run_session</span>,
     <span class="ident">unsafe_run_shared_session</span>,
+    <span class="ident">Protocol</span>,
     <span class="ident">Session</span>,
     <span class="ident">SharedChannel</span>,
     <span class="ident">SharedProtocol</span>,
@@ -151,15 +154,16 @@
 <span class="kw">where</span>
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
-  <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver1</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
+  <span class="kw">let</span> (<span class="ident">provider_end</span>, (<span class="ident">val_receiver</span>, <span class="ident">end_receiver</span>)) <span class="op">=</span>
+    <span class="op">&lt;</span><span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">End</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::create_endpoints</span>();
 
   <span class="kw">let</span> <span class="ident">child1</span> <span class="op">=</span> <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
-    <span class="ident">unsafe_run_session</span>(<span class="ident">session</span>, (), <span class="ident">sender</span>).<span class="kw">await</span>;
+    <span class="ident">unsafe_run_session</span>(<span class="ident">session</span>, (), <span class="ident">provider_end</span>).<span class="kw">await</span>;
   });
 
-  <span class="kw">let</span> <span class="ident">SendValue</span>((<span class="ident">Value</span>(<span class="ident">val</span>), <span class="ident">receiver2</span>)) <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+  <span class="kw">let</span> <span class="ident">Value</span>(<span class="ident">val</span>) <span class="op">=</span> <span class="ident">val_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-  <span class="ident">receiver2</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+  <span class="ident">end_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
   <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">child1</span>.<span class="kw">await</span>;
 

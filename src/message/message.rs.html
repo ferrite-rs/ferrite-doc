@@ -79,7 +79,7 @@
 <span id="79">79</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">ferrite_session::prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">futures::future::join_all</span>;
-<span class="kw">use</span> <span class="ident">ipc_channel::ipc</span>;
+<span class="comment">// use ipc_channel::ipc;</span>
 
 <span class="macro">define_choice!</span> { <span class="ident">CounterCommand</span>;
   <span class="ident">Increment</span>: <span class="ident">Release</span>,
@@ -144,13 +144,13 @@
 
   <span class="kw">let</span> <span class="ident">counter</span> <span class="op">=</span> <span class="ident">run_shared_session</span>(<span class="ident">make_counter_session</span>(<span class="number">0</span>));
 
-  <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">ipc::channel</span>().<span class="ident">unwrap</span>();
+  <span class="comment">// let (sender, receiver) = ipc::channel().unwrap();</span>
 
-  <span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">counter</span>).<span class="ident">unwrap</span>();
+  <span class="comment">// sender.send(counter).unwrap();</span>
 
-  <span class="kw">let</span> <span class="ident">shared</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
+  <span class="comment">// let shared = receiver.recv().unwrap();</span>
 
-  <span class="comment">// let shared = counter.clone();</span>
+  <span class="kw">let</span> <span class="ident">shared</span> <span class="op">=</span> <span class="ident">counter</span>.<span class="ident">clone</span>();
 
   <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">use_counter</span>(<span class="ident">shared</span>, <span class="number">10000</span>).<span class="kw">await</span>;
 

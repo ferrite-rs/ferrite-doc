@@ -68,7 +68,7 @@
       <span class="ident">Left</span> =&gt; {
         <span class="ident">receive_value_from</span> ( <span class="ident">chan</span>,
           <span class="kw">move</span> <span class="op">|</span><span class="ident">val</span>: <span class="ident">String</span><span class="op">|</span> {
-            <span class="macro">println!</span> (<span class="string">&quot;receied string: {}&quot;</span>, <span class="ident">val</span>);
+            <span class="macro">println!</span> (<span class="string">&quot;received string: {}&quot;</span>, <span class="ident">val</span>);
             <span class="ident">wait</span> ( <span class="ident">chan</span>,
               <span class="ident">terminate</span> () )
           })
