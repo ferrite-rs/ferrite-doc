@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/ipc-channel-0.15.0/src/platform/unix/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../ipc_channel/index.html'><div class='logo-container rust-logo'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;ipc-channel-0.15.0&#x2F;src&#x2F;platform&#x2F;unix&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../ipc_channel/index.html'><div class='logo-container rust-logo'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1118,8 +1115,7 @@
 <span id="1115">1115</span>
 <span id="1116">1116</span>
 <span id="1117">1117</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="comment">// Copyright 2015 The Servo Project Developers. See the COPYRIGHT</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright 2015 The Servo Project Developers. See the COPYRIGHT</span>
 <span class="comment">// file at the top-level directory of this distribution.</span>
 <span class="comment">//</span>
 <span class="comment">// Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or</span>
@@ -1128,7 +1124,7 @@
 <span class="comment">// option. This file may not be copied, modified, or distributed</span>
 <span class="comment">// except according to those terms.</span>
 
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::ipc</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::ipc</span>;
 <span class="kw">use</span> <span class="ident">bincode</span>;
 <span class="kw">use</span> <span class="ident">fnv::FnvHasher</span>;
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">EAGAIN</span>, <span class="ident">EWOULDBLOCK</span>};
@@ -1175,7 +1171,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">target_env</span> <span class="op">=</span> <span class="string">&quot;gnu&quot;</span>))]</span>
 <span class="kw">type</span> <span class="ident">MsgControlLen</span> <span class="op">=</span> <span class="ident">socklen_t</span>;
 
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new_sockaddr_un</span>(<span class="ident">path</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">sockaddr_un</span>, <span class="ident">usize</span>) {
+<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new_sockaddr_un</span>(<span class="ident">path</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>) -&gt; (<span class="ident">sockaddr_un</span>, <span class="ident">usize</span>) {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sockaddr</span>: <span class="ident">sockaddr_un</span> <span class="op">=</span> <span class="ident">mem::zeroed</span>();
     <span class="ident">libc::strncpy</span>(<span class="ident">sockaddr</span>.<span class="ident">sun_path</span>.<span class="ident">as_mut_ptr</span>(),
                   <span class="ident">path</span>, <span class="ident">sockaddr</span>.<span class="ident">sun_path</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span>);
@@ -1198,7 +1194,7 @@
 <span class="comment">// A global count used to create unique IDs</span>
 <span class="kw">static</span> <span class="ident">SHM_COUNT</span>: <span class="ident">AtomicUsize</span> <span class="op">=</span> <span class="ident">AtomicUsize::new</span>(<span class="number">0</span>);
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channel</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OsIpcSender</span>, <span class="ident">OsIpcReceiver</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channel</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OsIpcSender</span>, <span class="ident">OsIpcReceiver</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">results</span> <span class="op">=</span> [<span class="number">0</span>, <span class="number">0</span>];
     <span class="kw">unsafe</span> {
         <span class="kw">if</span> <span class="ident">socketpair</span>(<span class="ident">libc::AF_UNIX</span>, <span class="ident">SOCK_SEQPACKET</span>, <span class="number">0</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">results</span>[<span class="number">0</span>]) <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> {
@@ -1225,36 +1221,36 @@
         <span class="kw">unsafe</span> {
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fd</span>.<span class="ident">get</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> {
                 <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">libc::close</span>(<span class="self">self</span>.<span class="ident">fd</span>.<span class="ident">get</span>());
-                <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
+                <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">==</span> <span class="number">0</span>);
             }
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">OsIpcReceiver</span> {
-    <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcReceiver</span> {
+    <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) -&gt; <span class="ident">OsIpcReceiver</span> {
         <span class="ident">OsIpcReceiver</span> {
             <span class="ident">fd</span>: <span class="ident">Cell::new</span>(<span class="ident">fd</span>),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">consume_fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
+    <span class="kw">fn</span> <span class="ident">consume_fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">c_int</span> {
         <span class="kw">let</span> <span class="ident">fd</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fd</span>.<span class="ident">get</span>();
         <span class="self">self</span>.<span class="ident">fd</span>.<span class="ident">set</span>(<span class="op">-</span><span class="number">1</span>);
         <span class="ident">fd</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">consume</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcReceiver</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">consume</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">OsIpcReceiver</span> {
         <span class="ident">OsIpcReceiver::from_fd</span>(<span class="self">self</span>.<span class="ident">consume_fd</span>())
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recv</span>(<span class="kw-2">&amp;</span><span class="self">self</span>)
-                <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsOpaqueIpcChannel</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
+                -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsOpaqueIpcChannel</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
         <span class="ident">recv</span>(<span class="self">self</span>.<span class="ident">fd</span>.<span class="ident">get</span>(), <span class="ident">BlockingMode::Blocking</span>)
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_recv</span>(<span class="kw-2">&amp;</span><span class="self">self</span>)
-                    <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsOpaqueIpcChannel</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
+                    -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsOpaqueIpcChannel</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
         <span class="ident">recv</span>(<span class="self">self</span>.<span class="ident">fd</span>.<span class="ident">get</span>(), <span class="ident">BlockingMode::Nonblocking</span>)
     }
 }
@@ -1266,7 +1262,7 @@
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">libc::close</span>(<span class="self">self</span>.<span class="number">0</span>);
-            <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
+            <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">==</span> <span class="number">0</span>);
         }
     }
 }
@@ -1282,7 +1278,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">OsIpcSender</span> {
-    <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcSender</span> {
+    <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) -&gt; <span class="ident">OsIpcSender</span> {
         <span class="ident">OsIpcSender</span> {
             <span class="ident">fd</span>: <span class="ident">Arc::new</span>(<span class="ident">SharedFileDescriptor</span>(<span class="ident">fd</span>)),
             <span class="ident">nosync_marker</span>: <span class="ident">PhantomData</span>,
@@ -1293,7 +1289,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Note: This is *not* the actual maximal packet size we are allowed to use...</span>
     <span class="doccomment">/// Some of it is reserved by the kernel for bookkeeping.</span>
-    <span class="kw">fn</span> <span class="ident">get_system_sendbuf_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_system_sendbuf_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">socket_sendbuf_size</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">socket_sendbuf_size_len</span> <span class="op">=</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">socklen_t</span>;
@@ -1315,15 +1311,15 @@
     <span class="doccomment">/// The `sendbuf_size` passed in should usually be the maximum kernel buffer size,</span>
     <span class="doccomment">/// i.e. the value of *SYSTEM_SENDBUF_SIZE --</span>
     <span class="doccomment">/// except after getting ENOBUFS, in which case it needs to be reduced.</span>
-    <span class="kw">fn</span> <span class="ident">fragment_size</span>(<span class="ident">sendbuf_size</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">fragment_size</span>(<span class="ident">sendbuf_size</span>: <span class="ident">usize</span>) -&gt; <span class="ident">usize</span> {
         <span class="ident">sendbuf_size</span> <span class="op">-</span> <span class="ident">RESERVED_SIZE</span>
     }
 
     <span class="doccomment">/// Calculate maximum payload data size of first fragment.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This one is smaller than regular fragments, because it carries the message (size) header.</span>
-    <span class="kw">fn</span> <span class="ident">first_fragment_size</span>(<span class="ident">sendbuf_size</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-        (<span class="self">Self</span><span class="ident">::fragment_size</span>(<span class="ident">sendbuf_size</span>) <span class="op">-</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>())
+    <span class="kw">fn</span> <span class="ident">first_fragment_size</span>(<span class="ident">sendbuf_size</span>: <span class="ident">usize</span>) -&gt; <span class="ident">usize</span> {
+        (<span class="ident"><span class="self">Self</span>::fragment_size</span>(<span class="ident">sendbuf_size</span>) <span class="op">-</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>())
             <span class="op">&amp;</span> (<span class="op">!</span><span class="number">8usize</span> <span class="op">+</span> <span class="number">1</span>) <span class="comment">// Ensure optimal alignment.</span>
     }
 
@@ -1336,15 +1332,15 @@
     <span class="doccomment">/// under normal circumstances.</span>
     <span class="doccomment">/// (It might still block if heavy memory pressure causes ENOBUFS,</span>
     <span class="doccomment">/// forcing us to reduce the packet size.)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_max_fragment_size</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-        <span class="self">Self</span><span class="ident">::first_fragment_size</span>(<span class="kw-2">*</span><span class="ident">SYSTEM_SENDBUF_SIZE</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_max_fragment_size</span>() -&gt; <span class="ident">usize</span> {
+        <span class="ident"><span class="self">Self</span>::first_fragment_size</span>(<span class="kw-2">*</span><span class="ident">SYSTEM_SENDBUF_SIZE</span>)
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="self">self</span>,
                 <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
                 <span class="ident">channels</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcChannel</span><span class="op">&gt;</span>,
                 <span class="ident">shared_memory_regions</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>)
-                <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),<span class="ident">UnixError</span><span class="op">&gt;</span> {
+                -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),<span class="ident">UnixError</span><span class="op">&gt;</span> {
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fds</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
         <span class="kw">for</span> <span class="ident">channel</span> <span class="kw">in</span> <span class="ident">channels</span>.<span class="ident">iter</span>() {
@@ -1361,7 +1357,7 @@
         <span class="comment">// (i.e. the length of the data buffer passed in),</span>
         <span class="comment">// which in a fragmented send will be smaller than the total message length.</span>
         <span class="kw">fn</span> <span class="ident">send_first_fragment</span>(<span class="ident">sender_fd</span>: <span class="ident">c_int</span>, <span class="ident">fds</span>: <span class="kw-2">&amp;</span>[<span class="ident">c_int</span>], <span class="ident">data_buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">len</span>: <span class="ident">usize</span>)
-                               <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),<span class="ident">UnixError</span><span class="op">&gt;</span> {
+                               -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),<span class="ident">UnixError</span><span class="op">&gt;</span> {
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> {
                 <span class="kw">let</span> <span class="ident">cmsg_length</span> <span class="op">=</span> <span class="ident">mem::size_of_val</span>(<span class="ident">fds</span>);
                 <span class="kw">let</span> (<span class="ident">cmsg_buffer</span>, <span class="ident">cmsg_space</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">cmsg_length</span> <span class="op">&gt;</span> <span class="number">0</span> {
@@ -1407,7 +1403,7 @@
             }
         };
 
-        <span class="kw">fn</span> <span class="ident">send_followup_fragment</span>(<span class="ident">sender_fd</span>: <span class="ident">c_int</span>, <span class="ident">data_buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),<span class="ident">UnixError</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">send_followup_fragment</span>(<span class="ident">sender_fd</span>: <span class="ident">c_int</span>, <span class="ident">data_buffer</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),<span class="ident">UnixError</span><span class="op">&gt;</span> {
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> {
                 <span class="ident">libc::send</span>(<span class="ident">sender_fd</span>,
                            <span class="ident">data_buffer</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_void</span>,
@@ -1432,7 +1428,7 @@
         <span class="doccomment">/// if means something else must have gone wrong;</span>
         <span class="doccomment">/// so there is no point in further downsizing,</span>
         <span class="doccomment">/// and we error out instead.)</span>
-        <span class="kw">fn</span> <span class="ident">downsize</span>(<span class="ident">sendbuf_size</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span>, <span class="ident">sent_size</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),()<span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">downsize</span>(<span class="ident">sendbuf_size</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span>, <span class="ident">sent_size</span>: <span class="ident">usize</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),()<span class="op">&gt;</span> {
             <span class="kw">if</span> <span class="ident">sent_size</span> <span class="op">&gt;</span> <span class="number">2000</span> {
                 <span class="kw-2">*</span><span class="ident">sendbuf_size</span> <span class="op">/</span><span class="op">=</span> <span class="number">2</span>;
                 <span class="comment">// Make certain we end up with less than what we tried before...</span>
@@ -1446,10 +1442,10 @@
         }
 
         <span class="comment">// If the message is small enough, try sending it in a single fragment.</span>
-        <span class="kw">if</span> <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="self">Self</span><span class="ident">::get_max_fragment_size</span>() {
+        <span class="kw">if</span> <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident"><span class="self">Self</span>::get_max_fragment_size</span>() {
             <span class="kw">match</span> <span class="ident">send_first_fragment</span>(<span class="self">self</span>.<span class="ident">fd</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">fds</span>[..], <span class="ident">data</span>, <span class="ident">data</span>.<span class="ident">len</span>()) {
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
-                <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
+                <span class="prelude-val">Err</span>(<span class="ident">error</span>) =&gt; {
                     <span class="comment">// ENOBUFS means the kernel failed to allocate a buffer large enough</span>
                     <span class="comment">// to actually transfer the message,</span>
                     <span class="comment">// although the message was small enough to fit the maximum send size --</span>
@@ -1457,7 +1453,7 @@
                     <span class="comment">// using a reduced send buffer size.</span>
                     <span class="comment">//</span>
                     <span class="comment">// Any other errors we might get here are non-recoverable.</span>
-                    <span class="kw">if</span> <span class="op">!</span>(<span class="ident">error</span> <span class="op">=</span><span class="op">=</span> <span class="ident">UnixError::Errno</span>(<span class="ident">libc::ENOBUFS</span>)
+                    <span class="kw">if</span> <span class="op">!</span>(<span class="ident">error</span> <span class="op">==</span> <span class="ident">UnixError::Errno</span>(<span class="ident">libc::ENOBUFS</span>)
                          <span class="op">&amp;&amp;</span> <span class="ident">downsize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">sendbuf_size</span>, <span class="ident">data</span>.<span class="ident">len</span>()).<span class="ident">is_ok</span>()) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>)
                     }
@@ -1480,23 +1476,23 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">byte_position</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">while</span> <span class="ident">byte_position</span> <span class="op">&lt;</span> <span class="ident">data</span>.<span class="ident">len</span>() {
             <span class="kw">let</span> <span class="ident">end_byte_position</span>;
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">byte_position</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">byte_position</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="comment">// First fragment. No offset; but contains message header (total size).</span>
                 <span class="comment">// The auxiliary data (FDs) is also sent along with this one.</span>
 
                 <span class="comment">// This fragment always uses the full allowable buffer size.</span>
-                <span class="ident">end_byte_position</span> <span class="op">=</span> <span class="self">Self</span><span class="ident">::first_fragment_size</span>(<span class="ident">sendbuf_size</span>);
+                <span class="ident">end_byte_position</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::first_fragment_size</span>(<span class="ident">sendbuf_size</span>);
                 <span class="ident">send_first_fragment</span>(<span class="self">self</span>.<span class="ident">fd</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">fds</span>[..], <span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">end_byte_position</span>], <span class="ident">data</span>.<span class="ident">len</span>())
             } <span class="kw">else</span> {
                 <span class="comment">// Followup fragment. No header; but offset by amount of data already sent.</span>
 
-                <span class="ident">end_byte_position</span> <span class="op">=</span> <span class="ident">cmp::min</span>(<span class="ident">byte_position</span> <span class="op">+</span> <span class="self">Self</span><span class="ident">::fragment_size</span>(<span class="ident">sendbuf_size</span>),
+                <span class="ident">end_byte_position</span> <span class="op">=</span> <span class="ident">cmp::min</span>(<span class="ident">byte_position</span> <span class="op">+</span> <span class="ident"><span class="self">Self</span>::fragment_size</span>(<span class="ident">sendbuf_size</span>),
                                              <span class="ident">data</span>.<span class="ident">len</span>());
                 <span class="ident">send_followup_fragment</span>(<span class="ident">dedicated_tx</span>.<span class="ident">fd</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">byte_position</span>..<span class="ident">end_byte_position</span>])
             };
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span> <span class="ident">result</span> {
-                <span class="kw">if</span> <span class="ident">error</span> <span class="op">=</span><span class="op">=</span> <span class="ident">UnixError::Errno</span>(<span class="ident">libc::ENOBUFS</span>)
+                <span class="kw">if</span> <span class="ident">error</span> <span class="op">==</span> <span class="ident">UnixError::Errno</span>(<span class="ident">libc::ENOBUFS</span>)
                    <span class="op">&amp;&amp;</span> <span class="ident">downsize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">sendbuf_size</span>, <span class="ident">end_byte_position</span> <span class="op">-</span> <span class="ident">byte_position</span>).<span class="ident">is_ok</span>() {
                     <span class="comment">// If the kernel failed to allocate a buffer large enough for the packet,</span>
                     <span class="comment">// retry with a smaller size (if possible).</span>
@@ -1512,7 +1508,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">connect</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">OsIpcSender</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">connect</span>(<span class="ident">name</span>: <span class="ident">String</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">OsIpcSender</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">CString::new</span>(<span class="ident">name</span>).<span class="ident">unwrap</span>();
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">fd</span> <span class="op">=</span> <span class="ident">libc::socket</span>(<span class="ident">libc::AF_UNIX</span>, <span class="ident">SOCK_SEQPACKET</span>, <span class="number">0</span>);
@@ -1533,10 +1529,10 @@
 }
 
 <span class="kw">impl</span> <span class="ident">OsIpcChannel</span> {
-    <span class="kw">fn</span> <span class="ident">fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
+    <span class="kw">fn</span> <span class="ident">fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">c_int</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">OsIpcChannel::Sender</span>(<span class="kw-2">ref</span> <span class="ident">sender</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">sender</span>.<span class="ident">fd</span>.<span class="number">0</span>,
-            <span class="ident">OsIpcChannel::Receiver</span>(<span class="kw-2">ref</span> <span class="ident">receiver</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">receiver</span>.<span class="ident">fd</span>.<span class="ident">get</span>(),
+            <span class="ident">OsIpcChannel::Sender</span>(<span class="kw-2">ref</span> <span class="ident">sender</span>) =&gt; <span class="ident">sender</span>.<span class="ident">fd</span>.<span class="number">0</span>,
+            <span class="ident">OsIpcChannel::Receiver</span>(<span class="kw-2">ref</span> <span class="ident">receiver</span>) =&gt; <span class="ident">receiver</span>.<span class="ident">fd</span>.<span class="ident">get</span>(),
         }
     }
 }
@@ -1554,13 +1550,13 @@
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> {
                 <span class="ident">libc::close</span>(<span class="ident">fd</span>)
             };
-            <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
+            <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">==</span> <span class="number">0</span>);
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">OsIpcReceiverSet</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">OsIpcReceiverSet</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">OsIpcReceiverSet</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">fnv</span> <span class="op">=</span> <span class="ident">BuildHasherDefault</span>::<span class="op">&lt;</span><span class="ident">FnvHasher</span><span class="op">&gt;</span><span class="ident">::default</span>();
         <span class="prelude-val">Ok</span>(<span class="ident">OsIpcReceiverSet</span> {
             <span class="ident">incrementor</span>: <span class="number">0</span>..,
@@ -1570,7 +1566,7 @@
         })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">receiver</span>: <span class="ident">OsIpcReceiver</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">receiver</span>: <span class="ident">OsIpcReceiver</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u64</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">last_index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">incrementor</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">fd</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">consume_fd</span>();
         <span class="kw">let</span> <span class="ident">io</span> <span class="op">=</span> <span class="ident">EventedFd</span>(<span class="kw-2">&amp;</span><span class="ident">fd</span>);
@@ -1587,15 +1583,15 @@
         <span class="prelude-val">Ok</span>(<span class="ident">last_index</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSelectionResult</span><span class="op">&gt;</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSelectionResult</span><span class="op">&gt;</span>,<span class="ident">UnixError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">selection_results</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">num_events</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="ident">num_events</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">while</span> <span class="ident">num_events</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">poll</span>.<span class="ident">poll</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">events</span>, <span class="prelude-val">None</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">sz</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">sz</span>) =&gt; {
                     <span class="ident">num_events</span> <span class="op">=</span> <span class="ident">sz</span>;
                 },
-                <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; {
                     <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">ErrorKind::Interrupted</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UnixError::last</span>());
                     }
@@ -1606,16 +1602,16 @@
         <span class="kw">for</span> <span class="ident">evt</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">events</span>.<span class="ident">iter</span>() {
             <span class="kw">let</span> <span class="ident">evt_token</span> <span class="op">=</span> <span class="ident">evt</span>.<span class="ident">token</span>();
             <span class="kw">match</span> (<span class="ident">evt</span>.<span class="ident">readiness</span>().<span class="ident">is_readable</span>(), <span class="self">self</span>.<span class="ident">pollfds</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">evt_token</span>)) {
-                (<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">poll_entry</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+                (<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">poll_entry</span>)) =&gt; {
                     <span class="kw">match</span> <span class="ident">recv</span>(<span class="ident">poll_entry</span>.<span class="ident">fd</span>, <span class="ident">BlockingMode::Blocking</span>) {
-                        <span class="prelude-val">Ok</span>((<span class="ident">data</span>, <span class="ident">channels</span>, <span class="ident">shared_memory_regions</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="prelude-val">Ok</span>((<span class="ident">data</span>, <span class="ident">channels</span>, <span class="ident">shared_memory_regions</span>)) =&gt; {
                             <span class="ident">selection_results</span>.<span class="ident">push</span>(<span class="ident">OsIpcSelectionResult::DataReceived</span>(
                                     <span class="ident">poll_entry</span>.<span class="ident">id</span>,
                                     <span class="ident">data</span>,
                                     <span class="ident">channels</span>,
                                     <span class="ident">shared_memory_regions</span>));
                         }
-                        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">channel_is_closed</span>() <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">channel_is_closed</span>() =&gt; {
                             <span class="self">self</span>.<span class="ident">pollfds</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">evt_token</span>).<span class="ident">unwrap</span>();
                             <span class="self">self</span>.<span class="ident">poll</span>.<span class="ident">deregister</span>(<span class="kw-2">&amp;</span><span class="ident">EventedFd</span>(<span class="kw-2">&amp;</span><span class="ident">poll_entry</span>.<span class="ident">fd</span>)).<span class="ident">unwrap</span>();
                             <span class="kw">unsafe</span> {
@@ -1623,14 +1619,14 @@
                             }
                             <span class="ident">selection_results</span>.<span class="ident">push</span>(<span class="ident">OsIpcSelectionResult::ChannelClosed</span>(<span class="ident">poll_entry</span>.<span class="ident">id</span>))
                         }
-                        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+                        <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
                     }
                 },
-                (<span class="bool-val">true</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                (<span class="bool-val">true</span>, <span class="prelude-val">None</span>) =&gt; {
                     <span class="macro">panic!</span>(<span class="string">&quot;Readable event for unknown token: {:?}, readiness: {:?}&quot;</span>,
                            <span class="ident">evt_token</span>, <span class="ident">evt</span>.<span class="ident">readiness</span>());
                 },
-                (<span class="bool-val">false</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                (<span class="bool-val">false</span>, <span class="kw">_</span>) =&gt; {
                     <span class="macro">panic!</span>(<span class="string">&quot;Received an event that was not readable for token: {:?}&quot;</span>, <span class="ident">evt_token</span>)
                 }
             }
@@ -1646,12 +1642,12 @@
 }
 
 <span class="kw">impl</span> <span class="ident">OsIpcSelectionResult</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u64</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsOpaqueIpcChannel</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap</span>(<span class="self">self</span>) -&gt; (<span class="ident">u64</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsOpaqueIpcChannel</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>) {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">OsIpcSelectionResult::DataReceived</span>(<span class="ident">id</span>, <span class="ident">data</span>, <span class="ident">channels</span>, <span class="ident">shared_memory_regions</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">OsIpcSelectionResult::DataReceived</span>(<span class="ident">id</span>, <span class="ident">data</span>, <span class="ident">channels</span>, <span class="ident">shared_memory_regions</span>) =&gt; {
                 (<span class="ident">id</span>, <span class="ident">data</span>, <span class="ident">channels</span>, <span class="ident">shared_memory_regions</span>)
             }
-            <span class="ident">OsIpcSelectionResult::ChannelClosed</span>(<span class="ident">id</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">OsIpcSelectionResult::ChannelClosed</span>(<span class="ident">id</span>) =&gt; {
                 <span class="macro">panic!</span>(<span class="string">&quot;OsIpcSelectionResult::unwrap(): receiver ID {} was closed!&quot;</span>, <span class="ident">id</span>)
             }
         }
@@ -1670,22 +1666,22 @@
         <span class="comment">// The `OsOpaqueIpcChannel` objects should always be used,</span>
         <span class="comment">// i.e. converted with `to_sender()` or `to_receiver()` --</span>
         <span class="comment">// so the value should already be unset before the object gets dropped.</span>
-        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="ident">fd</span> <span class="op">=</span><span class="op">=</span> <span class="op">-</span><span class="number">1</span>);
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="ident">fd</span> <span class="op">==</span> <span class="op">-</span><span class="number">1</span>);
     }
 }
 
 <span class="kw">impl</span> <span class="ident">OsOpaqueIpcChannel</span> {
-    <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsOpaqueIpcChannel</span> {
+    <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) -&gt; <span class="ident">OsOpaqueIpcChannel</span> {
         <span class="ident">OsOpaqueIpcChannel</span> {
             <span class="ident">fd</span>: <span class="ident">fd</span>,
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_sender</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcSender</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_sender</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">OsIpcSender</span> {
         <span class="ident">OsIpcSender::from_fd</span>(<span class="ident">mem::replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">fd</span>, <span class="op">-</span><span class="number">1</span>))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_receiver</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcReceiver</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_receiver</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">OsIpcReceiver</span> {
         <span class="ident">OsIpcReceiver::from_fd</span>(<span class="ident">mem::replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">fd</span>, <span class="op">-</span><span class="number">1</span>))
     }
 }
@@ -1703,13 +1699,13 @@
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">libc::close</span>(<span class="self">self</span>.<span class="ident">fd</span>);
-            <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
+            <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">==</span> <span class="number">0</span>);
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">OsIpcOneShotServer</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OsIpcOneShotServer</span>, <span class="ident">String</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OsIpcOneShotServer</span>, <span class="ident">String</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">fd</span> <span class="op">=</span> <span class="ident">libc::socket</span>(<span class="ident">libc::AF_UNIX</span>, <span class="ident">SOCK_SEQPACKET</span>, <span class="number">0</span>);
             <span class="kw">let</span> <span class="ident">temp_dir</span> <span class="op">=</span> <span class="ident">Builder::new</span>().<span class="ident">tempdir</span>().<span class="ident">unwrap</span>();
@@ -1732,7 +1728,7 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OsIpcReceiver</span>,
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">OsIpcReceiver</span>,
                                    <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
                                    <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsOpaqueIpcChannel</span><span class="op">&gt;</span>,
                                    <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
@@ -1756,7 +1752,7 @@
 <span class="comment">// close our end.</span>
 <span class="comment">//</span>
 <span class="comment">// See, for example, https://github.com/servo/ipc-channel/issues/29</span>
-<span class="kw">fn</span> <span class="ident">make_socket_lingering</span>(<span class="ident">sockfd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),<span class="ident">UnixError</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">make_socket_lingering</span>(<span class="ident">sockfd</span>: <span class="ident">c_int</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(),<span class="ident">UnixError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">linger</span> <span class="op">=</span> <span class="ident">linger</span> {
         <span class="ident">l_onoff</span>: <span class="number">1</span>,
         <span class="ident">l_linger</span>: <span class="number">30</span>,
@@ -1779,7 +1775,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">BackingStore</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">length</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BackingStore</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">length</span>: <span class="ident">usize</span>) -&gt; <span class="ident">BackingStore</span> {
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">SHM_COUNT</span>.<span class="ident">fetch_add</span>(<span class="number">1</span>, <span class="ident">Ordering::Relaxed</span>);
         <span class="kw">let</span> <span class="ident">timestamp</span> <span class="op">=</span> <span class="ident">UNIX_EPOCH</span>.<span class="ident">elapsed</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">CString::new</span>(<span class="macro">format!</span>(<span class="string">&quot;/ipc-channel-shared-memory.{}.{}.{}.{}&quot;</span>,
@@ -1787,26 +1783,26 @@
                                         <span class="ident">timestamp</span>.<span class="ident">as_secs</span>(),
                                         <span class="ident">timestamp</span>.<span class="ident">subsec_nanos</span>())).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">fd</span> <span class="op">=</span> <span class="ident">create_shmem</span>(<span class="ident">name</span>, <span class="ident">length</span>);
-        <span class="self">Self</span><span class="ident">::from_fd</span>(<span class="ident">fd</span>)
+        <span class="ident"><span class="self">Self</span>::from_fd</span>(<span class="ident">fd</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BackingStore</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) -&gt; <span class="ident">BackingStore</span> {
         <span class="ident">BackingStore</span> {
             <span class="ident">fd</span>: <span class="ident">fd</span>,
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">c_int</span> {
         <span class="self">self</span>.<span class="ident">fd</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">map_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">length</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">size_t</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>, <span class="ident">size_t</span>) {
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">map_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">length</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">size_t</span><span class="op">&gt;</span>) -&gt; (<span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>, <span class="ident">size_t</span>) {
         <span class="kw">let</span> <span class="ident">length</span> <span class="op">=</span> <span class="ident">length</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">st</span> <span class="op">=</span> <span class="ident">mem::uninitialized</span>();
-            <span class="macro">assert!</span>(<span class="ident">libc::fstat</span>(<span class="self">self</span>.<span class="ident">fd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">st</span>) <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
+            <span class="macro">assert!</span>(<span class="ident">libc::fstat</span>(<span class="self">self</span>.<span class="ident">fd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">st</span>) <span class="op">==</span> <span class="number">0</span>);
             <span class="ident">st</span>.<span class="ident">st_size</span> <span class="kw">as</span> <span class="ident">size_t</span>
         });
-        <span class="kw">if</span> <span class="ident">length</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">length</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="comment">// This will cause `mmap` to fail, so handle it explicitly.</span>
             <span class="kw">return</span> (<span class="ident">ptr::null_mut</span>(), <span class="ident">length</span>)
         }
@@ -1826,7 +1822,7 @@
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">libc::close</span>(<span class="self">self</span>.<span class="ident">fd</span>);
-            <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
+            <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">==</span> <span class="number">0</span>);
         }
     }
 }
@@ -1845,14 +1841,14 @@
         <span class="kw">unsafe</span> {
             <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">is_null</span>() {
                 <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">libc::munmap</span>(<span class="self">self</span>.<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>, <span class="self">self</span>.<span class="ident">length</span>);
-                <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
+                <span class="macro">assert!</span>(<span class="ident">thread::panicking</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">result</span> <span class="op">==</span> <span class="number">0</span>);
             }
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">OsIpcSharedMemory</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcSharedMemory</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">OsIpcSharedMemory</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">store</span> <span class="op">=</span> <span class="ident">BackingStore::from_fd</span>(<span class="ident">libc::dup</span>(<span class="self">self</span>.<span class="ident">store</span>.<span class="ident">fd</span>()));
             <span class="kw">let</span> (<span class="ident">address</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">store</span>.<span class="ident">map_file</span>(<span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">length</span>));
@@ -1862,13 +1858,13 @@
 }
 
 <span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">OsIpcSharedMemory</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">OsIpcSharedMemory</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">other</span>
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">OsIpcSharedMemory</span>) -&gt; <span class="ident">bool</span> {
+        <span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span> <span class="op">==</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">other</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">OsIpcSharedMemory</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt::Error</span><span class="op">&gt;</span> {
         (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">fmt</span>(<span class="ident">formatter</span>)
     }
 }
@@ -1877,7 +1873,7 @@
     <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> [<span class="ident">u8</span>];
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
+    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
         <span class="kw">unsafe</span> {
             <span class="ident">slice::from_raw_parts</span>(<span class="self">self</span>.<span class="ident">ptr</span>, <span class="self">self</span>.<span class="ident">length</span>)
         }
@@ -1886,7 +1882,7 @@
 
 <span class="kw">impl</span> <span class="ident">OsIpcSharedMemory</span> {
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_raw_parts</span>(<span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>, <span class="ident">length</span>: <span class="ident">usize</span>,
-                             <span class="ident">store</span>: <span class="ident">BackingStore</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcSharedMemory</span> {
+                             <span class="ident">store</span>: <span class="ident">BackingStore</span>) -&gt; <span class="ident">OsIpcSharedMemory</span> {
         <span class="ident">OsIpcSharedMemory</span> {
             <span class="ident">ptr</span>: <span class="ident">ptr</span>,
             <span class="ident">length</span>: <span class="ident">length</span>,
@@ -1894,13 +1890,13 @@
         }
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcSharedMemory</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) -&gt; <span class="ident">OsIpcSharedMemory</span> {
         <span class="kw">let</span> <span class="ident">store</span> <span class="op">=</span> <span class="ident">BackingStore::from_fd</span>(<span class="ident">fd</span>);
         <span class="kw">let</span> (<span class="ident">ptr</span>, <span class="ident">length</span>) <span class="op">=</span> <span class="ident">store</span>.<span class="ident">map_file</span>(<span class="prelude-val">None</span>);
         <span class="ident">OsIpcSharedMemory::from_raw_parts</span>(<span class="ident">ptr</span>, <span class="ident">length</span>, <span class="ident">store</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_byte</span>(<span class="ident">byte</span>: <span class="ident">u8</span>, <span class="ident">length</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcSharedMemory</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_byte</span>(<span class="ident">byte</span>: <span class="ident">u8</span>, <span class="ident">length</span>: <span class="ident">usize</span>) -&gt; <span class="ident">OsIpcSharedMemory</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">store</span> <span class="op">=</span> <span class="ident">BackingStore::new</span>(<span class="ident">length</span>);
             <span class="kw">let</span> (<span class="ident">address</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">store</span>.<span class="ident">map_file</span>(<span class="prelude-val">Some</span>(<span class="ident">length</span>));
@@ -1911,7 +1907,7 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_bytes</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OsIpcSharedMemory</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_bytes</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">OsIpcSharedMemory</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">store</span> <span class="op">=</span> <span class="ident">BackingStore::new</span>(<span class="ident">bytes</span>.<span class="ident">len</span>());
             <span class="kw">let</span> (<span class="ident">address</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">store</span>.<span class="ident">map_file</span>(<span class="prelude-val">Some</span>(<span class="ident">bytes</span>.<span class="ident">len</span>()));
@@ -1928,58 +1924,58 @@
 }
 
 <span class="kw">impl</span> <span class="ident">UnixError</span> {
-    <span class="kw">fn</span> <span class="ident">last</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UnixError</span> {
+    <span class="kw">fn</span> <span class="ident">last</span>() -&gt; <span class="ident">UnixError</span> {
         <span class="ident">UnixError::Errno</span>(<span class="ident">Error::last_os_error</span>().<span class="ident">raw_os_error</span>().<span class="ident">unwrap</span>())
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channel_is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">UnixError::ChannelClosed</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channel_is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
+        <span class="kw-2">*</span><span class="self">self</span> <span class="op">==</span> <span class="ident">UnixError::ChannelClosed</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">UnixError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">bincode::Error</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">unix_error</span>: <span class="ident">UnixError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">unix_error</span>: <span class="ident">UnixError</span>) -&gt; <span class="self">Self</span> {
         <span class="ident">Error::from</span>(<span class="ident">unix_error</span>).<span class="ident">into</span>()
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">UnixError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">unix_error</span>: <span class="ident">UnixError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">unix_error</span>: <span class="ident">UnixError</span>) -&gt; <span class="ident">Error</span> {
         <span class="kw">match</span> <span class="ident">unix_error</span> {
-            <span class="ident">UnixError::Errno</span>(<span class="ident">errno</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Error::from_raw_os_error</span>(<span class="ident">errno</span>),
-            <span class="ident">UnixError::ChannelClosed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Error::new</span>(<span class="ident">ErrorKind::ConnectionReset</span>,
+            <span class="ident">UnixError::Errno</span>(<span class="ident">errno</span>) =&gt; <span class="ident">Error::from_raw_os_error</span>(<span class="ident">errno</span>),
+            <span class="ident">UnixError::ChannelClosed</span> =&gt; <span class="ident">Error::new</span>(<span class="ident">ErrorKind::ConnectionReset</span>,
                                                    <span class="string">&quot;All senders for this socket closed&quot;</span>),
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">UnixError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ipc::IpcError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">UnixError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">UnixError</span>) -&gt; <span class="self">Self</span> {
         <span class="kw">match</span> <span class="ident">error</span> {
-            <span class="ident">UnixError::ChannelClosed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ipc::IpcError::Disconnected</span>,
-            <span class="ident">e</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ipc::IpcError::Io</span>(<span class="ident">Error::from</span>(<span class="ident">e</span>)),
+            <span class="ident">UnixError::ChannelClosed</span> =&gt; <span class="ident">ipc::IpcError::Disconnected</span>,
+            <span class="ident">e</span> =&gt; <span class="ident">ipc::IpcError::Io</span>(<span class="ident">Error::from</span>(<span class="ident">e</span>)),
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">UnixError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ipc::TryRecvError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">UnixError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">UnixError</span>) -&gt; <span class="self">Self</span> {
         <span class="kw">match</span> <span class="ident">error</span> {
-            <span class="ident">UnixError::ChannelClosed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ipc::TryRecvError::IpcError</span>(<span class="ident">ipc::IpcError::Disconnected</span>),
-            <span class="ident">UnixError::Errno</span>(<span class="ident">code</span>) <span class="kw">if</span> <span class="ident">code</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EAGAIN</span> <span class="op">|</span><span class="op">|</span> <span class="ident">code</span> <span class="op">=</span><span class="op">=</span> <span class="ident">EWOULDBLOCK</span> <span class="op">=</span><span class="op">&gt;</span>
+            <span class="ident">UnixError::ChannelClosed</span> =&gt; <span class="ident">ipc::TryRecvError::IpcError</span>(<span class="ident">ipc::IpcError::Disconnected</span>),
+            <span class="ident">UnixError::Errno</span>(<span class="ident">code</span>) <span class="kw">if</span> <span class="ident">code</span> <span class="op">==</span> <span class="ident">EAGAIN</span> <span class="op">|</span><span class="op">|</span> <span class="ident">code</span> <span class="op">==</span> <span class="ident">EWOULDBLOCK</span> =&gt;
                 <span class="ident">ipc::TryRecvError::Empty</span>,
-            <span class="ident">e</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ipc::TryRecvError::IpcError</span>(<span class="ident">ipc::IpcError::Io</span>(<span class="ident">Error::from</span>(<span class="ident">e</span>))),
+            <span class="ident">e</span> =&gt; <span class="ident">ipc::TryRecvError::IpcError</span>(<span class="ident">ipc::IpcError::Io</span>(<span class="ident">Error::from</span>(<span class="ident">e</span>))),
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">UnixError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span>: <span class="ident">Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UnixError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span>: <span class="ident">Error</span>) -&gt; <span class="ident">UnixError</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">errno</span>) <span class="op">=</span> <span class="ident">e</span>.<span class="ident">raw_os_error</span>() {
             <span class="ident">UnixError::Errno</span>(<span class="ident">errno</span>)
         } <span class="kw">else</span> {
-            <span class="macro">assert!</span>(<span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">ErrorKind::ConnectionReset</span>);
+            <span class="macro">assert!</span>(<span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::ConnectionReset</span>);
             <span class="ident">UnixError::ChannelClosed</span>
         }
     }
@@ -1992,7 +1988,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">recv</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>, <span class="ident">blocking_mode</span>: <span class="ident">BlockingMode</span>)
-        <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsOpaqueIpcChannel</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
+        -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsOpaqueIpcChannel</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OsIpcSharedMemory</span><span class="op">&gt;</span>),<span class="ident">UnixError</span><span class="op">&gt;</span> {
 
     <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">channels</span>, <span class="kw-2">mut</span> <span class="ident">shared_memory_regions</span>) <span class="op">=</span> (<span class="ident">Vec::new</span>(), <span class="ident">Vec::new</span>());
 
@@ -2024,7 +2020,7 @@
 
         <span class="kw">let</span> <span class="ident">cmsg_fds</span> <span class="op">=</span> <span class="ident">CMSG_DATA</span>(<span class="ident">cmsg</span>.<span class="ident">cmsg_buffer</span>) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_int</span>;
         <span class="kw">let</span> <span class="ident">cmsg_length</span> <span class="op">=</span> <span class="ident">cmsg</span>.<span class="ident">msghdr</span>.<span class="ident">msg_controllen</span>;
-        <span class="kw">let</span> <span class="ident">channel_length</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">cmsg_length</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">let</span> <span class="ident">channel_length</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">cmsg_length</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="number">0</span>
         } <span class="kw">else</span> {
             (<span class="ident">cmsg</span>.<span class="ident">cmsg_len</span>() <span class="op">-</span> <span class="ident">CMSG_ALIGN</span>(<span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">cmsghdr</span><span class="op">&gt;</span>())) <span class="op">/</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">c_int</span><span class="op">&gt;</span>()
@@ -2039,7 +2035,7 @@
         }
     }
 
-    <span class="kw">if</span> <span class="ident">total_size</span> <span class="op">=</span><span class="op">=</span> <span class="ident">main_data_buffer</span>.<span class="ident">len</span>() {
+    <span class="kw">if</span> <span class="ident">total_size</span> <span class="op">==</span> <span class="ident">main_data_buffer</span>.<span class="ident">len</span>() {
         <span class="comment">// Fast path: no fragments.</span>
         <span class="kw">return</span> <span class="prelude-val">Ok</span>((<span class="ident">main_data_buffer</span>, <span class="ident">channels</span>, <span class="ident">shared_memory_regions</span>))
     }
@@ -2077,7 +2073,7 @@
             <span class="ident">result</span>
         };
 
-        <span class="kw">if</span> <span class="ident">result</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">result</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UnixError::ChannelClosed</span>)
         } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">result</span> <span class="op">&lt;</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UnixError::last</span>())
@@ -2088,7 +2084,7 @@
 }
 
 <span class="comment">// https://github.com/servo/ipc-channel/issues/192</span>
-<span class="kw">fn</span> <span class="ident">new_msghdr</span>(<span class="ident">iovec</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">iovec</span>], <span class="ident">cmsg_buffer</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">cmsghdr</span>, <span class="ident">cmsg_space</span>: <span class="ident">MsgControlLen</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">msghdr</span> {
+<span class="kw">fn</span> <span class="ident">new_msghdr</span>(<span class="ident">iovec</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">iovec</span>], <span class="ident">cmsg_buffer</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">cmsghdr</span>, <span class="ident">cmsg_space</span>: <span class="ident">MsgControlLen</span>) -&gt; <span class="ident">msghdr</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">msghdr</span>: <span class="ident">msghdr</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">mem::zeroed</span>() };
     <span class="ident">msghdr</span>.<span class="ident">msg_name</span> <span class="op">=</span> <span class="ident">ptr::null_mut</span>();
     <span class="ident">msghdr</span>.<span class="ident">msg_namelen</span> <span class="op">=</span> <span class="number">0</span>;
@@ -2101,7 +2097,7 @@
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">all</span>(<span class="ident">target_os</span><span class="op">=</span><span class="string">&quot;linux&quot;</span>, <span class="ident">feature</span><span class="op">=</span><span class="string">&quot;memfd&quot;</span>)))]</span>
-<span class="kw">fn</span> <span class="ident">create_shmem</span>(<span class="ident">name</span>: <span class="ident">CString</span>, <span class="ident">length</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
+<span class="kw">fn</span> <span class="ident">create_shmem</span>(<span class="ident">name</span>: <span class="ident">CString</span>, <span class="ident">length</span>: <span class="ident">usize</span>) -&gt; <span class="ident">c_int</span> {
     <span class="kw">unsafe</span> {
         <span class="comment">// NB: the FreeBSD man page for shm_unlink states that it requires</span>
         <span class="comment">// write permissions, but testing shows that read-write is required.</span>
@@ -2109,18 +2105,18 @@
                                 <span class="ident">libc::O_CREAT</span> <span class="op">|</span> <span class="ident">libc::O_RDWR</span> <span class="op">|</span> <span class="ident">libc::O_EXCL</span>,
                                 <span class="number">0o600</span>);
         <span class="macro">assert!</span>(<span class="ident">fd</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span>);
-        <span class="macro">assert!</span>(<span class="ident">libc::shm_unlink</span>(<span class="ident">name</span>.<span class="ident">as_ptr</span>()) <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
-        <span class="macro">assert!</span>(<span class="ident">libc::ftruncate</span>(<span class="ident">fd</span>, <span class="ident">length</span> <span class="kw">as</span> <span class="ident">off_t</span>) <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
+        <span class="macro">assert!</span>(<span class="ident">libc::shm_unlink</span>(<span class="ident">name</span>.<span class="ident">as_ptr</span>()) <span class="op">==</span> <span class="number">0</span>);
+        <span class="macro">assert!</span>(<span class="ident">libc::ftruncate</span>(<span class="ident">fd</span>, <span class="ident">length</span> <span class="kw">as</span> <span class="ident">off_t</span>) <span class="op">==</span> <span class="number">0</span>);
         <span class="ident">fd</span>
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;memfd&quot;</span>, <span class="ident">target_os</span><span class="op">=</span><span class="string">&quot;linux&quot;</span>))]</span>
-<span class="kw">fn</span> <span class="ident">create_shmem</span>(<span class="ident">name</span>: <span class="ident">CString</span>, <span class="ident">length</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
+<span class="kw">fn</span> <span class="ident">create_shmem</span>(<span class="ident">name</span>: <span class="ident">CString</span>, <span class="ident">length</span>: <span class="ident">usize</span>) -&gt; <span class="ident">c_int</span> {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="ident">fd</span> <span class="op">=</span> <span class="ident">memfd_create</span>(<span class="ident">name</span>.<span class="ident">as_ptr</span>(), <span class="number">0</span>);
         <span class="macro">assert!</span>(<span class="ident">fd</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span>);
-        <span class="macro">assert!</span>(<span class="ident">libc::ftruncate</span>(<span class="ident">fd</span>, <span class="ident">length</span> <span class="kw">as</span> <span class="ident">off_t</span>) <span class="op">=</span><span class="op">=</span> <span class="number">0</span>);
+        <span class="macro">assert!</span>(<span class="ident">libc::ftruncate</span>(<span class="ident">fd</span>, <span class="ident">length</span> <span class="kw">as</span> <span class="ident">off_t</span>) <span class="op">==</span> <span class="number">0</span>);
         <span class="ident">fd</span>
     }
 }
@@ -2141,7 +2137,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">UnixCmsg</span> {
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">iovec</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">iovec</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UnixCmsg</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">iovec</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">iovec</span>]) -&gt; <span class="ident">UnixCmsg</span> {
         <span class="kw">let</span> <span class="ident">cmsg_length</span> <span class="op">=</span> <span class="ident">CMSG_SPACE</span>(<span class="ident">MAX_FDS_IN_CMSG</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">c_int</span><span class="op">&gt;</span>());
         <span class="kw">let</span> <span class="ident">cmsg_buffer</span> <span class="op">=</span> <span class="ident">libc::malloc</span>(<span class="ident">cmsg_length</span>) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">cmsghdr</span>;
         <span class="ident">UnixCmsg</span> {
@@ -2151,7 +2147,7 @@
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">recv</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">fd</span>: <span class="ident">c_int</span>, <span class="ident">blocking_mode</span>: <span class="ident">BlockingMode</span>)
-                   <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">UnixError</span><span class="op">&gt;</span> {
+                   -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">UnixError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">BlockingMode::Nonblocking</span> <span class="op">=</span> <span class="ident">blocking_mode</span> {
             <span class="kw">if</span> <span class="ident">libc::fcntl</span>(<span class="ident">fd</span>, <span class="ident">libc::F_SETFL</span>, <span class="ident">libc::O_NONBLOCK</span>) <span class="op">&lt;</span> <span class="number">0</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UnixError::last</span>())
@@ -2161,7 +2157,7 @@
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">recvmsg</span>(<span class="ident">fd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">msghdr</span>, <span class="number">0</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">result</span> <span class="op">&gt;</span> <span class="number">0</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span> <span class="kw">as</span> <span class="ident">usize</span>)
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">result</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">result</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="prelude-val">Err</span>(<span class="ident">UnixError::ChannelClosed</span>)
         } <span class="kw">else</span> {
             <span class="prelude-val">Err</span>(<span class="ident">UnixError::last</span>())
@@ -2175,12 +2171,12 @@
         <span class="ident">result</span>
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">cmsg_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">size_t</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">cmsg_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">size_t</span> {
         (<span class="kw-2">*</span>(<span class="self">self</span>.<span class="ident">msghdr</span>.<span class="ident">msg_control</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">cmsghdr</span>)).<span class="ident">cmsg_len</span> <span class="kw">as</span> <span class="ident">size_t</span>
     }
 }
 
-<span class="kw">fn</span> <span class="ident">is_socket</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+<span class="kw">fn</span> <span class="ident">is_socket</span>(<span class="ident">fd</span>: <span class="ident">c_int</span>) -&gt; <span class="ident">bool</span> {
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">st</span> <span class="op">=</span> <span class="ident">mem::uninitialized</span>();
         <span class="kw">if</span> <span class="ident">libc::fstat</span>(<span class="ident">fd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">st</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
@@ -2193,34 +2189,34 @@
 <span class="comment">// FFI stuff follows:</span>
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;memfd&quot;</span>, <span class="ident">target_os</span><span class="op">=</span><span class="string">&quot;linux&quot;</span>))]</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">memfd_create</span>(<span class="ident">name</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">flags</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">c_int</span> {
+<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">memfd_create</span>(<span class="ident">name</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>, <span class="ident">flags</span>: <span class="ident">usize</span>) -&gt; <span class="ident">c_int</span> {
     <span class="macro">syscall!</span>(<span class="ident">MEMFD_CREATE</span>, <span class="ident">name</span>, <span class="ident">flags</span>) <span class="kw">as</span> <span class="ident">c_int</span>
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">fn</span> <span class="ident">CMSG_LEN</span>(<span class="ident">length</span>: <span class="ident">size_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">size_t</span> {
+<span class="kw">fn</span> <span class="ident">CMSG_LEN</span>(<span class="ident">length</span>: <span class="ident">size_t</span>) -&gt; <span class="ident">size_t</span> {
     <span class="ident">CMSG_ALIGN</span>(<span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">cmsghdr</span><span class="op">&gt;</span>()) <span class="op">+</span> <span class="ident">length</span>
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">CMSG_DATA</span>(<span class="ident">cmsg</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">cmsghdr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span> {
+<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">CMSG_DATA</span>(<span class="ident">cmsg</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">cmsghdr</span>) -&gt; <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span> {
     (<span class="ident">cmsg</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">libc::c_uchar</span>).<span class="ident">offset</span>(<span class="ident">CMSG_ALIGN</span>(
             <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">cmsghdr</span><span class="op">&gt;</span>()) <span class="kw">as</span> <span class="ident">isize</span>) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">fn</span> <span class="ident">CMSG_ALIGN</span>(<span class="ident">length</span>: <span class="ident">size_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">size_t</span> {
+<span class="kw">fn</span> <span class="ident">CMSG_ALIGN</span>(<span class="ident">length</span>: <span class="ident">size_t</span>) -&gt; <span class="ident">size_t</span> {
     (<span class="ident">length</span> <span class="op">+</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">size_t</span><span class="op">&gt;</span>() <span class="op">-</span> <span class="number">1</span>) <span class="op">&amp;</span> <span class="op">!</span>(<span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">size_t</span><span class="op">&gt;</span>() <span class="op">-</span> <span class="number">1</span>)
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">fn</span> <span class="ident">CMSG_SPACE</span>(<span class="ident">length</span>: <span class="ident">size_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">size_t</span> {
+<span class="kw">fn</span> <span class="ident">CMSG_SPACE</span>(<span class="ident">length</span>: <span class="ident">size_t</span>) -&gt; <span class="ident">size_t</span> {
     <span class="ident">CMSG_ALIGN</span>(<span class="ident">length</span>) <span class="op">+</span> <span class="ident">CMSG_ALIGN</span>(<span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">cmsghdr</span><span class="op">&gt;</span>())
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">fn</span> <span class="ident">S_ISSOCK</span>(<span class="ident">mode</span>: <span class="ident">mode_t</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-    (<span class="ident">mode</span> <span class="op">&amp;</span> <span class="ident">S_IFMT</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">S_IFSOCK</span>
+<span class="kw">fn</span> <span class="ident">S_ISSOCK</span>(<span class="ident">mode</span>: <span class="ident">mode_t</span>) -&gt; <span class="ident">bool</span> {
+    (<span class="ident">mode</span> <span class="op">&amp;</span> <span class="ident">S_IFMT</span>) <span class="op">==</span> <span class="ident">S_IFSOCK</span>
 }
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
@@ -2236,6 +2232,7 @@
     <span class="ident">l_linger</span>: <span class="ident">c_int</span>,
 }
 
-</pre></div>
+</code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="ipc_channel" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>
-    <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script></body></html>
+    <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script>
+</body></html>

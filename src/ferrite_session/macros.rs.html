@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `ferrite-session/src/macros.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macros.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../ferrite_session/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `ferrite-session&#x2F;src&#x2F;macros.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macros.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../ferrite_session/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -469,46 +466,45 @@
 <span id="466">466</span>
 <span id="467">467</span>
 <span id="468">468</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">paste::paste</span>;
+</pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">use</span> <span class="ident">paste::paste</span>;
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">Sum</span> {
-  ( $(,)<span class="question-mark">?</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::choice::nary::Bottom</span>
+  ( $(,)<span class="question-mark">?</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::choice::nary::Bottom</span>
   };
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ty</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::Sum</span> <span class="op">&lt;</span>
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ty</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::Sum</span> <span class="op">&lt;</span>
       <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>,
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::Bottom</span>
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::Bottom</span>
     <span class="op">&gt;</span>
   };
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ty</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="op">*</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::Sum</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::Sum!</span>( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span> )<span class="op">*</span> ) <span class="op">&gt;</span>
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ty</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="op">*</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::Sum</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>, <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::Sum!</span>( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span> )<span class="op">*</span> ) <span class="op">&gt;</span>
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">HList</span> {
-  ( $(,)<span class="question-mark">?</span> ) <span class="op">=</span><span class="op">&gt;</span> {
+  ( $(,)<span class="question-mark">?</span> ) =&gt; {
     ()
   };
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ty</span> ) <span class="op">=</span><span class="op">&gt;</span> {
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ty</span> ) =&gt; {
     ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>, () )
   };
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ty</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="op">*</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::HList!</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>)<span class="op">*</span> ) )
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ty</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="op">*</span> ) =&gt; {
+    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>, <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::HList!</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>)<span class="op">*</span> ) )
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">match_choice_value</span> {
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">choice</span>:<span class="ident">expr</span>; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> )<span class="op">+</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::extract</span>( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">choice</span> ) {
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">choice</span>:<span class="ident">expr</span>; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">path</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> )<span class="op">+</span> ) =&gt; {
+    <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::extract</span>( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">choice</span> ) {
       $(
-        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> ( <span class="ident">cont</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-          <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::run_cont</span> ( <span class="ident">cont</span>,
-            <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> ( <span class="ident">cont</span> ) =&gt; {
+          <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::run_cont</span> ( <span class="ident">cont</span>,
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
               <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>
             })
           )
@@ -520,10 +516,10 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">match_choice</span> {
-  ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> )<span class="op">+</span> ) <span class="op">=</span><span class="op">&gt;</span> {
+  ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">path</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> )<span class="op">+</span> ) =&gt; {
     <span class="kw">move</span> <span class="op">|</span> <span class="ident">ferrite_choice_internal__</span> <span class="op">|</span> {
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::match_choice_value!</span> { <span class="macro-nonterminal">ferrite_choice_internal__</span>;
-        $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> ),<span class="op">*</span>
+      <span class="macro-nonterminal">$</span><span class="macro">crate::match_choice_value!</span> { <span class="macro-nonterminal">ferrite_choice_internal__</span>;
+        $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> ),<span class="op">*</span>
       }
     }
   };
@@ -531,10 +527,10 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">offer_choice</span> {
-  ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> )<span class="op">+</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::offer_choice</span> (
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::match_choice!</span> {
-        $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> ),<span class="op">*</span>
+  ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">path</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> )<span class="op">+</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::offer_choice</span> (
+      <span class="macro-nonterminal">$</span><span class="macro">crate::match_choice!</span> {
+        $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> ),<span class="op">*</span>
       }
     )
   }
@@ -542,10 +538,10 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">case</span> {
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span> ; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">path</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> )<span class="op">+</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::case</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>,
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::match_choice!</span> {
-        $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> ),<span class="op">*</span>
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span> ; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">path</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> )<span class="op">+</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::case</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>,
+      <span class="macro-nonterminal">$</span><span class="macro">crate::match_choice!</span> {
+        $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> ),<span class="op">*</span>
       }
     )
   }
@@ -555,53 +551,53 @@
 <span class="macro">macro_rules!</span> <span class="ident">define_choice_protocol</span> {
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> ;
     $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span>:<span class="ident">ty</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
+  ) =&gt; {
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {}
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::ToRow</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-      <span class="kw">type</span> <span class="ident">Row</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::HList!</span>[ $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span> ),<span class="op">*</span> ];
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::ToRow</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+      <span class="kw">type</span> <span class="ident">Row</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::HList!</span>[ $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span> ),<span class="op">*</span> ];
     }
   };
 
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>
     <span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">types</span>:<span class="ident">ident</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span> <span class="op">&gt;</span> ;
     $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span>:<span class="ident">ty</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
+  ) =&gt; {
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">&lt;</span>$( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">types</span> ),<span class="kw-2">*</span><span class="op">&gt;</span>
     {
       <span class="ident">phantom</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span>($( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">types</span> ),<span class="kw-2">*</span>)<span class="op">&gt;</span>
     }
 
     <span class="kw">impl</span> <span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">types</span> ),<span class="op">*</span> <span class="op">&gt;</span>
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::ToRow</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">types</span> ),<span class="op">*</span> <span class="op">&gt;</span>
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::ToRow</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">types</span> ),<span class="op">*</span> <span class="op">&gt;</span>
     {
-      <span class="kw">type</span> <span class="ident">Row</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::HList!</span>[ $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span> ),<span class="op">*</span> ];
+      <span class="kw">type</span> <span class="ident">Row</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::HList!</span>[ $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span> ),<span class="op">*</span> ];
     }
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">define_choice_labels</span> {
-  ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_choice_labels!</span>[ <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::Z</span>; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span> ];
+  ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::define_choice_labels!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::Z</span>; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span> ];
   };
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span>:<span class="ident">ty</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::macros::paste!</span> {
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span>:<span class="ident">ty</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::macros::paste!</span> {
       <span class="attribute">#[<span class="macro-nonterminal">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
       <span class="kw">pub</span> <span class="kw">const</span> [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="ident">Label</span> <span class="op">&gt;</span>]
-        : <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">=</span>
-        <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">&gt;</span><span class="ident">::new</span>();
+        : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">=</span>
+        <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">&gt;</span><span class="ident">::new</span>();
     }
   };
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span>:<span class="ident">ty</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">+</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::macros::paste!</span> {
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span>:<span class="ident">ty</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">+</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::macros::paste!</span> {
       <span class="attribute">#[<span class="macro-nonterminal">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
       <span class="kw">pub</span> <span class="kw">const</span> [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="ident">Label</span> <span class="op">&gt;</span>]
-        : <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">=</span>
-        <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">&gt;</span><span class="ident">::new</span>();
+        : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">=</span>
+        <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::ChoiceSelector</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span> <span class="op">&gt;</span><span class="ident">::new</span>();
 
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_choice_labels!</span>[
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::S</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span>;
+      <span class="macro-nonterminal">$</span><span class="macro">crate::define_choice_labels!</span>[
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::S</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">acc</span> <span class="op">&gt;</span>;
         $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span>
       ];
     }
@@ -610,8 +606,8 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">define_choice_enum</span> {
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::macros::paste!</span> {
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>; $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::macros::paste!</span> {
       <span class="kw">pub</span> <span class="kw">enum</span> [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="ident">Choice</span> <span class="op">&gt;</span>]
         <span class="op">&lt;</span> $( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> <span class="ident">T</span> <span class="op">&gt;</span>] ),<span class="op">*</span> <span class="op">&gt;</span>
       {
@@ -630,18 +626,18 @@
 
 <span class="macro">macro_rules!</span> <span class="ident">match_extract</span> {
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">ident</span> ;
-  ) <span class="op">=</span><span class="op">&gt;</span> {
+  ) =&gt; {
     <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span> {}
   };
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">ident</span> ;
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::macros::paste!</span> {
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::macros::paste!</span> {
       <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::Sum::Inl</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] ) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::Sum::Inl</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] ) =&gt; {
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] )
         }
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::Sum::Inr</span> ( <span class="ident">bot</span> ) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::Sum::Inr</span> ( <span class="ident">bot</span> ) =&gt; {
           <span class="kw">match</span> <span class="ident">bot</span> { }
         }
       }
@@ -649,14 +645,14 @@
   };
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">ident</span> ;
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">*</span> $(,)<span class="question-mark">?</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::macros::paste!</span> {
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::macros::paste!</span> {
       <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::Sum::Inl</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] ) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::Sum::Inl</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] ) =&gt; {
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="op">&gt;</span>] )
         }
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::Sum::Inr</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="ident">_rest</span> <span class="op">&gt;</span>] ) <span class="op">=</span><span class="op">&gt;</span> {
-          <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::match_extract!</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::Sum::Inr</span> ( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="ident">_rest</span> <span class="op">&gt;</span>] ) =&gt; {
+          <span class="macro-nonterminal">$</span><span class="macro">crate::match_extract!</span> {
             [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">snake</span> <span class="ident">_rest</span> <span class="op">&gt;</span>] ;
             $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span>
           }
@@ -670,20 +666,20 @@
 <span class="macro">macro_rules!</span> <span class="ident">define_extract_choice</span> {
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> ;
     $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> ),<span class="op">*</span> $(,)<span class="question-mark">?</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::macros::paste!</span> {
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::macros::paste!</span> {
       <span class="kw">impl</span> <span class="op">&lt;</span> $( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> <span class="ident">T</span> <span class="op">&gt;</span>] ),<span class="op">*</span> <span class="op">&gt;</span>
         <span class="ident">std::convert::From</span> <span class="op">&lt;</span>
-          <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::Sum!</span>[ $( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> <span class="ident">T</span> <span class="op">&gt;</span>] ),<span class="op">*</span> ]
+          <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::Sum!</span>[ $( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> <span class="ident">T</span> <span class="op">&gt;</span>] ),<span class="op">*</span> ]
         <span class="op">&gt;</span>
         <span class="kw">for</span> [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="ident">Choice</span> <span class="op">&gt;</span>]
           <span class="op">&lt;</span> $( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> <span class="ident">T</span> <span class="op">&gt;</span>] ),<span class="op">*</span> <span class="op">&gt;</span>
       {
         <span class="kw">fn</span> <span class="ident">from</span>
-          (<span class="ident">row</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::Sum!</span>[ $( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> <span class="ident">T</span> <span class="op">&gt;</span>] ),<span class="op">*</span> ] )
-          <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+          (<span class="ident">row</span>: <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::Sum!</span>[ $( [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> <span class="ident">T</span> <span class="op">&gt;</span>] ),<span class="op">*</span> ] )
+          -&gt; <span class="self">Self</span>
         {
-          <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::match_extract!</span> {
+          <span class="macro-nonterminal">$</span><span class="macro">crate::match_extract!</span> {
             <span class="macro-nonterminal">row</span> ;
             $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span>
           }
@@ -698,20 +694,20 @@
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> ;
     $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span>:<span class="ident">ty</span> ),<span class="op">+</span>
     $(,)<span class="question-mark">?</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_choice_protocol!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::define_choice_protocol!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
       $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span> ),<span class="op">*</span>
     ];
 
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_choice_labels!</span>[
+    <span class="macro-nonterminal">$</span><span class="macro">crate::define_choice_labels!</span>[
       $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span>
     ];
 
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_choice_enum!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
+    <span class="macro-nonterminal">$</span><span class="macro">crate::define_choice_enum!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
       $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span>
     ];
 
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_extract_choice!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
+    <span class="macro-nonterminal">$</span><span class="macro">crate::define_extract_choice!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
       $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span>
     ];
   };
@@ -720,21 +716,21 @@
     <span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">types</span>:<span class="ident">ident</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span> <span class="op">&gt;</span> ;
     $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span>:<span class="ident">ty</span> ),<span class="op">+</span>
     $(,)<span class="question-mark">?</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_choice_protocol!</span>[
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::define_choice_protocol!</span>[
       <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">types</span> ),<span class="op">*</span> <span class="op">&gt;</span> ;
       $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">protocols</span> ),<span class="op">*</span>
     ];
 
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_choice_labels!</span>[
+    <span class="macro-nonterminal">$</span><span class="macro">crate::define_choice_labels!</span>[
       $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span>
     ];
 
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_choice_enum!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
+    <span class="macro-nonterminal">$</span><span class="macro">crate::define_choice_enum!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
       $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span>
     ];
 
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::define_extract_choice!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
+    <span class="macro-nonterminal">$</span><span class="macro">crate::define_extract_choice!</span>[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> ;
       $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span>
     ];
   };
@@ -742,37 +738,37 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">send_value</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span>(
-      <span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::send_value</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>) },
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span>(
+      <span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::send_value</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>) },
     )
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">send_value_to</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> {
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::send_value_to</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>)
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> {
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::send_value_to</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>)
     })
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">receive_value</span> {
-  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::receive_value</span> (
+  ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::receive_value</span> (
       <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">|</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>
         })
       }
     )
   };
-  ( (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> $( : <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span> )<span class="question-mark">?</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::receive_value</span> (
+  ( (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> $( : <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span> )<span class="question-mark">?</span>) =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::receive_value</span> (
       <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> $( : <span class="macro-nonterminal">$</span><span class="kw">type</span> )<span class="op">*</span> <span class="op">|</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>
         })
       }
@@ -783,24 +779,24 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">receive_value_from</span> {
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>,
-    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::receive_value_from</span> (
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::receive_value_from</span> (
       <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>,
       <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">|</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>
         })
       }
     )
   };
   ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>,
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> $( : <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span> )<span class="question-mark">?</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::receive_value_from</span> (
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> $( : <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty</span> )<span class="question-mark">?</span>) =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::receive_value_from</span> (
       <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>,
       <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> $( : <span class="macro-nonterminal">$</span><span class="kw">type</span> )<span class="op">*</span> <span class="op">|</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>
         })
       }
@@ -810,9 +806,9 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">choose</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::macros::paste!</span> {
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::choose</span> (
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::macros::paste!</span> {
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::choose</span> (
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>,
         [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="ident">Label</span> <span class="op">&gt;</span>],
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>
@@ -823,9 +819,9 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">offer_case</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::macros::paste!</span> {
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::offer_case</span> (
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::macros::paste!</span> {
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::offer_case</span> (
         [<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">label</span> <span class="ident">Label</span> <span class="op">&gt;</span>],
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>
       )
@@ -835,33 +831,33 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">acquire_shared_session</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::acquire_shared_session</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> {
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> })
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::acquire_shared_session</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> {
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> })
     })
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">receive_channel</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::receive_channel</span>(<span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> {
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> })
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::receive_channel</span>(<span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> {
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> })
     })
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">receive_channels</span> {
-  ( ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> $(,)<span class="question-mark">?</span> ) <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span> ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::receive_channel!</span>( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> )
+  ( ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> $(,)<span class="question-mark">?</span> ) =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span> ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::receive_channel!</span>( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> )
   };
   ( ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vars</span>:<span class="ident">ident</span> ),<span class="op">*</span> $(,)<span class="question-mark">?</span> )
-    <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::receive_channel!</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">=</span><span class="op">&gt;</span> {
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::receive_channels!</span> (
-        ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vars</span> ),<span class="op">*</span> ) <span class="op">=</span><span class="op">&gt;</span>
+    =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::receive_channel!</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> =&gt; {
+      <span class="macro-nonterminal">$</span><span class="macro">crate::receive_channels!</span> (
+        ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vars</span> ),<span class="op">*</span> ) =&gt;
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>
       )
     })
@@ -870,34 +866,34 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">receive_channel_from</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::receive_channel_from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>)
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::receive_channel_from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>)
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">include_session</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">session</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::include_session</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">session</span>, <span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> {
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> })
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">session</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::include_session</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">session</span>, <span class="kw">move</span> <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span><span class="op">|</span> {
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> })
     })
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">terminate</span> {
-  () <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::terminate</span>()
+  () =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::terminate</span>()
   };
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::terminate_async</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span> })
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::terminate_async</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span> })
   };
 }
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">wait</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::wait</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span> }))
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::wait</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span> }))
   };
 }
 
@@ -905,14 +901,14 @@
 <span class="macro">macro_rules!</span> <span class="ident">wait_all</span> {
   ( [ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span> $(,)<span class="question-mark">?</span> ],
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::wait!</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span> )
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::wait!</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span> )
   };
   ( [ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>:<span class="ident">expr</span>, $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chans</span>:<span class="ident">expr</span> ),<span class="op">*</span> $(,)<span class="question-mark">?</span> ],
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>:<span class="ident">expr</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::wait!</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>,
-      <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::wait_all!</span> (
+  ) =&gt; {
+    <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::wait!</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chan</span>,
+      <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::wait_all!</span> (
         [ $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">chans</span> ),<span class="op">*</span> ],
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont</span>
       )
@@ -924,20 +920,21 @@
 <span class="macro">macro_rules!</span> <span class="ident">cut</span> {
   ( [ $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span>:<span class="ident">ty</span> ),<span class="op">+</span> $(,)<span class="question-mark">?</span> ] ;
     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont1</span>:<span class="ident">expr</span> ;
-    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont2</span>:<span class="ident">expr</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro">::prelude::HList!</span>[ $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span> ]
-      <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::Cut</span> <span class="op">&lt;</span> <span class="kw">_</span> <span class="op">&gt;</span>
+    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span>:<span class="ident">ident</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont2</span>:<span class="ident">expr</span>
+  ) =&gt; {
+    <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro">crate::prelude::HList!</span>[ $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">labels</span> ),<span class="op">*</span> ]
+      <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::Cut</span> <span class="op">&lt;</span> <span class="kw">_</span> <span class="op">&gt;</span>
     <span class="op">&gt;</span> :: <span class="ident">cut</span> (
       <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont1</span>,
       <span class="kw">move</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">var</span> <span class="op">|</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::prelude::step</span> ( <span class="kw">async</span> <span class="kw">move</span> {
           <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cont2</span>
         })
       }
     )
   }
 }
-</pre></div>
+</code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="ferrite_session" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</body></html>
