@@ -526,6 +526,13 @@
 <span id="526">526</span>
 <span id="527">527</span>
 <span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">marker::PhantomData</span>,
   <span class="ident">mem</span>,
@@ -921,10 +928,11 @@
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> (<span class="ident">A</span>, <span class="ident">B</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">C</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> (<span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">C</span>)
 <span class="kw">where</span>
-  <span class="ident">A</span>: <span class="ident">ForwardChannel</span>,
-  <span class="ident">B</span>: <span class="ident">ForwardChannel</span>,
+  <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">T</span>: <span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
+  <span class="ident">C</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
@@ -932,8 +940,13 @@
     <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
-    <span class="self">self</span>.<span class="number">0</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>.<span class="ident">clone</span>(), <span class="ident">receiver1</span>.<span class="ident">clone</span>());
-    <span class="self">self</span>.<span class="number">1</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
+    <span class="kw">let</span> (<span class="ident">Value</span>(<span class="ident">payload</span>), <span class="ident">channel</span>) <span class="op">=</span> <span class="self">self</span>;
+
+    <span class="ident">task::spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+      <span class="ident">sender1</span>.<span class="ident">send</span>(<span class="ident">payload</span>);
+
+      <span class="ident">channel</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>)
+    });
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
@@ -941,10 +954,11 @@
     <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) -&gt; <span class="self">Self</span>
   {
-    <span class="kw">let</span> <span class="ident">first</span> <span class="op">=</span> <span class="ident">A::forward_from</span>(<span class="ident">sender1</span>.<span class="ident">clone</span>(), <span class="ident">receiver1</span>.<span class="ident">clone</span>());
-    <span class="kw">let</span> <span class="ident">second</span> <span class="op">=</span> <span class="ident">B::forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
+    <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
 
-    (<span class="ident">first</span>, <span class="ident">second</span>)
+    <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="ident">C::forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
+
+    (<span class="ident">Value</span>(<span class="ident">payload</span>), <span class="ident">channel</span>)
   }
 }
 

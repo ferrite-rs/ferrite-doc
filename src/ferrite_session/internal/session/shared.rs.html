@@ -261,8 +261,6 @@
 <span id="261">261</span>
 <span id="262">262</span>
 <span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">tokio::task</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
@@ -418,9 +416,7 @@
 
     <span class="ident">receiver3</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> (<span class="ident">val_receiver</span>, <span class="ident">end_receiver</span>) <span class="op">=</span> <span class="ident">consumer_end_1</span>;
-
-    <span class="kw">let</span> <span class="ident">Value</span>(<span class="ident">val</span>) <span class="op">=</span> <span class="ident">val_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+    <span class="kw">let</span> (<span class="ident">Value</span>(<span class="ident">val</span>), <span class="ident">end_receiver</span>) <span class="op">=</span> <span class="ident">consumer_end_1</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
     <span class="ident">end_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 

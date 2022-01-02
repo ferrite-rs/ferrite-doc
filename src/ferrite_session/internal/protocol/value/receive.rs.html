@@ -50,13 +50,6 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
-<span id="53">53</span>
-<span id="54">54</span>
-<span id="55">55</span>
-<span id="56">56</span>
-<span id="57">57</span>
-<span id="58">58</span>
-<span id="59">59</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">marker::PhantomData</span>,
@@ -72,15 +65,13 @@
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">A</span>: <span class="ident">Protocol</span>,
 {
-  <span class="kw">type</span> <span class="ident">ConsumerEndpoint</span> <span class="op">=</span> (<span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">A::ConsumerEndpoint</span>);
-  <span class="kw">type</span> <span class="ident">ProviderEndpoint</span> <span class="op">=</span> (<span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">A::ProviderEndpoint</span>);
+  <span class="kw">type</span> <span class="ident">ConsumerEndpoint</span> <span class="op">=</span> <span class="ident">SenderOnce</span><span class="op">&lt;</span>(<span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">A::ProviderEndpoint</span>)<span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">ProviderEndpoint</span> <span class="op">=</span> <span class="ident">ReceiverOnce</span><span class="op">&lt;</span>(<span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">A::ProviderEndpoint</span>)<span class="op">&gt;</span>;
 
   <span class="kw">fn</span> <span class="ident">create_endpoints</span>() -&gt; (<span class="ident"><span class="self">Self</span>::ProviderEndpoint</span>, <span class="ident"><span class="self">Self</span>::ConsumerEndpoint</span>)
   {
-    <span class="kw">let</span> (<span class="ident">val_sender</span>, <span class="ident">val_receiver</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
-    <span class="kw">let</span> (<span class="ident">provider_end</span>, <span class="ident">consumer_end</span>) <span class="op">=</span> <span class="ident">A::create_endpoints</span>();
-
-    ((<span class="ident">val_receiver</span>, <span class="ident">provider_end</span>), (<span class="ident">val_sender</span>, <span class="ident">consumer_end</span>))
+    <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">once_channel</span>();
+    (<span class="ident">receiver</span>, <span class="ident">sender</span>)
   }
 
   <span class="kw">fn</span> <span class="ident">forward</span>(
@@ -88,14 +79,9 @@
     <span class="ident">provider_end</span>: <span class="ident"><span class="self">Self</span>::ProviderEndpoint</span>,
   ) -&gt; <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span>
   {
-    <span class="kw">let</span> (<span class="ident">val_receiver</span>, <span class="ident">provider_end_a</span>) <span class="op">=</span> <span class="ident">provider_end</span>;
-    <span class="kw">let</span> (<span class="ident">val_sender</span>, <span class="ident">consumer_end_a</span>) <span class="op">=</span> <span class="ident">consumer_end</span>;
-
     <span class="ident">Box::pin</span>(<span class="kw">async</span> {
-      <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">val_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
-      <span class="ident">val_sender</span>.<span class="ident">send</span>(<span class="ident">payload</span>).<span class="ident">unwrap</span>();
-
-      <span class="ident">A::forward</span>(<span class="ident">consumer_end_a</span>, <span class="ident">provider_end_a</span>).<span class="kw">await</span>;
+      <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">provider_end</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+      <span class="ident">consumer_end</span>.<span class="ident">send</span>(<span class="ident">payload</span>).<span class="ident">unwrap</span>();
     })
   }
 }
