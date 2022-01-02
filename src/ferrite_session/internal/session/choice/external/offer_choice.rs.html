@@ -107,8 +107,8 @@
   <span class="ident">InjectSessionSum</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
   <span class="ident">unsafe_create_session</span>::<span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">Row1</span><span class="op">&gt;</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(
-    <span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, (<span class="ident">choice_receiver</span>, <span class="ident">consumer_end_sender</span>)<span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> <span class="ident">Value</span>(<span class="ident">choice</span>) <span class="op">=</span> <span class="ident">choice_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+    <span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">choice_receiver</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+      <span class="kw">let</span> (<span class="ident">Value</span>(<span class="ident">choice</span>), <span class="ident">sum_sender</span>) <span class="op">=</span> <span class="ident">choice_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
       <span class="kw">let</span> <span class="ident">cont3</span> <span class="op">=</span> <span class="ident">selector_to_inject_session</span>(<span class="ident">choice</span>);
 
@@ -116,7 +116,7 @@
 
       <span class="kw">let</span> <span class="ident">cont5</span> <span class="op">=</span> <span class="ident">wrap_sum_app</span>(<span class="ident">cont1</span>(<span class="ident">cont4</span>));
 
-      <span class="ident">run_choice_cont</span>(<span class="ident">ctx</span>, <span class="ident">consumer_end_sender</span>, <span class="ident">cont5</span>).<span class="kw">await</span>;
+      <span class="ident">run_choice_cont</span>(<span class="ident">ctx</span>, <span class="ident">sum_sender</span>, <span class="ident">cont5</span>).<span class="kw">await</span>;
     },
   )
 }
