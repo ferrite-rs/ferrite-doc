@@ -263,6 +263,10 @@
 <span id="263">263</span>
 <span id="264">264</span>
 <span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">marker::PhantomData</span>,
@@ -367,9 +371,13 @@
         <span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
       ) -&gt; <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Send</span>,
-  <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">sender</span><span class="op">|</span> {
+  <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">receiver</span><span class="op">|</span> {
     <span class="ident">Box::pin</span>(<span class="kw">async</span> {
-      <span class="ident">executor1</span>(<span class="ident">sender</span>).<span class="kw">await</span>;
+      <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
+        <span class="ident">executor1</span>(<span class="ident">receiver</span>).<span class="kw">await</span>;
+      })
+      .<span class="kw">await</span>
+      .<span class="ident">unwrap</span>();
     })
   });
 
