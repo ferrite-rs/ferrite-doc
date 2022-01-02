@@ -506,6 +506,26 @@
 <span id="506">506</span>
 <span id="507">507</span>
 <span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">marker::PhantomData</span>,
   <span class="ident">mem</span>,
@@ -874,11 +894,37 @@
   }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">C</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> (<span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">C</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> <span class="ident">Value</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">T</span>: <span class="ident">Serialize</span> <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
-  <span class="ident">C</span>: <span class="ident">ForwardChannel</span>,
+{
+  <span class="kw">fn</span> <span class="ident">forward_to</span>(
+    <span class="self">self</span>,
+    <span class="ident">sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">_receiver1</span>: <span class="ident">OpaqueReceiver</span>,
+  )
+  {
+    <span class="kw">let</span> <span class="ident">Value</span>(<span class="ident">payload</span>) <span class="op">=</span> <span class="self">self</span>;
+
+    <span class="ident">sender1</span>.<span class="ident">send</span>(<span class="ident">payload</span>);
+  }
+
+  <span class="kw">fn</span> <span class="ident">forward_from</span>(
+    <span class="ident">_sender1</span>: <span class="ident">OpaqueSender</span>,
+    <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
+  ) -&gt; <span class="self">Self</span>
+  {
+    <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
+
+    <span class="ident">Value</span>(<span class="ident">payload</span>)
+  }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">ForwardChannel</span> <span class="kw">for</span> (<span class="ident">A</span>, <span class="ident">B</span>)
+<span class="kw">where</span>
+  <span class="ident">A</span>: <span class="ident">ForwardChannel</span>,
+  <span class="ident">B</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(
     <span class="self">self</span>,
@@ -886,13 +932,8 @@
     <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   )
   {
-    <span class="kw">let</span> (<span class="ident">Value</span>(<span class="ident">payload</span>), <span class="ident">channel</span>) <span class="op">=</span> <span class="self">self</span>;
-
-    <span class="ident">task::spawn_blocking</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-      <span class="ident">sender1</span>.<span class="ident">send</span>(<span class="ident">payload</span>);
-
-      <span class="ident">channel</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>)
-    });
+    <span class="self">self</span>.<span class="number">0</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>.<span class="ident">clone</span>(), <span class="ident">receiver1</span>.<span class="ident">clone</span>());
+    <span class="self">self</span>.<span class="number">1</span>.<span class="ident">forward_to</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
   }
 
   <span class="kw">fn</span> <span class="ident">forward_from</span>(
@@ -900,11 +941,10 @@
     <span class="ident">receiver1</span>: <span class="ident">OpaqueReceiver</span>,
   ) -&gt; <span class="self">Self</span>
   {
-    <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">receiver1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">first</span> <span class="op">=</span> <span class="ident">A::forward_from</span>(<span class="ident">sender1</span>.<span class="ident">clone</span>(), <span class="ident">receiver1</span>.<span class="ident">clone</span>());
+    <span class="kw">let</span> <span class="ident">second</span> <span class="op">=</span> <span class="ident">B::forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
 
-    <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="ident">C::forward_from</span>(<span class="ident">sender1</span>, <span class="ident">receiver1</span>);
-
-    (<span class="ident">Value</span>(<span class="ident">payload</span>), <span class="ident">channel</span>)
+    (<span class="ident">first</span>, <span class="ident">second</span>)
   }
 }
 

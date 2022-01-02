@@ -42,7 +42,7 @@ None if that instant is later than this one.</p>
     <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">now</span>.<span class="ident">checked_duration_since</span>(<span class="ident">new_now</span>)); <span class="comment">// None</span>
 }</code></pre></div>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.saturating_duration_since" class="method has-srclink"><div class="rightside"><a class="srclink" href="../../src/tokio/time/instant.rs.html#117-119" title="goto source code">[src]</a></div><a href="#method.saturating_duration_since" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.saturating_duration_since" class="fnname">saturating_duration_since</a>(&amp;self, earlier: <a class="struct" href="struct.Instant.html" title="struct tokio::time::Instant">Instant</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.57.0/core/time/struct.Duration.html" title="struct core::time::Duration">Duration</a></h4></div></summary><div class="docblock"><p>Returns the amount of time elapsed from another instant to this one, or
-zero duration if that instant is earlier than this one.</p>
+zero duration if that instant is later than this one.</p>
 <h5 id="examples-2" class="section-header"><a href="#examples-2">Examples</a></h5>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">tokio::time</span>::{<span class="ident">Duration</span>, <span class="ident">Instant</span>, <span class="ident">sleep</span>};
 

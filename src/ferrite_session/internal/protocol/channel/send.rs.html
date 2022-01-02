@@ -58,19 +58,15 @@
 <span id="58">58</span>
 <span id="59">59</span>
 <span id="60">60</span>
-<span id="61">61</span>
-<span id="62">62</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
+  <span class="ident">marker::PhantomData</span>,
   <span class="ident">pin::Pin</span>,
 };
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal::base</span>::<span class="kw-2">*</span>;
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SendChannel</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-  <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
-  <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
-);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SendChannel</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">A</span>, <span class="ident">B</span>)<span class="op">&gt;</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">SendChannel</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
