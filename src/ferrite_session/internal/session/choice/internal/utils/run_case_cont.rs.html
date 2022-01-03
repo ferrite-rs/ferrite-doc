@@ -154,6 +154,11 @@
 <span id="154">154</span>
 <span id="155">155</span>
 <span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">marker::PhantomData</span>,
@@ -171,6 +176,7 @@
   <span class="ident">ctx</span>: <span class="ident">D::Endpoints</span>,
   <span class="ident">provider_end_b</span>: <span class="ident">ProviderEndpoint</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
   <span class="ident">cont1</span>: <span class="ident">AppSum</span><span class="op">&lt;</span>
+    <span class="lifetime">&#39;static</span>,
     <span class="ident">Row2</span>,
     <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ConsumerEndpointF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="op">&gt;</span>,
@@ -179,6 +185,7 @@
   <span class="ident">D</span>: <span class="ident">Context</span>,
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row2</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">ToRow</span><span class="op">&lt;</span><span class="ident">Row</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">ElimSum</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row1</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
@@ -271,6 +278,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>
   <span class="ident">ElimField</span><span class="op">&lt;</span>
+    <span class="lifetime">&#39;static</span>,
     <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ConsumerEndpointF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>,
   <span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ContRunner1</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span>
@@ -283,12 +291,14 @@
   <span class="ident">Row::Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">D</span><span class="op">&gt;</span>,
 {
-  <span class="kw">fn</span> <span class="ident">elim_field</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
+  <span class="kw">fn</span> <span class="ident">elim_field</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
     <span class="self">self</span>,
-    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ConsumerEndpointF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span>
+      <span class="lifetime">&#39;static</span>,
+      <span class="ident">Merge</span><span class="op">&lt;</span><span class="ident">ConsumerEndpointF</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+      <span class="ident">A</span>,
+    <span class="op">&gt;</span>,
   ) -&gt; <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>
-  <span class="kw">where</span>
-    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   {
     <span class="kw">let</span> (<span class="ident">consumer_end_a</span>, <span class="ident">session1</span>) <span class="op">=</span> <span class="ident">fa</span>.<span class="ident">get_applied</span>();
 

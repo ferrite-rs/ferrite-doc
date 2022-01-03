@@ -68,6 +68,11 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::convert::From</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::{
@@ -86,18 +91,20 @@
   <span class="ident">T::from</span>(<span class="ident">row</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>) -&gt; <span class="ident">Row::Applied</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>) -&gt; <span class="ident">Row::Applied</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">TyCon</span>,
-  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span><span class="op">&gt;</span>,
 {
   <span class="ident">row</span>.<span class="ident">get_sum</span>()
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sum_borrow</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Row::Applied</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sum_borrow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>(
+  <span class="ident">row</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
+) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">Row::Applied</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">TyCon</span>,
-  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span><span class="op">&gt;</span>,
 {
   <span class="ident">row</span>.<span class="ident">row</span>.<span class="ident">as_ref</span>().<span class="ident">get_sum_borrow</span>()
 }
@@ -114,27 +121,30 @@
 <span class="comment">//   . (forall x . f x -&gt; g x)</span>
 <span class="comment">//   -&gt; row f</span>
 <span class="comment">//   -&gt; row g</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lift_sum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F1</span>, <span class="ident">F2</span>, <span class="ident">Lift</span><span class="op">&gt;</span>(
-  <span class="ident">lift</span>: <span class="kw-2">&amp;</span><span class="ident">Lift</span>,
-  <span class="ident">sum</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F1</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F2</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lift_sum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>: <span class="lifetime">&#39;a</span>, <span class="ident">F1</span>: <span class="lifetime">&#39;a</span>, <span class="ident">F2</span>: <span class="lifetime">&#39;a</span>, <span class="ident">Lift</span>: <span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+  <span class="ident">lift</span>: <span class="ident">Lift</span>,
+  <span class="ident">sum</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F1</span><span class="op">&gt;</span>,
+) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F2</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F1</span>: <span class="ident">TyCon</span>,
   <span class="ident">F2</span>: <span class="ident">TyCon</span>,
   <span class="ident">Row</span>: <span class="ident">SumFunctor</span>,
-  <span class="ident">Lift</span>: <span class="ident">NaturalTransformation</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>,
+  <span class="ident">Lift</span>: <span class="ident">NaturalTransformation</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>,
 {
   <span class="ident">Row::lift_sum</span>(<span class="ident">lift</span>, <span class="ident">sum</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lift_sum_inject</span><span class="op">&lt;</span><span class="ident">Lift</span>, <span class="ident">Row</span>, <span class="ident">TargetF</span><span class="op">&gt;</span>(
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lift_sum_inject</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Lift</span>: <span class="lifetime">&#39;a</span>, <span class="ident">Row</span>: <span class="lifetime">&#39;a</span>, <span class="ident">TargetF</span>: <span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
   <span class="ident">lift</span>: <span class="ident">Lift</span>,
-  <span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">Lift::SourceF</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">Lift::InjectF</span><span class="op">&gt;</span>
+  <span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">Lift::SourceF</span><span class="op">&gt;</span>,
+) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">Lift::InjectF</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">TargetF</span>: <span class="ident">TyCon</span>,
   <span class="ident">Row</span>: <span class="ident">SumFunctorInject</span>,
-  <span class="ident">Lift</span>: <span class="ident">InjectLift</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">TargetF</span><span class="op">&gt;</span>, <span class="ident">TargetF</span> <span class="op">=</span> <span class="ident">TargetF</span><span class="op">&gt;</span>,
+  <span class="ident">Lift</span>: <span class="ident">InjectLift</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">TargetF</span><span class="op">&gt;</span>, <span class="ident">TargetF</span> <span class="op">=</span> <span class="ident">TargetF</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span>,
+  <span class="ident">Lift::SourceF</span>: <span class="lifetime">&#39;a</span>,
+  <span class="ident">Lift::InjectF</span>: <span class="lifetime">&#39;a</span>,
+  <span class="ident">Lift::TargetF</span>: <span class="lifetime">&#39;a</span>,
 {
   <span class="ident">Row::lift_sum_inject</span>(<span class="ident">lift</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>, <span class="ident">row</span>)
 }

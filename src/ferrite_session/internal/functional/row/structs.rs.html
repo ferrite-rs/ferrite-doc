@@ -60,6 +60,7 @@
 <span id="60">60</span>
 <span id="61">61</span>
 <span id="62">62</span>
+<span id="63">63</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
 <span class="kw">use</span> <span class="ident">serde</span>::{
@@ -80,9 +81,9 @@
   <span class="ident">Inr</span>(<span class="ident">B</span>),
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
 {
-  <span class="kw">pub</span> <span class="ident">row</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">HasSumApp</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="kw">pub</span> <span class="ident">row</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">HasSumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChoiceSelector</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
@@ -94,10 +95,10 @@
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ElimConst</span> {}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">TyCon</span>,
-  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span><span class="op">&gt;</span>,
 {
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sum</span>(<span class="self">self</span>) -&gt; <span class="ident">Row::Applied</span>
   {
@@ -115,10 +116,11 @@
   }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wrap_sum_app</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="ident">Row::Applied</span>) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wrap_sum_app</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="ident">Row::Applied</span>) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">TyCon</span>,
-  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
+  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span><span class="op">&gt;</span>,
+  <span class="ident">Row::Applied</span>: <span class="ident">Send</span>,
 {
   <span class="ident">AppSum</span> { <span class="ident">row</span>: <span class="ident">Box::new</span>(<span class="ident">row</span>) }
 }

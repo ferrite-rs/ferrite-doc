@@ -33,41 +33,43 @@
 <span id="33">33</span>
 <span id="34">34</span>
 <span id="35">35</span>
-</pre><pre class="rust"><code><span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span id="36">36</span>
+</pre><pre class="rust"><code><span class="comment">// #[macro_export]</span>
 
-<span class="macro">macro_rules!</span> <span class="ident">natural_transformation</span> {
-  ( { $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_type</span>:<span class="ident">ty</span> ),<span class="op">*</span> $(,)<span class="question-mark">?</span> } ;
-    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> : <span class="ident">forall</span> <span class="ident">x</span> . <span class="macro-nonterminal">$</span><span class="macro-nonterminal">f1</span>:<span class="ident">ty</span> [@<span class="ident">x</span>] -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">f2</span>:<span class="ident">ty</span> [@<span class="ident">x</span>] ;
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>:<span class="ident">ident</span>) =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">expr</span>
-  ) =&gt; {
-    {
-      <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-        $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span> : <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_type</span> ),<span class="op">*</span>
-        <span class="ident">_phantom</span> : <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> ()
-      }
+<span class="comment">// macro_rules! natural_transformation {</span>
+<span class="comment">//   ( { $( $field:ident : $field_type:ty ),* $(,)? } ;</span>
+<span class="comment">//     $name:ident : forall x . $f1:ty [@x] -&gt; $f2:ty [@x] ;</span>
+<span class="comment">//     ($arg:ident) =&gt; $body:expr</span>
+<span class="comment">//   ) =&gt; {</span>
+<span class="comment">//     {</span>
+<span class="comment">//       struct $name &lt;&#39;a&gt; {</span>
+<span class="comment">//         $( $field : &amp;&#39;a $field_type ),*</span>
+<span class="comment">//         _phantom : &amp;&#39;a ()</span>
+<span class="comment">//       }</span>
 
-      <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::internal::functional::NaturalTransformation</span>
-        <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">f1</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">f2</span> <span class="op">&gt;</span>
-      <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>
-      {
-        <span class="kw">fn</span> <span class="ident">lift</span> <span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>
-          ( <span class="kw-2">&amp;</span><span class="self">self</span>,
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>: <span class="ident">App</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">f1</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-          )
-          -&gt; <span class="ident">App</span> <span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">f2</span>, <span class="ident">A</span> <span class="op">&gt;</span>
-        <span class="kw">where</span>
-          <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
-        {
-          <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>
-        }
-      }
-      <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>{
-        $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span> : <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span> ),<span class="op">*</span>
-        <span class="ident">_phantom</span>: <span class="kw-2">&amp;</span>()
-      }
-    }
-  }
-}
+<span class="comment">//       impl &lt;&#39;a&gt; $crate::internal::functional::NaturalTransformation</span>
+<span class="comment">//         &lt; $f1, $f2 &gt;</span>
+<span class="comment">//       for $name&lt;&#39;a&gt;</span>
+<span class="comment">//       {</span>
+<span class="comment">//         fn lift &lt; A &gt;</span>
+<span class="comment">//           ( self,</span>
+<span class="comment">//             $arg: App &lt; $f1, A &gt;</span>
+<span class="comment">//           )</span>
+<span class="comment">//           -&gt; App &lt; $f2, A &gt;</span>
+<span class="comment">//         where</span>
+<span class="comment">//           A: Send + &#39;static</span>
+<span class="comment">//         {</span>
+<span class="comment">//           $body</span>
+<span class="comment">//         }</span>
+<span class="comment">//       }</span>
+
+<span class="comment">//       $name{</span>
+<span class="comment">//         $( $field : &amp;$field ),*</span>
+<span class="comment">//         _phantom: &amp;()</span>
+<span class="comment">//       }</span>
+<span class="comment">//     }</span>
+<span class="comment">//   }</span>
+<span class="comment">// }</span>
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="ferrite_session" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>
     <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script>

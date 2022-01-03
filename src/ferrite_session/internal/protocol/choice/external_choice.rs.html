@@ -62,10 +62,6 @@
 <span id="62">62</span>
 <span id="63">63</span>
 <span id="64">64</span>
-<span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">marker::PhantomData</span>,
@@ -84,14 +80,10 @@
   <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row</span>: <span class="ident">ToRow</span>,
 {
-  <span class="kw">type</span> <span class="ident">ConsumerEndpoint</span> <span class="op">=</span> <span class="ident">SenderOnce</span><span class="op">&lt;</span>(
-    <span class="ident">Value</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row::Row</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row::Row</span>, <span class="ident">ConsumerEndpointF</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-  )<span class="op">&gt;</span>;
-  <span class="kw">type</span> <span class="ident">ProviderEndpoint</span> <span class="op">=</span> <span class="ident">ReceiverOnce</span><span class="op">&lt;</span>(
-    <span class="ident">Value</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row::Row</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row::Row</span>, <span class="ident">ConsumerEndpointF</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-  )<span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">ConsumerEndpoint</span> <span class="op">=</span>
+    <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row::Row</span>, <span class="ident">ProviderEndpointF</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">ProviderEndpoint</span> <span class="op">=</span>
+    <span class="ident">ReceiverOnce</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row::Row</span>, <span class="ident">ProviderEndpointF</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
   <span class="kw">fn</span> <span class="ident">create_endpoints</span>() -&gt; (<span class="ident"><span class="self">Self</span>::ProviderEndpoint</span>, <span class="ident"><span class="self">Self</span>::ConsumerEndpoint</span>)
   {

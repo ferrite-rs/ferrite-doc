@@ -80,6 +80,9 @@
 <span id="80">80</span>
 <span id="81">81</span>
 <span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{
   <span class="ident">inject_session</span>::<span class="kw-2">*</span>,
   <span class="ident">internal_session</span>::<span class="kw-2">*</span>,
@@ -119,6 +122,7 @@
   <span class="ident">C</span>: <span class="ident">Context</span>,
   <span class="ident">D</span>: <span class="ident">Context</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row2</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">ToRow</span><span class="op">&lt;</span><span class="ident">Row</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">RowCon</span>,
   <span class="ident">Row2</span>: <span class="ident">ElimSum</span>,
@@ -126,8 +130,10 @@
   <span class="ident">Row2</span>: <span class="ident">SumFunctor</span>,
   <span class="ident">Row2</span>: <span class="ident">IntersectSum</span>,
   <span class="ident">Row2</span>: <span class="ident">SumFunctorInject</span>,
-  <span class="ident">Row2</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SessionSum</span><span class="op">&gt;</span>,
+  <span class="ident">Row2</span>:
+    <span class="ident">SumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">SessionSum</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">FlattenSumApp</span><span class="op">&lt;</span>
+    <span class="lifetime">&#39;static</span>,
     <span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span>,
     <span class="ident">FlattenApplied</span> <span class="op">=</span> <span class="ident">InjectSessionSum</span>,
   <span class="op">&gt;</span>,

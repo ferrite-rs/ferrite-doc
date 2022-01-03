@@ -46,6 +46,8 @@
 <span id="46">46</span>
 <span id="47">47</span>
 <span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::structs</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
   <span class="ident">base</span>::<span class="kw-2">*</span>,
@@ -65,6 +67,7 @@
     <span class="ident">Del</span>: <span class="ident">Context</span>,
     <span class="ident">Row</span>: <span class="ident">ToRow</span>,
     <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">Row::Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">Row::Row</span>: <span class="ident">RowCon</span>,
     <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span><span class="op">&gt;</span>;
 }
@@ -82,6 +85,7 @@
     <span class="ident">Del</span>: <span class="ident">Context</span>,
     <span class="ident">Row</span>: <span class="ident">ToRow</span>,
     <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">Row::Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">Row::Row</span>: <span class="ident">RowCon</span>,
     <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span><span class="op">&gt;</span>;
 }

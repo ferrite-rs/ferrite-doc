@@ -43,13 +43,6 @@
 <span id="43">43</span>
 <span id="44">44</span>
 <span id="45">45</span>
-<span id="46">46</span>
-<span id="47">47</span>
-<span id="48">48</span>
-<span id="49">49</span>
-<span id="50">50</span>
-<span id="51">51</span>
-<span id="52">52</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::type_app</span>::<span class="kw-2">*</span>;
 
 <span class="comment">// An implementation of Functor, Applicative, and Monad</span>
@@ -57,50 +50,43 @@
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Functor</span>: <span class="ident">TyCon</span>
 {
-  <span class="kw">fn</span> <span class="ident">fmap</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="kw">fn</span> <span class="ident">fmap</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
+    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">A</span><span class="op">&gt;</span>,
     <span class="ident">mapper</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="ident">A</span>) -&gt; <span class="ident">B</span>,
-  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">B</span><span class="op">&gt;</span>
+  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">B</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">B</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
+    <span class="ident">A</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Send</span>,
+    <span class="ident">B</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Send</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Applicative</span>: <span class="ident">Functor</span>
 {
-  <span class="kw">fn</span> <span class="ident">apply</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Func</span><span class="op">&gt;</span>(
-    <span class="ident">fab</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Func</span><span class="op">&gt;</span>,
-    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">B</span><span class="op">&gt;</span>
+  <span class="kw">fn</span> <span class="ident">apply</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">Func</span><span class="op">&gt;</span>(
+    <span class="ident">fab</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">Func</span><span class="op">&gt;</span>,
+    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">B</span><span class="op">&gt;</span>
   <span class="kw">where</span>
-    <span class="ident">Func</span>: <span class="ident">Fn</span>(<span class="ident">A</span>) -&gt; <span class="ident">B</span>,
-    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">B</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
+    <span class="ident">Func</span>: <span class="ident">Fn</span>(<span class="ident">A</span>) -&gt; <span class="ident">B</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Monad</span>: <span class="ident">Applicative</span>
 {
-  <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-    <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="ident">A</span>) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">B</span><span class="op">&gt;</span>,
-  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">B</span><span class="op">&gt;</span>
-  <span class="kw">where</span>
-    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">B</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
+  <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(
+    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+    <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="ident">A</span>) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">B</span><span class="op">&gt;</span>,
+  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">B</span><span class="op">&gt;</span>;
 }
 
 <span class="comment">// NaturalTransformation f1 f2 = forall x. f1 x -&gt; f2 x</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">NaturalTransformation</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">NaturalTransformation</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F1</span>: <span class="ident">TyCon</span>,
   <span class="ident">F2</span>: <span class="ident">TyCon</span>,
 {
-  <span class="kw">fn</span> <span class="ident">lift</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
-    <span class="kw-2">&amp;</span><span class="self">self</span>,
-    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="ident">F1</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="ident">F2</span>, <span class="ident">A</span><span class="op">&gt;</span>
-  <span class="kw">where</span>
-    <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>;
+  <span class="kw">fn</span> <span class="ident">lift</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+    <span class="self">self</span>,
+    <span class="ident">fa</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F1</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F2</span>, <span class="ident">A</span><span class="op">&gt;</span>;
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="ferrite_session" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>

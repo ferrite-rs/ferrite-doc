@@ -106,6 +106,9 @@
 <span id="106">106</span>
 <span id="107">107</span>
 <span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::<span class="kw">super</span></span>::{
@@ -119,14 +122,15 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lift_unit_to_session</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span>(
-  <span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row2</span>, ()<span class="op">&gt;</span>
-) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row2</span>, <span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>
+  <span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row2</span>, ()<span class="op">&gt;</span>
+) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row2</span>, <span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
   <span class="ident">C</span>: <span class="ident">Context</span>,
   <span class="ident">D</span>: <span class="ident">Context</span>,
   <span class="ident">N</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">Row2</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="ident">Row1</span>: <span class="ident">ToRow</span><span class="op">&lt;</span><span class="ident">Row</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">RowCon</span>,
   <span class="ident">Row2</span>: <span class="ident">SumFunctorInject</span>,
@@ -137,7 +141,7 @@
 <span class="kw">struct</span> <span class="ident">LiftUnitToSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">A</span>, <span class="ident">Row</span><span class="op">&gt;</span>(<span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">A</span>, <span class="ident">Row</span>)<span class="op">&gt;</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span>
-  <span class="ident">InjectLift</span><span class="op">&lt;</span><span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row2</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>
+  <span class="ident">InjectLift</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row2</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">for</span> <span class="ident">LiftUnitToSession</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row1</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
@@ -155,12 +159,12 @@
   <span class="kw">fn</span> <span class="ident">lift_field</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
     <span class="self">self</span>,
     <span class="ident">inject1</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(
-        <span class="ident">App</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::TargetF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-      ) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row2</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident"><span class="self">Self</span>::TargetF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+      ) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row2</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Send</span>
       <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">_row</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::SourceF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::InjectF</span>, <span class="ident">A</span><span class="op">&gt;</span>
+    <span class="ident">_row</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident"><span class="self">Self</span>::SourceF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident"><span class="self">Self</span>::InjectF</span>, <span class="ident">A</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   {
@@ -182,8 +186,9 @@
 {
   <span class="ident">injector</span>: <span class="ident">Box</span><span class="op">&lt;</span>
     <span class="kw">dyn</span> <span class="ident">FnOnce</span>(
-        <span class="ident">App</span><span class="op">&lt;</span><span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>,
-      ) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row::Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+      )
+        -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row::Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Send</span>
       <span class="op">+</span> <span class="lifetime">&#39;static</span>,
   <span class="op">&gt;</span>,
@@ -197,7 +202,7 @@
   <span class="kw">fn</span> <span class="ident">inject_session</span>(
     <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
     <span class="ident">session1</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">N::Target</span>, <span class="ident">B</span><span class="op">&gt;</span>,
-  ) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="ident">Row::Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
+  ) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row::Row</span>, <span class="ident">InternalSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span>, <span class="ident">Del</span><span class="op">&gt;</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">A</span>: <span class="ident">Protocol</span>,
     <span class="ident">B</span>: <span class="ident">Protocol</span>,
@@ -205,6 +210,7 @@
     <span class="ident">Del</span>: <span class="ident">Context</span>,
     <span class="ident">Row</span>: <span class="ident">ToRow</span>,
     <span class="ident">Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">Row::Row</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     <span class="ident">Row::Row</span>: <span class="ident">RowCon</span>,
     <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row</span><span class="op">&gt;</span>, <span class="ident">A</span>, <span class="ident">Deleted</span> <span class="op">=</span> <span class="ident">Del</span><span class="op">&gt;</span>,
   {
