@@ -34,6 +34,7 @@
 <span id="34">34</span>
 <span id="35">35</span>
 <span id="36">36</span>
+<span id="37">37</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::traits</span>::<span class="kw-2">*</span>;
@@ -65,6 +66,7 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wrap_type_app</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">applied</span>: <span class="ident">F::Applied</span>) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">TypeApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">F::Applied</span>: <span class="lifetime">&#39;a</span>,
 {
   <span class="ident">App</span> {
     <span class="ident">applied</span>: <span class="ident">Box::new</span>(<span class="ident">applied</span>),

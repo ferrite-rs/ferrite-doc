@@ -73,7 +73,9 @@
 <span id="73">73</span>
 <span id="74">74</span>
 <span id="75">75</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::convert::From</span>;
+<span id="76">76</span>
+<span id="77">77</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core::convert::Into</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::{
   <span class="ident">structs</span>::<span class="kw-2">*</span>,
@@ -84,11 +86,13 @@
   <span class="ident">type_app</span>::<span class="kw-2">*</span>,
 };
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extract</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="ident">R</span>) -&gt; <span class="ident">T</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extract</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span>, <span class="ident">T1</span>, <span class="ident">T2</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>) -&gt; <span class="ident">T2</span>
 <span class="kw">where</span>
-  <span class="ident">T</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
+  <span class="ident">F</span>: <span class="ident">TyCon</span>,
+  <span class="ident">Row</span>: <span class="ident">FlattenSumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span>, <span class="ident">FlattenApplied</span> <span class="op">=</span> <span class="ident">T1</span><span class="op">&gt;</span>,
+  <span class="ident">T1</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">T2</span><span class="op">&gt;</span>,
 {
-  <span class="ident">T::from</span>(<span class="ident">row</span>)
+  <span class="ident">Row::flatten_sum</span>(<span class="ident">row</span>).<span class="ident">into</span>()
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>) -&gt; <span class="ident">Row::Applied</span>

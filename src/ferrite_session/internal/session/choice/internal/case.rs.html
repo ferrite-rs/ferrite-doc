@@ -83,6 +83,9 @@
 <span id="83">83</span>
 <span id="84">84</span>
 <span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{
   <span class="ident">inject_session</span>::<span class="kw-2">*</span>,
   <span class="ident">internal_session</span>::<span class="kw-2">*</span>,
@@ -100,6 +103,7 @@
   <span class="ident">functional</span>::{
     <span class="ident">wrap_sum_app</span>,
     <span class="ident">wrap_type_app</span>,
+    <span class="ident">AppSum</span>,
     <span class="ident">ElimSum</span>,
     <span class="ident">FlattenSumApp</span>,
     <span class="ident">IntersectSum</span>,
@@ -115,7 +119,11 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">case</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">D</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span>, <span class="ident">SessionSum</span>, <span class="ident">InjectSessionSum</span><span class="op">&gt;</span>(
   <span class="kw">_</span>: <span class="ident">N</span>,
-  <span class="ident">cont1</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">InjectSessionSum</span>) -&gt; <span class="ident">SessionSum</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+  <span class="ident">cont1</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(
+      <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row2</span>, <span class="ident">InjectSessionF</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row1</span>, <span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="ident">SessionSum</span>
+    <span class="op">+</span> <span class="ident">Send</span>
+    <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 ) -&gt; <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">B</span>: <span class="ident">Protocol</span>,
@@ -152,9 +160,7 @@
 
     <span class="kw">let</span> <span class="ident">cont3</span> <span class="op">=</span> <span class="ident">lift_unit_to_session</span>(<span class="ident">selector_sum</span>);
 
-    <span class="kw">let</span> <span class="ident">cont3a</span> <span class="op">=</span> <span class="ident">Row2::flatten_sum</span>(<span class="ident">cont3</span>);
-
-    <span class="kw">let</span> <span class="ident">cont4</span> <span class="op">=</span> <span class="ident">wrap_sum_app</span>(<span class="ident">cont1</span>(<span class="ident">cont3a</span>));
+    <span class="kw">let</span> <span class="ident">cont4</span> <span class="op">=</span> <span class="ident">wrap_sum_app</span>(<span class="ident">cont1</span>(<span class="ident">cont3</span>));
 
     <span class="kw">let</span> <span class="ident">cont5</span> <span class="op">=</span> <span class="ident">Row2::intersect_sum</span>(<span class="ident">receiver_sum2</span>, <span class="ident">cont4</span>);
 
