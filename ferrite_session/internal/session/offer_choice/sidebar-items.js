@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["offer_choice",""]],"struct":[["ChoiceCont",""],["ChoiceRet",""],["ContF",""]],"trait":[["Invariant",""]]});
