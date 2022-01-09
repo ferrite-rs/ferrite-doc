@@ -166,38 +166,6 @@
 <span id="166">166</span>
 <span id="167">167</span>
 <span id="168">168</span>
-<span id="169">169</span>
-<span id="170">170</span>
-<span id="171">171</span>
-<span id="172">172</span>
-<span id="173">173</span>
-<span id="174">174</span>
-<span id="175">175</span>
-<span id="176">176</span>
-<span id="177">177</span>
-<span id="178">178</span>
-<span id="179">179</span>
-<span id="180">180</span>
-<span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">marker::PhantomData</span>,
@@ -247,21 +215,6 @@
   <span class="ident">Row1</span>: <span class="ident">ToRow</span><span class="op">&lt;</span><span class="ident">Row</span> <span class="op">=</span> <span class="ident">Row2</span><span class="op">&gt;</span>,
   <span class="ident">N</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">Row1</span><span class="op">&gt;</span>, <span class="ident">Empty</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
   <span class="ident">Row2</span>: <span class="ident">SumFunctor</span>,
-  <span class="comment">// Row2: RowCon,</span>
-  <span class="comment">// Row2: ElimSum,</span>
-  <span class="comment">// Row2: SplitRow,</span>
-  <span class="comment">// Row2: IntersectSum,</span>
-  <span class="comment">// Row2: SumFunctorInject,</span>
-  <span class="comment">// Row2:</span>
-  <span class="comment">//   SumApp&lt;&#39;static, InternalSessionF&lt;N, C, B, Row1, D&gt;, Applied = SessionSum&gt;,</span>
-  <span class="comment">// Row2: FlattenSumApp&lt;</span>
-  <span class="comment">//   &#39;static,</span>
-  <span class="comment">//   InjectSessionF&lt;N, C, B, Row1, D&gt;,</span>
-  <span class="comment">//   FlattenApplied = InjectSessionSum,</span>
-  <span class="comment">// &gt;,</span>
-  <span class="comment">// N: ContextLens&lt;C, InternalChoice&lt;Row1&gt;, Empty, Deleted = D&gt;,</span>
-  <span class="comment">// SessionSum: Send + &#39;static,</span>
-  <span class="comment">// InjectSessionSum: Send + &#39;static,</span>
 {
   <span class="ident">unsafe_create_session</span>::<span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">B</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">provider_end</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">endpoint</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx1</span>);
@@ -280,23 +233,6 @@
 
     <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">cont1</span>(<span class="ident">cont_sum</span>);
     <span class="ident">res</span>.<span class="ident">future</span>.<span class="kw">await</span>;
-
-    <span class="comment">// let (receiver_sum2, selector_sum) = receiver_to_selector(consumer_end_sum);</span>
-
-    <span class="comment">// let cont3 = lift_unit_to_session(selector_sum);</span>
-
-    <span class="comment">// let cont4 = wrap_sum_app(cont1(cont3));</span>
-
-    <span class="comment">// let cont5 = Row2::intersect_sum(receiver_sum2, cont4);</span>
-
-    <span class="comment">// match cont5 {</span>
-    <span class="comment">//   Some(cont6) =&gt; {</span>
-    <span class="comment">//     run_case_cont(ctx2, wrap_type_app(provider_end_b), cont6).await;</span>
-    <span class="comment">//   }</span>
-    <span class="comment">//   None =&gt; {</span>
-    <span class="comment">//     panic!(&quot;impossible happened: received mismatch choice continuation&quot;);</span>
-    <span class="comment">//   }</span>
-    <span class="comment">// }</span>
   })
 }
 

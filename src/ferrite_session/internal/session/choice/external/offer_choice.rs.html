@@ -137,11 +137,18 @@
 <span id="137">137</span>
 <span id="138">138</span>
 <span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">marker::PhantomData</span>,
   <span class="ident">pin::Pin</span>,
 };
+
+<span class="kw">use</span> <span class="ident">tokio::task</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
   <span class="ident">base</span>::{
@@ -190,7 +197,10 @@
         <span class="ident">provider_end_sum_to_cont_sum</span>::<span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">Row1</span>, <span class="ident">Row2</span><span class="op">&gt;</span>(<span class="ident">ctx</span>, <span class="ident">provider_end_sum</span>);
 
       <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">cont1</span>(<span class="ident">cont_sum_1</span>);
-      <span class="ident">res</span>.<span class="ident">future</span>.<span class="kw">await</span>;
+
+      <span class="ident">task::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
+        <span class="ident">res</span>.<span class="ident">future</span>.<span class="kw">await</span>;
+      });
     },
   )
 }
