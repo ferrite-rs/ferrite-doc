@@ -177,7 +177,7 @@
   <span class="ident">base</span>::{
     <span class="ident">unsafe_create_session</span>,
     <span class="ident">unsafe_run_session</span>,
-    <span class="ident">ConsumerEndpointF</span>,
+    <span class="ident">ClientEndpointF</span>,
     <span class="ident">Context</span>,
     <span class="ident">ContextLens</span>,
     <span class="ident">Empty</span>,
@@ -222,14 +222,14 @@
 
     <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>((), <span class="ident">ctx2</span>);
 
-    <span class="kw">let</span> <span class="ident">consumer_end_sum_receiver</span> <span class="op">=</span> <span class="ident">endpoint</span>.<span class="ident">get_applied</span>();
+    <span class="kw">let</span> <span class="ident">client_end_sum_receiver</span> <span class="op">=</span> <span class="ident">endpoint</span>.<span class="ident">get_applied</span>();
 
-    <span class="kw">let</span> <span class="ident">consumer_end_sum</span> <span class="op">=</span> <span class="ident">consumer_end_sum_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">client_end_sum</span> <span class="op">=</span> <span class="ident">client_end_sum_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> <span class="ident">cont_sum</span> <span class="op">=</span> <span class="ident">consumer_end_sum_to_cont_sum</span>::<span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C2</span>, <span class="ident">B</span>, <span class="ident">Row2</span><span class="op">&gt;</span>(
+    <span class="kw">let</span> <span class="ident">cont_sum</span> <span class="op">=</span> <span class="ident">client_end_sum_to_cont_sum</span>::<span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C2</span>, <span class="ident">B</span>, <span class="ident">Row2</span><span class="op">&gt;</span>(
       <span class="ident">ctx3</span>,
       <span class="ident">wrap_type_app</span>(<span class="ident">provider_end</span>),
-      <span class="ident">consumer_end_sum</span>,
+      <span class="ident">client_end_sum</span>,
     );
 
     <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">cont1</span>(<span class="ident">cont_sum</span>);
@@ -247,7 +247,7 @@
 {
   <span class="ident">ctx</span>: <span class="ident">C::Endpoints</span>,
   <span class="ident">provider_end</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">ProviderEndpointF</span>, <span class="ident">B</span><span class="op">&gt;</span>,
-  <span class="ident">consumer_end</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ConsumerEndpointF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+  <span class="ident">client_end</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ClientEndpointF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
   <span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Invariant</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">N</span>, <span class="ident">C</span>)<span class="op">&gt;</span>,
 }
 
@@ -285,9 +285,9 @@
     <span class="ident">ChoiceRet</span> {
       <span class="ident">future</span>: <span class="ident">Box::pin</span>(<span class="kw">async</span> <span class="kw">move</span> {
         <span class="kw">let</span> ((), <span class="ident">ctx1</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="self">self</span>.<span class="ident">ctx</span>);
-        <span class="kw">let</span> <span class="ident">consumer_end</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">consumer_end</span>.<span class="ident">get_applied</span>();
+        <span class="kw">let</span> <span class="ident">client_end</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">client_end</span>.<span class="ident">get_applied</span>();
 
-        <span class="kw">let</span> <span class="ident">ctx2</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">consumer_end</span>), <span class="ident">ctx1</span>);
+        <span class="kw">let</span> <span class="ident">ctx2</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">client_end</span>), <span class="ident">ctx1</span>);
         <span class="ident">unsafe_run_session</span>(<span class="ident">session</span>, <span class="ident">ctx2</span>, <span class="self">self</span>.<span class="ident">provider_end</span>.<span class="ident">get_applied</span>())
           .<span class="kw">await</span>;
       }),
@@ -296,10 +296,10 @@
   }
 }
 
-<span class="kw">fn</span> <span class="ident">consumer_end_sum_to_cont_sum</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span>(
+<span class="kw">fn</span> <span class="ident">client_end_sum_to_cont_sum</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span>, <span class="ident">Row</span><span class="op">&gt;</span>(
   <span class="ident">ctx</span>: <span class="ident">C::Endpoints</span>,
   <span class="ident">provider_end</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">ProviderEndpointF</span>, <span class="ident">B</span><span class="op">&gt;</span>,
-  <span class="ident">consumer_end_sum</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row</span>, <span class="ident">ConsumerEndpointF</span><span class="op">&gt;</span>,
+  <span class="ident">client_end_sum</span>: <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row</span>, <span class="ident">ClientEndpointF</span><span class="op">&gt;</span>,
 ) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">Row</span>, <span class="ident">ContF</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">C</span>: <span class="ident">Context</span>,
@@ -313,7 +313,7 @@
   }
 
   <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
-    <span class="ident">NaturalTransformation</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ConsumerEndpointF</span>, <span class="ident">ContF</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="ident">NaturalTransformation</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ClientEndpointF</span>, <span class="ident">ContF</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">for</span> <span class="ident">Trans</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>
   <span class="kw">where</span>
     <span class="ident">C</span>: <span class="ident">Context</span>,
@@ -321,19 +321,19 @@
   {
     <span class="kw">fn</span> <span class="ident">lift</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="lifetime">&#39;r</span><span class="op">&gt;</span>(
       <span class="self">self</span>,
-      <span class="ident">consumer_end</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ConsumerEndpointF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
+      <span class="ident">client_end</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ClientEndpointF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
     ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ContF</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>
     {
       <span class="ident">wrap_type_app</span>(<span class="ident">ChoiceCont</span> {
         <span class="ident">ctx</span>: <span class="self">self</span>.<span class="ident">ctx</span>,
         <span class="ident">provider_end</span>: <span class="self">self</span>.<span class="ident">provider_end</span>,
-        <span class="ident">consumer_end</span>,
+        <span class="ident">client_end</span>,
         <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
       })
     }
   }
 
-  <span class="ident">Row::lift_sum</span>(<span class="ident">Trans</span> { <span class="ident">ctx</span>, <span class="ident">provider_end</span> }, <span class="ident">consumer_end_sum</span>)
+  <span class="ident">Row::lift_sum</span>(<span class="ident">Trans</span> { <span class="ident">ctx</span>, <span class="ident">provider_end</span> }, <span class="ident">client_end_sum</span>)
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="ferrite_session" data-search-index-js="../../../../../../search-index.js" data-search-js="../../../../../../search.js"></div>

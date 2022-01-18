@@ -108,11 +108,11 @@
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">provider_end_a</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
     <span class="kw">let</span> (<span class="ident">endpoint</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx1</span>);
 
-    <span class="kw">let</span> (<span class="ident">provider_end_b</span>, <span class="ident">consumer_end_b</span>) <span class="op">=</span> <span class="ident">B::create_endpoints</span>();
+    <span class="kw">let</span> (<span class="ident">provider_end_b</span>, <span class="ident">client_end_b</span>) <span class="op">=</span> <span class="ident">B::create_endpoints</span>();
 
     <span class="kw">let</span> <span class="ident">sender1</span> <span class="op">=</span> <span class="ident">endpoint</span>.<span class="ident">get_applied</span>();
 
-    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">consumer_end_b</span>), <span class="ident">ctx2</span>);
+    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">client_end_b</span>), <span class="ident">ctx2</span>);
 
     <span class="ident">sender1</span>.<span class="ident">send</span>((<span class="ident">Value</span>(<span class="ident">val</span>), <span class="ident">provider_end_b</span>)).<span class="ident">unwrap</span>();
 

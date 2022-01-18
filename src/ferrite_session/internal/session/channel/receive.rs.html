@@ -105,9 +105,9 @@
 
   <span class="ident">unsafe_create_session</span>::<span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">ReceiveChannel</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(
     <span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, (<span class="ident">chan_receiver</span>, <span class="ident">provider_end</span>)<span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> <span class="ident">consumer_end</span> <span class="op">=</span> <span class="ident">chan_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+      <span class="kw">let</span> <span class="ident">client_end</span> <span class="op">=</span> <span class="ident">chan_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-      <span class="kw">let</span> <span class="ident">ctx2</span> <span class="op">=</span> <span class="ident">C1::append_context</span>(<span class="ident">ctx1</span>, (<span class="ident">wrap_type_app</span>(<span class="ident">consumer_end</span>), ()));
+      <span class="kw">let</span> <span class="ident">ctx2</span> <span class="op">=</span> <span class="ident">C1::append_context</span>(<span class="ident">ctx1</span>, (<span class="ident">wrap_type_app</span>(<span class="ident">client_end</span>), ()));
 
       <span class="ident">unsafe_run_session</span>(<span class="ident">cont2</span>, <span class="ident">ctx2</span>, <span class="ident">provider_end</span>).<span class="kw">await</span>;
     },
@@ -130,17 +130,17 @@
   <span class="ident">M</span>: <span class="ident">ContextLens</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">A1</span>, <span class="ident">Empty</span>, <span class="ident">Target</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">provider_end_b</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-    <span class="kw">let</span> (<span class="ident">consumer_end_1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">M::extract_source</span>(<span class="ident">ctx1</span>);
+    <span class="kw">let</span> (<span class="ident">client_end_1</span>, <span class="ident">ctx2</span>) <span class="op">=</span> <span class="ident">M::extract_source</span>(<span class="ident">ctx1</span>);
 
     <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">M::insert_target</span>((), <span class="ident">ctx2</span>);
 
     <span class="kw">let</span> (<span class="ident">endpoint</span>, <span class="ident">ctx4</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="ident">ctx3</span>);
 
-    <span class="kw">let</span> (<span class="ident">chan_sender</span>, <span class="ident">consumer_end_2</span>) <span class="op">=</span> <span class="ident">endpoint</span>.<span class="ident">get_applied</span>();
+    <span class="kw">let</span> (<span class="ident">chan_sender</span>, <span class="ident">client_end_2</span>) <span class="op">=</span> <span class="ident">endpoint</span>.<span class="ident">get_applied</span>();
 
-    <span class="ident">chan_sender</span>.<span class="ident">send</span>(<span class="ident">consumer_end_1</span>.<span class="ident">get_applied</span>()).<span class="ident">unwrap</span>();
+    <span class="ident">chan_sender</span>.<span class="ident">send</span>(<span class="ident">client_end_1</span>.<span class="ident">get_applied</span>()).<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> <span class="ident">ctx5</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">consumer_end_2</span>), <span class="ident">ctx4</span>);
+    <span class="kw">let</span> <span class="ident">ctx5</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">client_end_2</span>), <span class="ident">ctx4</span>);
 
     <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, <span class="ident">ctx5</span>, <span class="ident">provider_end_b</span>).<span class="kw">await</span>;
   })

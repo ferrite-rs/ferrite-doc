@@ -83,8 +83,8 @@
 {
   <span class="ident">unsafe_create_session</span>::<span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(
     <span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">sender1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-      <span class="kw">let</span> (<span class="ident">provider_end</span>, <span class="ident">consumer_end</span>) <span class="op">=</span> <span class="ident">A::create_endpoints</span>();
-      <span class="ident">sender1</span>.<span class="ident">send</span>((<span class="ident">Value</span>(<span class="ident">val</span>), <span class="ident">consumer_end</span>)).<span class="ident">unwrap</span>();
+      <span class="kw">let</span> (<span class="ident">provider_end</span>, <span class="ident">client_end</span>) <span class="op">=</span> <span class="ident">A::create_endpoints</span>();
+      <span class="ident">sender1</span>.<span class="ident">send</span>((<span class="ident">Value</span>(<span class="ident">val</span>), <span class="ident">client_end</span>)).<span class="ident">unwrap</span>();
 
       <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, <span class="ident">ctx</span>, <span class="ident">provider_end</span>).<span class="kw">await</span>;
     },
@@ -108,9 +108,9 @@
 
     <span class="kw">let</span> <span class="ident">receiver</span> <span class="op">=</span> <span class="ident">endpoint</span>.<span class="ident">get_applied</span>();
 
-    <span class="kw">let</span> (<span class="ident">Value</span>(<span class="ident">val</span>), <span class="ident">consumer_end</span>) <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
+    <span class="kw">let</span> (<span class="ident">Value</span>(<span class="ident">val</span>), <span class="ident">client_end</span>) <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">consumer_end</span>), <span class="ident">ctx2</span>);
+    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">client_end</span>), <span class="ident">ctx2</span>);
 
     <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">cont</span>(<span class="ident">val</span>);
 

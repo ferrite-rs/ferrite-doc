@@ -71,8 +71,6 @@
 <span id="70">70</span>
 <span id="71">71</span>
 <span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">channel</span>;
 <span class="kw">mod</span> <span class="ident">context</span>;
 <span class="kw">mod</span> <span class="ident">protocol</span>;
@@ -95,10 +93,8 @@
     <span class="ident">OpaqueReceiver</span>,
     <span class="ident">OpaqueSender</span>,
     <span class="ident">Receiver</span>,
-    <span class="ident">ReceiverF</span>,
     <span class="ident">ReceiverOnce</span>,
     <span class="ident">Sender</span>,
-    <span class="ident">SenderF</span>,
     <span class="ident">SenderOnce</span>,
     <span class="ident">Value</span>,
   },
@@ -111,12 +107,11 @@
     <span class="ident">Slot</span>,
   },
   <span class="ident">protocol</span>::{
-    <span class="ident">ConsumerEndpoint</span>,
-    <span class="ident">ConsumerEndpointF</span>,
+    <span class="ident">ClientEndpoint</span>,
+    <span class="ident">ClientEndpointF</span>,
     <span class="ident">Protocol</span>,
     <span class="ident">ProviderEndpoint</span>,
     <span class="ident">ProviderEndpointF</span>,
-    <span class="ident">RecEndpoint</span>,
     <span class="ident">SharedProtocol</span>,
   },
   <span class="ident">rec</span>::{
@@ -125,6 +120,7 @@
     <span class="ident">HasRecApp</span>,
     <span class="ident">Rec</span>,
     <span class="ident">RecApp</span>,
+    <span class="ident">RecEndpoint</span>,
     <span class="ident">RecRow</span>,
     <span class="ident">RecX</span>,
     <span class="ident">Release</span>,

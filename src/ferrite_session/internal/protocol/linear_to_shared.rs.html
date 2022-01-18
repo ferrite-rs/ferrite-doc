@@ -64,13 +64,12 @@
 <span id="63">63</span>
 <span id="64">64</span>
 <span id="65">65</span>
-<span id="66">66</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::shared_to_linear::SharedToLinear</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal::base</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">HasSharedRecApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
-  <span class="kw">fn</span> <span class="ident">get_applied</span>(<span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) -&gt; <span class="op">&lt;</span><span class="ident">F::Applied</span> <span class="kw">as</span> <span class="ident">Protocol</span><span class="op">&gt;</span><span class="ident">::ConsumerEndpoint</span>
+  <span class="kw">fn</span> <span class="ident">get_applied</span>(<span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) -&gt; <span class="op">&lt;</span><span class="ident">F::Applied</span> <span class="kw">as</span> <span class="ident">Protocol</span><span class="op">&gt;</span><span class="ident">::ClientEndpoint</span>
   <span class="kw">where</span>
     <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
     <span class="ident">F::Applied</span>: <span class="ident">Protocol</span>;
@@ -81,11 +80,10 @@
   <span class="ident">F</span>: <span class="lifetime">&#39;static</span>,
   <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
   <span class="ident">E</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">FA</span>: <span class="ident">Protocol</span><span class="op">&lt;</span><span class="ident">ConsumerEndpoint</span> <span class="op">=</span> <span class="ident">E</span><span class="op">&gt;</span>,
+  <span class="ident">FA</span>: <span class="ident">Protocol</span><span class="op">&lt;</span><span class="ident">ClientEndpoint</span> <span class="op">=</span> <span class="ident">E</span><span class="op">&gt;</span>,
   <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">FA</span><span class="op">&gt;</span>,
 {
-  <span class="kw">fn</span> <span class="ident">get_applied</span>(<span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>)
-    -&gt; <span class="op">&lt;</span><span class="ident">F::Applied</span> <span class="kw">as</span> <span class="ident">Protocol</span><span class="op">&gt;</span><span class="ident">::ConsumerEndpoint</span>
+  <span class="kw">fn</span> <span class="ident">get_applied</span>(<span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) -&gt; <span class="op">&lt;</span><span class="ident">F::Applied</span> <span class="kw">as</span> <span class="ident">Protocol</span><span class="op">&gt;</span><span class="ident">::ClientEndpoint</span>
   {
     <span class="kw-2">*</span><span class="self">self</span>
   }
@@ -109,7 +107,7 @@
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
   <span class="ident">F</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-  <span class="ident">T</span>: <span class="ident">Protocol</span><span class="op">&lt;</span><span class="ident">ConsumerEndpoint</span> <span class="op">=</span> <span class="ident">E</span><span class="op">&gt;</span>,
+  <span class="ident">T</span>: <span class="ident">Protocol</span><span class="op">&lt;</span><span class="ident">ClientEndpoint</span> <span class="op">=</span> <span class="ident">E</span><span class="op">&gt;</span>,
   <span class="ident">E</span>: <span class="ident">ForwardChannel</span>,
 {
   <span class="kw">fn</span> <span class="ident">forward_to</span>(

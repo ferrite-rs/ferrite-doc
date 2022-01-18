@@ -215,7 +215,7 @@
 <span id="214">214</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
   <span class="ident">base::protocol</span>::{
-    <span class="ident">ConsumerEndpoint</span>,
+    <span class="ident">ClientEndpoint</span>,
     <span class="ident">Protocol</span>,
   },
   <span class="ident">functional::nat</span>::{
@@ -262,7 +262,7 @@
 <span class="kw">where</span>
   <span class="ident">A</span>: <span class="ident">Protocol</span>,
 {
-  <span class="kw">type</span> <span class="ident">Endpoint</span> <span class="op">=</span> <span class="ident">ConsumerEndpoint</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>;
+  <span class="kw">type</span> <span class="ident">Endpoint</span> <span class="op">=</span> <span class="ident">ClientEndpoint</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Empty</span>;
