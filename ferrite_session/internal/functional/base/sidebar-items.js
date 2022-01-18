@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["Applicative",""],["Functor",""],["Monad",""],["NaturalTransformation",""]]});
+initSidebarItems({"trait":[["NaturalTransformation",""]]});

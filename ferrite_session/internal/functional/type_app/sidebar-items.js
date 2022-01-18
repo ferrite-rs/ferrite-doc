@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["get_applied",""],["wrap_type_app",""]],"struct":[["App",""],["Const",""]],"trait":[["HasTypeApp",""],["TyCon",""],["TypeApp",""]]});
+initSidebarItems({"fn":[["get_applied",""],["wrap_type_app",""]],"struct":[["App",""]],"trait":[["HasTypeApp",""],["TyCon",""],["TypeApp",""]]});
