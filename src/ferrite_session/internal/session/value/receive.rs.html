@@ -69,7 +69,7 @@
     <span class="ident">Protocol</span>,
     <span class="ident">Value</span>,
   },
-  <span class="ident">functional::wrap_type_app</span>,
+  <span class="ident">functional::App</span>,
   <span class="ident">protocol::ReceiveValue</span>,
 };
 
@@ -112,7 +112,7 @@
 
     <span class="kw">let</span> <span class="ident">sender1</span> <span class="op">=</span> <span class="ident">endpoint</span>.<span class="ident">get_applied</span>();
 
-    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">client_end_b</span>), <span class="ident">ctx2</span>);
+    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">App::new</span>(<span class="ident">client_end_b</span>), <span class="ident">ctx2</span>);
 
     <span class="ident">sender1</span>.<span class="ident">send</span>((<span class="ident">Value</span>(<span class="ident">val</span>), <span class="ident">provider_end_b</span>)).<span class="ident">unwrap</span>();
 

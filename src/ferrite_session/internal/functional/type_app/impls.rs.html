@@ -101,7 +101,7 @@
   {
     <span class="kw">let</span> <span class="ident">applied</span> <span class="op">=</span> <span class="ident">T::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
 
-    <span class="prelude-val">Ok</span>(<span class="ident">wrap_type_app</span>(<span class="ident">applied</span>))
+    <span class="prelude-val">Ok</span>(<span class="ident">App::new</span>(<span class="ident">applied</span>))
   }
 }
 

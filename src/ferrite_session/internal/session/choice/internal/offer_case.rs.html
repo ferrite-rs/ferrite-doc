@@ -41,19 +41,16 @@
 <span id="40">40</span>
 <span id="41">41</span>
 <span id="42">42</span>
-<span id="43">43</span>
-<span id="44">44</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
   <span class="ident">base</span>::{
     <span class="ident">unsafe_create_session</span>,
     <span class="ident">unsafe_run_session</span>,
-    <span class="ident">ClientEndpointF</span>,
     <span class="ident">Context</span>,
     <span class="ident">PartialSession</span>,
     <span class="ident">Protocol</span>,
   },
   <span class="ident">functional</span>::{
-    <span class="ident">wrap_type_app</span>,
+    <span class="ident">App</span>,
     <span class="ident">Prism</span>,
     <span class="ident">RowCon</span>,
     <span class="ident">ToRow</span>,
@@ -78,8 +75,7 @@
     <span class="kw">move</span> <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">client_end_sum_sender</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
       <span class="kw">let</span> (<span class="ident">provider_end</span>, <span class="ident">client_end</span>) <span class="op">=</span> <span class="ident">A::create_endpoints</span>();
 
-      <span class="kw">let</span> <span class="ident">client_end_sum</span> <span class="op">=</span>
-        <span class="ident">N::inject_elem</span>(<span class="ident">wrap_type_app</span>::<span class="op">&lt;</span><span class="ident">ClientEndpointF</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">client_end</span>));
+      <span class="kw">let</span> <span class="ident">client_end_sum</span> <span class="op">=</span> <span class="ident">N::inject_elem</span>(<span class="ident">App::new</span>(<span class="ident">client_end</span>));
 
       <span class="ident">client_end_sum_sender</span>.<span class="ident">send</span>(<span class="ident">client_end_sum</span>).<span class="ident">unwrap</span>();
 

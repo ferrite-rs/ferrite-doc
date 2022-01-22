@@ -142,7 +142,7 @@
     <span class="ident">Protocol</span>,
   },
   <span class="ident">functional</span>::{
-    <span class="ident">wrap_type_app</span>,
+    <span class="ident">App</span>,
     <span class="ident">Nat</span>,
   },
   <span class="ident">protocol::SendChannel</span>,
@@ -197,11 +197,11 @@
 
     <span class="kw">let</span> <span class="ident">client_end1</span> <span class="op">=</span> <span class="ident">chan_receiver</span>.<span class="ident">recv</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">client_end2</span>), <span class="ident">ctx2</span>);
+    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">App::new</span>(<span class="ident">client_end2</span>), <span class="ident">ctx2</span>);
 
     <span class="kw">let</span> <span class="ident">ctx4</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">N::Target</span> <span class="kw">as</span> <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A1</span>, ())<span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::append_context</span>(
       <span class="ident">ctx3</span>,
-      (<span class="ident">wrap_type_app</span>(<span class="ident">client_end1</span>), ()),
+      (<span class="ident">App::new</span>(<span class="ident">client_end1</span>), ()),
     );
 
     <span class="ident">unsafe_run_session</span>(<span class="ident">cont2</span>, <span class="ident">ctx4</span>, <span class="ident">provider_end</span>).<span class="kw">await</span>;

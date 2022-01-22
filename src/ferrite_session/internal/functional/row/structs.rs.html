@@ -93,6 +93,15 @@
   <span class="ident">F</span>: <span class="ident">TyCon</span>,
   <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span><span class="op">&gt;</span>,
 {
+  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">row</span>: <span class="ident">Row::Applied</span>) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
+  <span class="kw">where</span>
+    <span class="ident">F</span>: <span class="ident">TyCon</span>,
+    <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span><span class="op">&gt;</span>,
+    <span class="ident">Row::Applied</span>: <span class="ident">Send</span>,
+  {
+    <span class="ident">AppSum</span> { <span class="ident">row</span>: <span class="ident">Box::new</span>(<span class="ident">row</span>) }
+  }
+
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sum</span>(<span class="self">self</span>) -&gt; <span class="ident">Row::Applied</span>
   {
     <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">row</span>.<span class="ident">get_sum</span>()
@@ -107,15 +116,6 @@
       <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
     }
   }
-}
-
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wrap_sum_app</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">row</span>: <span class="ident">Row::Applied</span>) -&gt; <span class="ident">AppSum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Row</span>, <span class="ident">F</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-  <span class="ident">F</span>: <span class="ident">TyCon</span>,
-  <span class="ident">Row</span>: <span class="ident">SumApp</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span><span class="op">&gt;</span>,
-  <span class="ident">Row::Applied</span>: <span class="ident">Send</span>,
-{
-  <span class="ident">AppSum</span> { <span class="ident">row</span>: <span class="ident">Box::new</span>(<span class="ident">row</span>) }
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="ferrite_session" data-search-index-js="../../../../../search-index.js" data-search-js="../../../../../search.js"></div>

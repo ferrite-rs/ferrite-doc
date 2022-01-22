@@ -34,14 +34,14 @@
 <span id="33">33</span>
 <span id="34">34</span>
 <span id="35">35</span>
+<span id="36">36</span>
 </pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">public</span>;
 
 <span class="kw">mod</span> <span class="ident">channel</span>;
 <span class="kw">mod</span> <span class="ident">choice</span>;
 <span class="kw">mod</span> <span class="ident">end</span>;
-<span class="kw">mod</span> <span class="ident">linear_to_shared</span>;
-<span class="kw">mod</span> <span class="ident">lock</span>;
-<span class="kw">mod</span> <span class="ident">shared_to_linear</span>;
+
+<span class="kw">mod</span> <span class="ident">shared</span>;
 <span class="kw">mod</span> <span class="ident">value</span>;
 <span class="kw">mod</span> <span class="ident">wrap</span>;
 
@@ -57,9 +57,11 @@
     <span class="ident">InternalChoice</span>,
   },
   <span class="ident">end::End</span>,
-  <span class="ident">linear_to_shared::LinearToShared</span>,
-  <span class="ident">lock::Lock</span>,
-  <span class="ident">shared_to_linear::SharedToLinear</span>,
+  <span class="ident">shared</span>::{
+    <span class="ident">LinearToShared</span>,
+    <span class="ident">Lock</span>,
+    <span class="ident">SharedToLinear</span>,
+  },
   <span class="ident">value</span>::{
     <span class="ident">ReceiveValue</span>,
     <span class="ident">SendValue</span>,

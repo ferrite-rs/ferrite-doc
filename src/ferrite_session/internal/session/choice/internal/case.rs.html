@@ -166,7 +166,6 @@
 <span id="165">165</span>
 <span id="166">166</span>
 <span id="167">167</span>
-<span id="168">168</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">marker::PhantomData</span>,
@@ -186,7 +185,6 @@
     <span class="ident">ProviderEndpointF</span>,
   },
   <span class="ident">functional</span>::{
-    <span class="ident">wrap_type_app</span>,
     <span class="ident">App</span>,
     <span class="ident">AppSum</span>,
     <span class="ident">NaturalTransformation</span>,
@@ -228,7 +226,7 @@
 
     <span class="kw">let</span> <span class="ident">cont_sum</span> <span class="op">=</span> <span class="ident">client_end_sum_to_cont_sum</span>::<span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C2</span>, <span class="ident">B</span>, <span class="ident">Row2</span><span class="op">&gt;</span>(
       <span class="ident">ctx3</span>,
-      <span class="ident">wrap_type_app</span>(<span class="ident">provider_end</span>),
+      <span class="ident">App::new</span>(<span class="ident">provider_end</span>),
       <span class="ident">client_end_sum</span>,
     );
 
@@ -287,7 +285,7 @@
         <span class="kw">let</span> ((), <span class="ident">ctx1</span>) <span class="op">=</span> <span class="ident">N::extract_source</span>(<span class="self">self</span>.<span class="ident">ctx</span>);
         <span class="kw">let</span> <span class="ident">client_end</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">client_end</span>.<span class="ident">get_applied</span>();
 
-        <span class="kw">let</span> <span class="ident">ctx2</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">client_end</span>), <span class="ident">ctx1</span>);
+        <span class="kw">let</span> <span class="ident">ctx2</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">App::new</span>(<span class="ident">client_end</span>), <span class="ident">ctx1</span>);
         <span class="ident">unsafe_run_session</span>(<span class="ident">session</span>, <span class="ident">ctx2</span>, <span class="self">self</span>.<span class="ident">provider_end</span>.<span class="ident">get_applied</span>())
           .<span class="kw">await</span>;
       }),
@@ -324,7 +322,7 @@
       <span class="ident">client_end</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ClientEndpointF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
     ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ContF</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">N</span>, <span class="ident">C</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>
     {
-      <span class="ident">wrap_type_app</span>(<span class="ident">ChoiceCont</span> {
+      <span class="ident">App::new</span>(<span class="ident">ChoiceCont</span> {
         <span class="ident">ctx</span>: <span class="self">self</span>.<span class="ident">ctx</span>,
         <span class="ident">provider_end</span>: <span class="self">self</span>.<span class="ident">provider_end</span>,
         <span class="ident">client_end</span>,

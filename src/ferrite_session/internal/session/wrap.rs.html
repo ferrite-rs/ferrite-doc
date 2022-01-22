@@ -53,7 +53,7 @@
 <span id="52">52</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
   <span class="ident">base</span>::<span class="kw-2">*</span>,
-  <span class="ident">functional::wrap_type_app</span>,
+  <span class="ident">functional::App</span>,
   <span class="ident">protocol</span>::<span class="kw-2">*</span>,
 };
 
@@ -98,7 +98,7 @@
 
     <span class="kw">let</span> <span class="ident">unwrapped</span> <span class="op">=</span> <span class="ident">wrapped</span>.<span class="ident">unwrap</span>.<span class="ident">unwrap</span>();
 
-    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">wrap_type_app</span>(<span class="ident">unwrapped</span>), <span class="ident">ctx2</span>);
+    <span class="kw">let</span> <span class="ident">ctx3</span> <span class="op">=</span> <span class="ident">N::insert_target</span>(<span class="ident">App::new</span>(<span class="ident">unwrapped</span>), <span class="ident">ctx2</span>);
 
     <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, <span class="ident">ctx3</span>, <span class="ident">provider_end_a</span>).<span class="kw">await</span>;
   })

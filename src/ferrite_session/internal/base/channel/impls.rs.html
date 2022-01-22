@@ -534,7 +534,7 @@
     <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) -&gt; <span class="self">Self</span>
   {
-    <span class="ident">wrap_type_app</span>(<span class="ident">T::forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
+    <span class="ident">App::new</span>(<span class="ident">T::forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
   }
 }
 
@@ -560,7 +560,7 @@
     <span class="ident">receiver</span>: <span class="ident">OpaqueReceiver</span>,
   ) -&gt; <span class="self">Self</span>
   {
-    <span class="ident">wrap_sum_app</span>(<span class="ident">T::forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
+    <span class="ident">AppSum::new</span>(<span class="ident">T::forward_from</span>(<span class="ident">sender</span>, <span class="ident">receiver</span>))
   }
 }
 

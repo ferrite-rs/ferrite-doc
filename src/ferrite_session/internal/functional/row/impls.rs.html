@@ -304,7 +304,7 @@
   {
     <span class="kw">let</span> <span class="ident">row</span> <span class="op">=</span> <span class="ident">T::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
 
-    <span class="prelude-val">Ok</span>(<span class="ident">wrap_sum_app</span>(<span class="ident">row</span>))
+    <span class="prelude-val">Ok</span>(<span class="ident">AppSum::new</span>(<span class="ident">row</span>))
   }
 }
 
@@ -373,11 +373,11 @@
   <span class="kw">fn</span> <span class="ident">unflatten_sum</span>(<span class="ident">row1</span>: <span class="ident"><span class="self">Self</span>::FlattenApplied</span>) -&gt; <span class="ident"><span class="self">Self</span>::Applied</span>
   {
     <span class="kw">match</span> <span class="ident">row1</span> {
-      <span class="ident">Sum::Inl</span>(<span class="ident">field</span>) =&gt; <span class="ident">Sum::Inl</span>(<span class="ident">wrap_type_app</span>(<span class="ident">field</span>)),
+      <span class="ident">Sum::Inl</span>(<span class="ident">field</span>) =&gt; <span class="ident">Sum::Inl</span>(<span class="ident">App::new</span>(<span class="ident">field</span>)),
       <span class="ident">Sum::Inr</span>(<span class="ident">row2</span>) =&gt; {
         <span class="kw">let</span> <span class="ident">row3</span> <span class="op">=</span> <span class="ident">R::unflatten_sum</span>(<span class="ident">row2</span>);
 
-        <span class="ident">Sum::Inr</span>(<span class="ident">wrap_sum_app</span>(<span class="ident">row3</span>))
+        <span class="ident">Sum::Inr</span>(<span class="ident">AppSum::new</span>(<span class="ident">row3</span>))
       }
     }
   }
@@ -452,9 +452,9 @@
       <span class="ident">Sum::Inl</span>(<span class="ident">fa1</span>) =&gt; {
         <span class="kw">let</span> <span class="ident">fa2</span> <span class="op">=</span> <span class="ident">lift</span>.<span class="ident">lift</span>(<span class="ident">fa1</span>);
 
-        <span class="ident">wrap_sum_app</span>(<span class="ident">Sum::Inl</span>(<span class="ident">fa2</span>))
+        <span class="ident">AppSum::new</span>(<span class="ident">Sum::Inl</span>(<span class="ident">fa2</span>))
       }
-      <span class="ident">Sum::Inr</span>(<span class="ident">b</span>) =&gt; <span class="ident">wrap_sum_app</span>(<span class="ident">Sum::Inr</span>(<span class="ident">R::lift_sum</span>::<span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(<span class="ident">lift</span>, <span class="ident">b</span>))),
+      <span class="ident">Sum::Inr</span>(<span class="ident">b</span>) =&gt; <span class="ident">AppSum::new</span>(<span class="ident">Sum::Inr</span>(<span class="ident">R::lift_sum</span>::<span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F1</span>, <span class="ident">F2</span><span class="op">&gt;</span>(<span class="ident">lift</span>, <span class="ident">b</span>))),
     }
   }
 }
@@ -473,7 +473,7 @@
     <span class="ident">F</span>: <span class="ident">TyCon</span>,
     (<span class="ident">A</span>, <span class="ident">R</span>): <span class="lifetime">&#39;a</span>,
   {
-    <span class="ident">wrap_sum_app</span>(<span class="ident">Sum::Inl</span>(<span class="ident">t</span>))
+    <span class="ident">AppSum::new</span>(<span class="ident">Sum::Inl</span>(<span class="ident">t</span>))
   }
 
   <span class="kw">fn</span> <span class="ident">extract_elem</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>(
@@ -505,7 +505,7 @@
     <span class="ident">F</span>: <span class="ident">TyCon</span>,
     (<span class="ident">A</span>, <span class="ident">R</span>): <span class="lifetime">&#39;a</span>,
   {
-    <span class="ident">wrap_sum_app</span>(<span class="ident">Sum::Inr</span>(<span class="op">&lt;</span><span class="ident">ChoiceSelector</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::inject_elem</span>(<span class="ident">elem</span>)))
+    <span class="ident">AppSum::new</span>(<span class="ident">Sum::Inr</span>(<span class="op">&lt;</span><span class="ident">ChoiceSelector</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">Prism</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::inject_elem</span>(<span class="ident">elem</span>)))
   }
 
   <span class="kw">fn</span> <span class="ident">extract_elem</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">F</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>(

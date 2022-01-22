@@ -142,7 +142,6 @@
 <span id="141">141</span>
 <span id="142">142</span>
 <span id="143">143</span>
-<span id="144">144</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">marker::PhantomData</span>,
@@ -161,7 +160,6 @@
     <span class="ident">ProviderEndpointF</span>,
   },
   <span class="ident">functional</span>::{
-    <span class="ident">wrap_type_app</span>,
     <span class="ident">App</span>,
     <span class="ident">AppSum</span>,
     <span class="ident">NaturalTransformation</span>,
@@ -277,7 +275,7 @@
       <span class="ident">provider_end</span>: <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ProviderEndpointF</span>, <span class="ident">A</span><span class="op">&gt;</span>,
     ) -&gt; <span class="ident">App</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">ContF</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="ident">Row</span>, <span class="ident">C</span><span class="op">&gt;</span>, <span class="ident">A</span><span class="op">&gt;</span>
     {
-      <span class="ident">wrap_type_app</span>(<span class="ident">ChoiceCont</span> {
+      <span class="ident">App::new</span>(<span class="ident">ChoiceCont</span> {
         <span class="ident">ctx</span>: <span class="self">self</span>.<span class="ident">ctx</span>,
         <span class="ident">provider_end</span>,
         <span class="ident">phantom</span>: <span class="ident">PhantomData</span>,
