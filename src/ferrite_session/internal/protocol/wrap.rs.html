@@ -61,6 +61,8 @@
 <span id="60">60</span>
 <span id="61">61</span>
 <span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">pin::Pin</span>,
@@ -98,6 +100,8 @@
     <span class="kw-2">*</span><span class="self">self</span>
   }
 }
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">SealedProtocol</span> <span class="kw">for</span> <span class="ident">Wrap</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Wrapper</span> {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">Wrap</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>

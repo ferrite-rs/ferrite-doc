@@ -42,6 +42,11 @@
 <span id="41">41</span>
 <span id="42">42</span>
 <span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">pin::Pin</span>,
@@ -58,6 +63,11 @@
   <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 {
   <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">unlock</span>: <span class="ident">Receiver</span><span class="op">&lt;</span>(<span class="ident">SenderOnce</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">SenderOnce</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">SealedProtocol</span> <span class="kw">for</span> <span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="kw">where</span>
+  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>
+{
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>

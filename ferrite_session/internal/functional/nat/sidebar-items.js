@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["succ",""]],"struct":[["S",""],["Z",""]],"trait":[["Nat",""]]});
+initSidebarItems({"fn":[["succ",""]],"struct":[["S",""],["Z",""]],"trait":[["Nat",""],["SealedNat",""]]});

@@ -34,6 +34,8 @@
 <span id="33">33</span>
 <span id="34">34</span>
 <span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core</span>::{
   <span class="ident">future::Future</span>,
   <span class="ident">pin::Pin</span>,
@@ -42,6 +44,8 @@
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal::base</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">End</span>();
+
+<span class="kw">impl</span> <span class="ident">SealedProtocol</span> <span class="kw">for</span> <span class="ident">End</span> {}
 
 <span class="kw">impl</span> <span class="ident">Protocol</span> <span class="kw">for</span> <span class="ident">End</span>
 {

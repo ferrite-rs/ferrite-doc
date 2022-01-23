@@ -64,6 +64,8 @@
 <span id="63">63</span>
 <span id="64">64</span>
 <span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::shared_to_linear::SharedToLinear</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal::base</span>::<span class="kw-2">*</span>;
 
@@ -94,6 +96,8 @@
   <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">linear</span>:
     <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">HasSharedRecApp</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">SealedSharedProtocol</span> <span class="kw">for</span> <span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">SharedProtocol</span> <span class="kw">for</span> <span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span>

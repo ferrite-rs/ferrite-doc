@@ -45,9 +45,15 @@
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Nat</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Copy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SealedNat</span> {}
+
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Nat</span>: <span class="ident">SealedNat</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Copy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
   <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
   <span class="kw">const</span> <span class="ident">Value</span>: <span class="self">Self</span>;
@@ -61,10 +67,11 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">S</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>(<span class="kw">pub</span> <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>);
 
+<span class="kw">impl</span> <span class="ident">SealedNat</span> <span class="kw">for</span> <span class="ident">Z</span> {}
+
 <span class="kw">impl</span> <span class="ident">Nat</span> <span class="kw">for</span> <span class="ident">Z</span>
 {
   <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
-
   <span class="kw">const</span> <span class="ident">Value</span>: <span class="ident">Z</span> <span class="op">=</span> <span class="ident">Z</span>;
 
   <span class="kw">fn</span> <span class="ident">nat</span>() -&gt; <span class="ident">Z</span>
@@ -73,12 +80,13 @@
   }
 }
 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> <span class="ident">SealedNat</span> <span class="kw">for</span> <span class="ident">S</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">N</span>: <span class="ident">Nat</span> {}
+
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> <span class="ident">Nat</span> <span class="kw">for</span> <span class="ident">S</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">N</span>: <span class="ident">Nat</span>,
 {
   <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
-
   <span class="kw">const</span> <span class="ident">Value</span>: <span class="ident">S</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">S</span>(<span class="ident">PhantomData</span>);
 
   <span class="kw">fn</span> <span class="ident">nat</span>() -&gt; <span class="ident">S</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>

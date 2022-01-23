@@ -158,6 +158,18 @@
 <span id="157">157</span>
 <span id="158">158</span>
 <span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::traits</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
   <span class="ident">base::protocol</span>::{
@@ -170,12 +182,16 @@
   },
 };
 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">SealedSlot</span> <span class="kw">for</span> <span class="ident">A</span> <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">Protocol</span> {}
+
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">Slot</span> <span class="kw">for</span> <span class="ident">A</span>
 <span class="kw">where</span>
   <span class="ident">A</span>: <span class="ident">Protocol</span>,
 {
   <span class="kw">type</span> <span class="ident">Endpoint</span> <span class="op">=</span> <span class="ident">ClientEndpoint</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>;
 }
+
+<span class="kw">impl</span> <span class="ident">SealedSlot</span> <span class="kw">for</span> <span class="ident">Empty</span> {}
 
 <span class="kw">impl</span> <span class="ident">Slot</span> <span class="kw">for</span> <span class="ident">Empty</span>
 {
@@ -241,16 +257,22 @@
   }
 }
 
+<span class="kw">impl</span> <span class="ident">SealedContext</span> <span class="kw">for</span> () {}
+
 <span class="kw">impl</span> <span class="ident">Context</span> <span class="kw">for</span> ()
 {
   <span class="kw">type</span> <span class="ident">Endpoints</span> <span class="op">=</span> ();
   <span class="kw">type</span> <span class="ident">Length</span> <span class="op">=</span> <span class="ident">Z</span>;
 }
 
+<span class="kw">impl</span> <span class="ident">SealedEmptyContext</span> <span class="kw">for</span> () {}
+
 <span class="kw">impl</span> <span class="ident">EmptyContext</span> <span class="kw">for</span> ()
 {
   <span class="kw">fn</span> <span class="ident">empty_values</span>() {}
 }
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">SealedEmptyContext</span> <span class="kw">for</span> (<span class="ident">Empty</span>, <span class="ident">R</span>) <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">EmptyContext</span> {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="ident">EmptyContext</span> <span class="kw">for</span> (<span class="ident">Empty</span>, <span class="ident">R</span>)
 <span class="kw">where</span>
@@ -261,6 +283,8 @@
     ((), <span class="ident">R::empty_values</span>())
   }
 }
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">SealedContext</span> <span class="kw">for</span> (<span class="ident">P</span>, <span class="ident">R</span>) {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">R</span><span class="op">&gt;</span> <span class="ident">Context</span> <span class="kw">for</span> (<span class="ident">P</span>, <span class="ident">R</span>)
 <span class="kw">where</span>
