@@ -188,6 +188,8 @@
 <span id="187">187</span>
 <span id="188">188</span>
 <span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
   <span class="ident">collections::VecDeque</span>,
   <span class="ident">future::Future</span>,
@@ -283,21 +285,23 @@
 <span class="kw">where</span>
   <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
-  <span class="ident">accept_shared_session</span>(<span class="macro">offer_choice!</span> {
-    <span class="ident">ReceiveNext</span> =&gt; {
-      <span class="ident">receive_value</span>( <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
-        <span class="ident">queue</span>.<span class="ident">push_back</span> ( <span class="ident">val</span> );
+  <span class="ident">accept_shared_session</span>(<span class="kw">async</span> <span class="kw">move</span> {
+    <span class="macro">offer_choice!</span> {
+      <span class="ident">ReceiveNext</span> =&gt; {
+        <span class="ident">receive_value</span>( <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
+          <span class="ident">queue</span>.<span class="ident">push_back</span> ( <span class="ident">val</span> );
 
-        <span class="ident">detach_shared_session</span> (
-          <span class="ident">do_create_channel</span> ( <span class="ident">queue</span> ) )
-      })
-    }
-    <span class="ident">SendNext</span> =&gt; {
-      <span class="kw">let</span> <span class="ident">m_val</span> <span class="op">=</span> <span class="ident">queue</span>.<span class="ident">pop_front</span>();
+          <span class="ident">detach_shared_session</span> (
+            <span class="ident">do_create_channel</span> ( <span class="ident">queue</span> ) )
+        })
+      }
+      <span class="ident">SendNext</span> =&gt; {
+        <span class="kw">let</span> <span class="ident">m_val</span> <span class="op">=</span> <span class="ident">queue</span>.<span class="ident">pop_front</span>();
 
-      <span class="ident">send_value</span> ( <span class="ident">m_val</span>,
-        <span class="ident">detach_shared_session</span> (
-          <span class="ident">do_create_channel</span> ( <span class="ident">queue</span> ) ) )
+        <span class="ident">send_value</span> ( <span class="ident">m_val</span>,
+          <span class="ident">detach_shared_session</span> (
+            <span class="ident">do_create_channel</span> ( <span class="ident">queue</span> ) ) )
+      }
     }
   })
 }

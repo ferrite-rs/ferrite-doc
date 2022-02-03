@@ -112,6 +112,10 @@
 <span id="111">111</span>
 <span id="112">112</span>
 <span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">ferrite_session::prelude</span>::<span class="kw-2">*</span>;
 
 <span class="kw">type</span> <span class="ident">Queue</span> <span class="op">=</span> <span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">QueueOps</span><span class="op">&gt;</span><span class="op">&gt;</span>;
@@ -128,15 +132,17 @@
 
 <span class="kw">fn</span> <span class="ident">empty_queue</span>() -&gt; <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">Queue</span><span class="op">&gt;</span>
 {
-  <span class="ident">accept_shared_session</span>(<span class="macro">offer_choice!</span> {
-    <span class="ident">Enqueue</span> =&gt;
-      <span class="ident">receive_value</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
-        <span class="ident">detach_shared_session</span>(
-          <span class="ident">head_queue</span>(<span class="ident">val</span>, <span class="ident">run_shared_session</span>(<span class="ident">empty_queue</span>())))
-      }),
-    <span class="ident">Dequeue</span> =&gt;
-      <span class="macro">offer_case!</span>(<span class="prelude-val">None</span>,
-        <span class="ident">detach_shared_session</span>(<span class="ident">empty_queue</span>()))
+  <span class="ident">accept_shared_session</span>(<span class="kw">async</span> <span class="kw">move</span> {
+    <span class="macro">offer_choice!</span> {
+      <span class="ident">Enqueue</span> =&gt;
+        <span class="ident">receive_value</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
+          <span class="ident">detach_shared_session</span>(
+            <span class="ident">head_queue</span>(<span class="ident">val</span>, <span class="ident">run_shared_session</span>(<span class="ident">empty_queue</span>())))
+        }),
+      <span class="ident">Dequeue</span> =&gt;
+        <span class="macro">offer_case!</span>(<span class="prelude-val">None</span>,
+          <span class="ident">detach_shared_session</span>(<span class="ident">empty_queue</span>()))
+    }
   })
 }
 
@@ -145,21 +151,23 @@
   <span class="ident">tail</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Queue</span><span class="op">&gt;</span>,
 ) -&gt; <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">Queue</span><span class="op">&gt;</span>
 {
-  <span class="ident">accept_shared_session</span>(<span class="macro">offer_choice!</span> {
-    <span class="ident">Enqueue</span> =&gt;
-      <span class="ident">receive_value</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">val2</span><span class="op">|</span> {
-        <span class="ident">acquire_shared_session</span>(<span class="ident">tail</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span><span class="ident">c</span><span class="op">|</span> {
-          <span class="macro">choose!</span>(<span class="ident">c</span>, <span class="ident">Enqueue</span>,
-            <span class="ident">send_value_to</span>(<span class="ident">c</span>, <span class="ident">val2</span>,
-              <span class="ident">release_shared_session</span>(<span class="ident">c</span>,
-                <span class="ident">detach_shared_session</span>(
-                  <span class="ident">head_queue</span>(<span class="ident">val1</span>, <span class="ident">tail</span>)))))
-        })
-      }),
-    <span class="ident">Dequeue</span> =&gt;
-      <span class="macro">offer_case!</span>(<span class="prelude-val">Some</span>,
-        <span class="ident">send_value</span>(<span class="ident">val1</span>,
-          <span class="ident">shared_forward</span>(<span class="ident">tail</span>)))
+  <span class="ident">accept_shared_session</span>(<span class="kw">async</span> <span class="kw">move</span> {
+    <span class="macro">offer_choice!</span> {
+      <span class="ident">Enqueue</span> =&gt;
+        <span class="ident">receive_value</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">val2</span><span class="op">|</span> {
+          <span class="ident">acquire_shared_session</span>(<span class="ident">tail</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span><span class="ident">c</span><span class="op">|</span> {
+            <span class="macro">choose!</span>(<span class="ident">c</span>, <span class="ident">Enqueue</span>,
+              <span class="ident">send_value_to</span>(<span class="ident">c</span>, <span class="ident">val2</span>,
+                <span class="ident">release_shared_session</span>(<span class="ident">c</span>,
+                  <span class="ident">detach_shared_session</span>(
+                    <span class="ident">head_queue</span>(<span class="ident">val1</span>, <span class="ident">tail</span>)))))
+          })
+        }),
+      <span class="ident">Dequeue</span> =&gt;
+        <span class="macro">offer_case!</span>(<span class="prelude-val">Some</span>,
+          <span class="ident">send_value</span>(<span class="ident">val1</span>,
+            <span class="ident">shared_forward</span>(<span class="ident">tail</span>)))
+    }
   })
 }
 

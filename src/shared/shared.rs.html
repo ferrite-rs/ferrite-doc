@@ -114,7 +114,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">make_counter_session</span>(<span class="ident">count</span>: <span class="ident">u64</span>) -&gt; <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">SharedCounter</span><span class="op">&gt;</span>
 {
-  <span class="ident">accept_shared_session</span>(<span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> {
+  <span class="ident">accept_shared_session</span>(<span class="kw">async</span> <span class="kw">move</span> {
     <span class="macro">println!</span>(<span class="string">&quot;[Server] Producing count {}&quot;</span>, <span class="ident">count</span>);
     <span class="ident">random_sleep</span>().<span class="kw">await</span>;
     <span class="macro">println!</span>(<span class="string">&quot;[Server] Produced count {}&quot;</span>, <span class="ident">count</span>);
@@ -123,7 +123,7 @@
       <span class="ident">count</span>,
       <span class="ident">detach_shared_session</span>(<span class="ident">make_counter_session</span>(<span class="ident">count</span> <span class="op">+</span> <span class="number">1</span>)),
     )
-  }))
+  })
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_counter_session</span>(

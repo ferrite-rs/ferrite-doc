@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["offer_choice",""]],"struct":[["ChoiceCont",""],["ChoiceRet",""],["ContF",""]],"trait":[["Invariant",""]]});
+initSidebarItems({"fn":[["offer_choice",""]],"struct":[["ContSum",""],["InjectSession",""],["InjectSessionF",""]],"trait":[["Invariant",""]]});

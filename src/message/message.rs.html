@@ -105,7 +105,7 @@
 
 <span class="kw">fn</span> <span class="ident">make_counter_session</span>(<span class="ident">count</span>: <span class="ident">u64</span>) -&gt; <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">CounterSession</span><span class="op">&gt;</span>
 {
-  <span class="ident">accept_shared_session</span>(<span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> {
+  <span class="ident">accept_shared_session</span>(<span class="kw">async</span> <span class="kw">move</span> {
     <span class="macro">offer_choice!</span> {
       <span class="ident">Increment</span> =&gt; {
         <span class="macro">println!</span>(<span class="string">&quot;provider incrementing count {}&quot;</span>, <span class="ident">count</span>);
@@ -121,7 +121,7 @@
               <span class="ident">make_counter_session</span> ( <span class="ident">count</span> ) ) )
       }
     }
-  }))
+  })
 }
 
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">use_counter</span>(

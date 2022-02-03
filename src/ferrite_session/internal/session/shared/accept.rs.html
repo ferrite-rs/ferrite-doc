@@ -52,7 +52,17 @@
 <span id="51">51</span>
 <span id="52">52</span>
 <span id="53">53</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core::future::Future</span>;
+
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
   <span class="ident">base</span>::<span class="kw-2">*</span>,
   <span class="ident">functional</span>::<span class="kw-2">*</span>,
   <span class="ident">protocol</span>::{
@@ -63,7 +73,9 @@
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept_shared_session</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-  <span class="ident">cont</span>: <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, ()), <span class="ident">F::Applied</span><span class="op">&gt;</span>
+  <span class="ident">cont</span>: <span class="kw">impl</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="ident">PartialSession</span><span class="op">&lt;</span>(<span class="ident">Lock</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, ()), <span class="ident">F::Applied</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="op">+</span> <span class="ident">Send</span>
+    <span class="op">+</span> <span class="lifetime">&#39;static</span>
 ) -&gt; <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span>
   <span class="ident">F</span>: <span class="ident">Protocol</span>,
@@ -94,8 +106,12 @@
 
         <span class="macro">debug!</span>(<span class="string">&quot;[accept_shared_session] calling cont&quot;</span>);
 
-        <span class="ident">unsafe_run_session</span>(<span class="ident">cont</span>, (<span class="ident">App::new</span>(<span class="ident">lock_client_end</span>), ()), <span class="ident">producer_end</span>)
-          .<span class="kw">await</span>;
+        <span class="ident">unsafe_run_session</span>(
+          <span class="ident">cont</span>.<span class="kw">await</span>,
+          (<span class="ident">App::new</span>(<span class="ident">lock_client_end</span>), ()),
+          <span class="ident">producer_end</span>,
+        )
+        .<span class="kw">await</span>;
 
         <span class="macro">debug!</span>(<span class="string">&quot;[accept_shared_session] returned from cont&quot;</span>);
       } <span class="kw">else</span> {
