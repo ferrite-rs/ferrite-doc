@@ -116,8 +116,6 @@
 <span id="115">115</span>
 <span id="116">116</span>
 <span id="117">117</span>
-<span id="118">118</span>
-<span id="119">119</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">tokio::task</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::internal</span>::{
@@ -203,22 +201,20 @@
   })
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">acquire_shared_session</span><span class="op">&lt;</span><span class="ident">N</span>, <span class="ident">C1</span>, <span class="ident">C2</span>, <span class="ident">A1</span>, <span class="ident">A2</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-  <span class="ident">shared</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-  <span class="ident">cont1</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">N</span>) -&gt; <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C2</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-) -&gt; <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C1</span>, <span class="ident">B</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">acquire_shared_session</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">F</span>, <span class="ident">A</span><span class="op">&gt;</span>(
+  <span class="ident">shared</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">cont1</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">C::Length</span>) -&gt; <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C::Appended</span>, <span class="ident">A</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+) -&gt; <span class="ident">PartialSession</span><span class="op">&lt;</span><span class="ident">C</span>, <span class="ident">A</span><span class="op">&gt;</span>
 <span class="kw">where</span>
-  <span class="ident">N</span>: <span class="ident">Nat</span>,
-  <span class="ident">C1</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="ident">Length</span> <span class="op">=</span> <span class="ident">N</span><span class="op">&gt;</span>,
-  <span class="ident">C2</span>: <span class="ident">Context</span>,
-  <span class="ident">A1</span>: <span class="ident">Protocol</span>,
-  <span class="ident">A2</span>: <span class="ident">Protocol</span>,
-  <span class="ident">B</span>: <span class="ident">Protocol</span>,
-  <span class="ident">A1</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">A1</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Applied</span> <span class="op">=</span> <span class="ident">A2</span><span class="op">&gt;</span>,
-  <span class="ident">C1</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">A2</span>, ()), <span class="ident">Appended</span> <span class="op">=</span> <span class="ident">C2</span><span class="op">&gt;</span>,
+  <span class="ident">C</span>: <span class="ident">Context</span>,
+  <span class="ident">F</span>: <span class="ident">Protocol</span>,
+  <span class="ident">A</span>: <span class="ident">Protocol</span>,
+  <span class="ident">F::Applied</span>: <span class="ident">Protocol</span>,
+  <span class="ident">F</span>: <span class="ident">SharedRecApp</span><span class="op">&lt;</span><span class="ident">SharedToLinear</span><span class="op">&lt;</span><span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+  <span class="ident">C</span>: <span class="ident">AppendContext</span><span class="op">&lt;</span>(<span class="ident">F::Applied</span>, ())<span class="op">&gt;</span>,
 {
   <span class="ident">unsafe_create_session</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">ctx1</span>, <span class="ident">provider_end_1</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-    <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">cont1</span>(<span class="ident">N::nat</span>());
+    <span class="kw">let</span> <span class="ident">cont2</span> <span class="op">=</span> <span class="ident">cont1</span>(<span class="ident">C::Length::nat</span>());
 
     <span class="kw">let</span> (<span class="ident">receiver3</span>, <span class="ident">receiver4</span>) <span class="op">=</span> <span class="ident">unsafe_receive_shared_channel</span>(<span class="ident">shared</span>);
 
@@ -232,7 +228,7 @@
 
     <span class="kw">let</span> <span class="ident">client_end_2</span> <span class="op">=</span> <span class="ident">linear</span>.<span class="ident">get_applied</span>();
 
-    <span class="kw">let</span> <span class="ident">ctx2</span> <span class="op">=</span> <span class="ident">C1::append_context</span>(<span class="ident">ctx1</span>, (<span class="ident">App::new</span>(<span class="ident">client_end_2</span>), ()));
+    <span class="kw">let</span> <span class="ident">ctx2</span> <span class="op">=</span> <span class="ident">C::append_context</span>(<span class="ident">ctx1</span>, (<span class="ident">App::new</span>(<span class="ident">client_end_2</span>), ()));
 
     <span class="ident">unsafe_run_session</span>(<span class="ident">cont2</span>, <span class="ident">ctx2</span>, <span class="ident">provider_end_1</span>).<span class="kw">await</span>;
   })
