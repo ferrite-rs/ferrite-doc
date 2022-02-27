@@ -1,5 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `ferrite-demo&#x2F;src&#x2F;bin&#x2F;shared_queue.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>shared_queue.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
-    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../shared_queue/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `ferrite-demo&#x2F;src&#x2F;bin&#x2F;shared_queue.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>shared_queue.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a class="sidebar-logo" href="../../shared_queue/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.png" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../shared_queue/index.html"><img class="rust-logo" src="../../rust-logo.png" alt="logo"></a><nav class="sub"><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -116,59 +117,84 @@
 <span id="115">115</span>
 <span id="116">116</span>
 <span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">ferrite_session::prelude</span>::<span class="kw-2">*</span>;
+
+<span class="comment">/*
+  # Excercise: Shared Queue
+
+  - Implement a shared queue provider with a `Vec&lt;String&gt;` internal state
+    and provides the following operations:
+
+    - Enqueue: Receive a string value, enqueue it to the back of of the queue
+      and then release.
+
+    - Dequeue:
+      - If the queue is not empty, pop the front of the queue and send the value
+        as `Some(res)`.
+      - If the queue is empty, sends `None`.
+
+  - Implement an `enqueue` function, which takes a `SharedChannel&lt;Queue&gt;`
+    and a string value. The function would run a Ferrite session that
+    acquires the shared proess, choose Enqueue, and sends the value to
+    the shared queue process.
+
+  - Implement a `dequeue` function, which takes a `SharedChannel&lt;Queue&gt;`
+    and does the following:
+
+    - Run a Ferrite session that acquires the shared proess
+    - Choose Dequeue and receives the value.
+    - If the result is `Some(val)`, print &quot;Gotten dequeue value: {val}&quot;
+    - If the result is `None`, print &quot;Dequeue returns None&quot;.
+
+  The provided main function will spawn a shared queue, and call
+  the `enqueue` and `dequeue` functions with different parameters.
+
+  You should get the following result running the program:
+
+  ```
+  $ cargo run --bin shared_queue
+  Gotten dequeue value: World
+  Gotten dequeue value: Hello
+  Dequeue returns None
+  ```
+*/</span>
 
 <span class="kw">type</span> <span class="ident">Queue</span> <span class="op">=</span> <span class="ident">LinearToShared</span><span class="op">&lt;</span><span class="ident">ExternalChoice</span><span class="op">&lt;</span><span class="ident">QueueOps</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
 <span class="macro">define_choice!</span> { <span class="ident">QueueOps</span>;
   <span class="ident">Enqueue</span>: <span class="ident">ReceiveValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Release</span><span class="op">&gt;</span>,
-  <span class="ident">Dequeue</span>: <span class="ident">InternalChoice</span><span class="op">&lt;</span><span class="ident">DequeueOps</span><span class="op">&gt;</span>
+  <span class="ident">Dequeue</span>: <span class="ident">SendValue</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">Release</span><span class="op">&gt;</span>
 }
 
-<span class="macro">define_choice!</span> { <span class="ident">DequeueOps</span>;
-  <span class="prelude-val">Some</span>: <span class="ident">SendValue</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Release</span><span class="op">&gt;</span>,
-  <span class="prelude-val">None</span>: <span class="ident">Release</span>,
-}
-
-<span class="kw">fn</span> <span class="ident">empty_queue</span>() -&gt; <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">Queue</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">shared_queue</span>(<span class="kw-2">mut</span> <span class="ident">queue</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) -&gt; <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">Queue</span><span class="op">&gt;</span>
 {
   <span class="ident">accept_shared_session</span>(<span class="kw">async</span> <span class="kw">move</span> {
     <span class="macro">offer_choice!</span> {
-      <span class="ident">Enqueue</span> =&gt;
-        <span class="ident">receive_value</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
-          <span class="ident">detach_shared_session</span>(
-            <span class="ident">head_queue</span>(<span class="ident">val</span>, <span class="ident">run_shared_session</span>(<span class="ident">empty_queue</span>())))
-        }),
-      <span class="ident">Dequeue</span> =&gt;
-        <span class="macro">offer_case!</span>(<span class="prelude-val">None</span>,
-          <span class="ident">detach_shared_session</span>(<span class="ident">empty_queue</span>()))
+      <span class="ident">Enqueue</span> =&gt; {
+        <span class="ident">receive_value</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">val</span>: <span class="ident">String</span><span class="op">|</span> {
+          <span class="ident">queue</span>.<span class="ident">push</span>(<span class="ident">val</span>);
+          <span class="ident">detach_shared_session</span>(<span class="ident">shared_queue</span>(<span class="ident">queue</span>))
+        })
+      }
+      <span class="ident">Dequeue</span> =&gt; {
+        <span class="ident">send_value</span>(<span class="ident">queue</span>.<span class="ident">pop</span>(),
+          <span class="ident">detach_shared_session</span>(<span class="ident">shared_queue</span>(<span class="ident">queue</span>)))
+      }
     }
   })
 }
 
-<span class="kw">fn</span> <span class="ident">head_queue</span>(
-  <span class="ident">val1</span>: <span class="ident">String</span>,
-  <span class="ident">tail</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Queue</span><span class="op">&gt;</span>,
-) -&gt; <span class="ident">SharedSession</span><span class="op">&lt;</span><span class="ident">Queue</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">create_shared_queue</span>() -&gt; <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Queue</span><span class="op">&gt;</span>
 {
-  <span class="ident">accept_shared_session</span>(<span class="kw">async</span> <span class="kw">move</span> {
-    <span class="macro">offer_choice!</span> {
-      <span class="ident">Enqueue</span> =&gt;
-        <span class="ident">receive_value</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">val2</span><span class="op">|</span> {
-          <span class="ident">acquire_shared_session</span>(<span class="ident">tail</span>.<span class="ident">clone</span>(), <span class="kw">move</span> <span class="op">|</span><span class="ident">c</span><span class="op">|</span> {
-            <span class="macro">choose!</span>(<span class="ident">c</span>, <span class="ident">Enqueue</span>,
-              <span class="ident">send_value_to</span>(<span class="ident">c</span>, <span class="ident">val2</span>,
-                <span class="ident">release_shared_session</span>(<span class="ident">c</span>,
-                  <span class="ident">detach_shared_session</span>(
-                    <span class="ident">head_queue</span>(<span class="ident">val1</span>, <span class="ident">tail</span>)))))
-          })
-        }),
-      <span class="ident">Dequeue</span> =&gt;
-        <span class="macro">offer_case!</span>(<span class="prelude-val">Some</span>,
-          <span class="ident">send_value</span>(<span class="ident">val1</span>,
-            <span class="ident">shared_forward</span>(<span class="ident">tail</span>)))
-    }
-  })
+  <span class="ident">run_shared_session</span>(<span class="ident">shared_queue</span>(<span class="macro">vec!</span>[]))
 }
 
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">enqueue</span>(
@@ -176,11 +202,11 @@
   <span class="ident">val</span>: <span class="ident">String</span>,
 )
 {
-  <span class="ident">run_session</span>(<span class="ident">acquire_shared_session</span>(<span class="ident">queue</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">c</span><span class="op">|</span> {
+  <span class="ident">run_session</span>(<span class="ident">acquire_shared_session</span>(<span class="ident">queue</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">chan</span><span class="op">|</span> {
     <span class="macro">choose!</span>(
-      <span class="ident">c</span>,
+      <span class="ident">chan</span>,
       <span class="ident">Enqueue</span>,
-      <span class="ident">send_value_to</span>(<span class="ident">c</span>, <span class="ident">val</span>, <span class="ident">release_shared_session</span>(<span class="ident">c</span>, <span class="ident">terminate</span>()))
+      <span class="ident">send_value_to</span>(<span class="ident">chan</span>, <span class="ident">val</span>, <span class="ident">release_shared_session</span>(<span class="ident">chan</span>, <span class="ident">terminate</span>()))
     )
   }))
   .<span class="kw">await</span>;
@@ -188,28 +214,26 @@
 
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">dequeue_and_print</span>(<span class="ident">queue</span>: <span class="ident">SharedChannel</span><span class="op">&lt;</span><span class="ident">Queue</span><span class="op">&gt;</span>)
 {
-  <span class="ident">run_session</span>(<span class="ident">acquire_shared_session</span>(<span class="ident">queue</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">c</span><span class="op">|</span> {
+  <span class="comment">// todo!(&quot;Implement dequeue client here&quot;);</span>
+  <span class="ident">run_session</span>(<span class="ident">acquire_shared_session</span>(<span class="ident">queue</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">chan</span><span class="op">|</span> {
     <span class="macro">choose!</span>(
-      <span class="ident">c</span>,
+      <span class="ident">chan</span>,
       <span class="ident">Dequeue</span>,
-      <span class="macro">case!</span> { <span class="ident">c</span>;
-        <span class="prelude-val">Some</span> =&gt;
-          <span class="ident">receive_value_from</span>(<span class="ident">c</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
+      <span class="ident">receive_value_from</span>(<span class="ident">chan</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
+        <span class="kw">match</span> <span class="ident">val</span> {
+          <span class="prelude-val">Some</span>(<span class="ident">val</span>) =&gt; {
             <span class="macro">println!</span>(<span class="string">&quot;Gotten dequeue value: {}&quot;</span>, <span class="ident">val</span>);
+          }
+          <span class="prelude-val">None</span> =&gt; {
+            <span class="macro">println!</span>(<span class="string">&quot;Dequeue returns None&quot;</span>);
+          }
+        }
 
-            <span class="ident">release_shared_session</span>(<span class="ident">c</span>,
-              <span class="ident">terminate</span>())
-          }),
-        <span class="prelude-val">None</span> =&gt; <span class="ident">step</span>(<span class="kw">async</span> <span class="kw">move</span> {
-          <span class="macro">println!</span>(<span class="string">&quot;Dequeue returns None&quot;</span>);
-
-          <span class="ident">release_shared_session</span>(<span class="ident">c</span>,
-            <span class="ident">terminate</span>())
-        })
-      }
+        <span class="ident">release_shared_session</span>(<span class="ident">chan</span>, <span class="ident">terminate</span>())
+      })
     )
   }))
-  .<span class="kw">await</span>;
+  .<span class="kw">await</span>
 }
 
 <span class="attribute">#[<span class="ident">tokio::main</span>]</span>
@@ -217,22 +241,15 @@
 {
   <span class="ident">env_logger::init</span>();
 
-  <span class="kw">let</span> <span class="ident">queue</span> <span class="op">=</span> <span class="ident">run_shared_session</span>(<span class="ident">empty_queue</span>());
+  <span class="kw">let</span> <span class="ident">queue</span> <span class="op">=</span> <span class="ident">create_shared_queue</span>();
 
   <span class="ident">enqueue</span>(<span class="ident">queue</span>.<span class="ident">clone</span>(), <span class="string">&quot;Hello&quot;</span>.<span class="ident">to_string</span>()).<span class="kw">await</span>;
   <span class="ident">enqueue</span>(<span class="ident">queue</span>.<span class="ident">clone</span>(), <span class="string">&quot;World&quot;</span>.<span class="ident">to_string</span>()).<span class="kw">await</span>;
-  <span class="ident">enqueue</span>(<span class="ident">queue</span>.<span class="ident">clone</span>(), <span class="string">&quot;Foo&quot;</span>.<span class="ident">to_string</span>()).<span class="kw">await</span>;
-  <span class="ident">enqueue</span>(<span class="ident">queue</span>.<span class="ident">clone</span>(), <span class="string">&quot;Bar&quot;</span>.<span class="ident">to_string</span>()).<span class="kw">await</span>;
-  <span class="ident">enqueue</span>(<span class="ident">queue</span>.<span class="ident">clone</span>(), <span class="string">&quot;Baz&quot;</span>.<span class="ident">to_string</span>()).<span class="kw">await</span>;
 
-  <span class="ident">dequeue_and_print</span>(<span class="ident">queue</span>.<span class="ident">clone</span>()).<span class="kw">await</span>;
-  <span class="ident">dequeue_and_print</span>(<span class="ident">queue</span>.<span class="ident">clone</span>()).<span class="kw">await</span>;
-  <span class="ident">dequeue_and_print</span>(<span class="ident">queue</span>.<span class="ident">clone</span>()).<span class="kw">await</span>;
-  <span class="ident">dequeue_and_print</span>(<span class="ident">queue</span>.<span class="ident">clone</span>()).<span class="kw">await</span>;
   <span class="ident">dequeue_and_print</span>(<span class="ident">queue</span>.<span class="ident">clone</span>()).<span class="kw">await</span>;
   <span class="ident">dequeue_and_print</span>(<span class="ident">queue</span>.<span class="ident">clone</span>()).<span class="kw">await</span>;
   <span class="ident">dequeue_and_print</span>(<span class="ident">queue</span>.<span class="ident">clone</span>()).<span class="kw">await</span>;
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="shared_queue" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="shared_queue" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>
 </body></html>

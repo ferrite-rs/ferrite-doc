@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["DequeueLabel",""],["EnqueueLabel",""],["NoneLabel",""],["SomeLabel",""]],"enum":[["DequeueOps",""],["DequeueOpsChoice",""],["QueueOps",""],["QueueOpsChoice",""]],"fn":[["dequeue_and_print",""],["empty_queue",""],["enqueue",""],["head_queue",""],["main",""]],"type":[["Queue",""]]});
+initSidebarItems({"constant":[["DequeueLabel",""],["EnqueueLabel",""]],"enum":[["QueueOps",""],["QueueOpsChoice",""]],"fn":[["create_shared_queue",""],["dequeue_and_print",""],["enqueue",""],["main",""],["shared_queue",""]],"type":[["Queue",""]]});
